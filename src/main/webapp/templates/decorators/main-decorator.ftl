@@ -9,6 +9,7 @@
 ${head!""}
 </head>
 <body>
+---------Psychedelic Artists-------
 <#if _user??>
 Welcome: ${_user}
 <a href="<@util.url "/j_spring_security_logout" />" >Logout</a>
