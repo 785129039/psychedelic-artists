@@ -38,4 +38,22 @@
 			p:conversionService-ref="conversionService" p:entityManagerAccessor-ref="default.em" />
 		
     	<bean class="com.nex.logback.configuration.LogBackConfigurator" init-method="configure" p:logBackFile="${logback.file}"/>
+    	
+    	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+			<property name="host" value="psychedelic-artists.cz" />
+			<property name="port" value="28" />
+			<property name="username" value="username" />
+			<property name="password" value="password" />
+		 
+			<property name="javaMailProperties">
+			   <props>
+		       	      <prop key="mail.smtp.auth">true</prop>
+		       	      <prop key="mail.smtp.starttls.enable">true</prop>
+		       	   </props>
+			</property>
+		</bean>
+		
+    	<bean id="mailMail" class="com.nex.mail.MailService">
+			<property name="mailSender" ref="mailSender" />
+		</bean>
 </beans>

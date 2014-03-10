@@ -8,7 +8,7 @@ import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import com.nex.domain.common.Entity;
 
 @RooJavaBean
-@RooJpaActiveRecord(persistenceUnit = "puTest", table = "language", versionField="")
+@RooJpaActiveRecord(persistenceUnit = "puPsyartists", table = "language", versionField="")
 //@Publicable
 public class Language implements Entity {
 

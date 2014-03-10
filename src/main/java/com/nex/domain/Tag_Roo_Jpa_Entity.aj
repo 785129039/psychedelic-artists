@@ -3,14 +3,14 @@
 
 package com.nex.domain;
 
-import com.nex.domain.User;
+import com.nex.domain.Tag;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-privileged aspect User_Roo_Jpa_Entity {
+privileged aspect Tag_Roo_Jpa_Entity {
     
-    declare @type: User: @Entity;
+    declare @type: Tag: @Entity;
     
-    declare @type: User: @Table(name = "users");
+    declare @type: Tag: @Table(name = "tag");
     
 }

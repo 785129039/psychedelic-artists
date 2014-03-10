@@ -1,7 +1,6 @@
-<#macro url path>
-<#t>${_sc}${path}
+<#macro url path context=_sc>
+<#t>${_th.getUrl(path, context)}
 </#macro>
-
 <#macro message code arguments=[]>
 	<#t>${getMessage(code, arguments)}
 </#macro>

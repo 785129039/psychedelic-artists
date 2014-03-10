@@ -10,9 +10,12 @@ ${head!""}
 </head>
 <body>
 ---------Psychedelic Artists-------
+
+new application build-test
+
 <#if _user??>
 Welcome: ${_user}
-<a href="<@util.url "/j_spring_security_logout" />" >Logout</a>
+<a href="<@util.url "/j_spring_security_logout" ""/>" >Logout</a>
 <#else>
 <a href="<@util.url "/login" />" >Login</a>
 </#if>

@@ -28,7 +28,7 @@ import com.nex.domain.common.Entity;
 import com.nex.utils.StringUtils;
 
 @RooJavaBean
-@RooJpaActiveRecord(finders="findUsersByEmail", persistenceUnit = "puTest", table = "users", versionField = "")
+@RooJpaActiveRecord(finders="findUsersByEmail", persistenceUnit = "puPsyartists", table = "user", versionField = "")
 public class User implements Entity {
 	
 	@Resource(name = "passwordEncoder")
@@ -50,45 +50,10 @@ public class User implements Entity {
 
 	@NotNull
 	@Size(min = 1)
-	private String password;
-
-	@NotNull
-	@Size(min = 1)
-	@Transient
-	private String matchPassword;
+	private String name;
 
 	@OneToMany
 	@JoinTable(name = "rights", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
 	private List<Role> roles;
-
-	@PrePersist
-	public void hashPassword() {
-		this.password = this.encoder.encodePassword(this.password, this.salt);
-		this.matchPassword = this.encoder.encodePassword(this.matchPassword, this.salt);
-	}
-	
-	@AssertFalse(message = "{validation.user.exist}")
-	@Transactional(propagation=Propagation.REQUIRES_NEW)
-	public Boolean isUserExist() {
-		if(StringUtils.isEmpty(this.email )) return Boolean.FALSE;
-		List<User> users = User.findUsersByEmail(this.email).getResultList();
-		if(users != null && !users.isEmpty()) {
-			return Boolean.TRUE;
-		}
-		return Boolean.FALSE;
-	}
-	
-	@AssertTrue(message = "{validation.password.notmatch}")
-	public Boolean isPasswordsMatch() {
-		if (!StringUtils.isEmpty(this.password)
-				&& !StringUtils.isEmpty(this.matchPassword)) {
-			if (this.password.equals(this.matchPassword)) {
-				return Boolean.TRUE;
-			} else {
-				return Boolean.FALSE;
-			}
-		}
-		return Boolean.TRUE;
-	}
 
 }

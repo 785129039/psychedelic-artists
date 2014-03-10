@@ -14,7 +14,7 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd ">
 	
-	<jee:jndi-lookup jndi-name="jdbc/testDS" id="dataSource"
+	<jee:jndi-lookup jndi-name="jdbc/psyartists" id="dataSource"
 		lookup-on-startup="true" cache="true" />
 
 	<bean id="persistenceUnitManager"
@@ -22,7 +22,7 @@
 		<property name="persistenceXmlLocation" value="classpath*:META-INF/persistence.xml" />
 		<property name="dataSources">
 			<map>
-				<entry key="jdbc/testDS" value-ref="dataSource" />
+				<entry key="jdbc/psyartists" value-ref="dataSource" />
 			</map>
 		</property>
 	</bean>

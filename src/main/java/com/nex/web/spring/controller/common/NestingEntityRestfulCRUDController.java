@@ -132,7 +132,6 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 
 	public void entityUpdateRejected(T entity) {
 	}
-
 	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
 	public String _update(@ModelAttribute("entity") @Valid T entity,
 			Errors errors, Model uiModel, HttpServletRequest request) {

@@ -18,7 +18,7 @@
 	<mvc:resources mapping="/js/**" location="/WEB-INF/js/" />
 <!-- 	<mvc:resources mapping="/decorators/**" location="/WEB-INF/decorators/" /> -->
 	
-	<context:component-scan base-package="com.nex.web.spring.controller" >
+	<context:component-scan base-package="com.nex.web.spring.controller.web" >
 		<context:include-filter expression="org.springframework.stereotype.Controller" type="annotation" />
 	</context:component-scan>
 	

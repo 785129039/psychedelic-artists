@@ -1,4 +1,4 @@
-package com.nex.web.spring.controller;
+package com.nex.web.spring.controller.web;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.nex.annotation.Logger;
+import com.nex.domain.RegistrationUser;
 import com.nex.domain.Role;
-import com.nex.domain.User;
 import com.nex.web.spring.controller.common.RejectErrorController;
 
 @Controller
@@ -21,8 +21,8 @@ import com.nex.web.spring.controller.common.RejectErrorController;
 public class RegistrationController extends RejectErrorController {
 
 	@ModelAttribute("user")
-	public User createNewUser() {
-		return new User();
+	public RegistrationUser createNewUser() {
+		return new RegistrationUser();
 	}
 
 	@RequestMapping
@@ -31,13 +31,14 @@ public class RegistrationController extends RejectErrorController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	private String save(@ModelAttribute("user") @Valid User user,
+	private String save(@ModelAttribute("user") @Valid RegistrationUser user,
 			Errors errors, HttpServletRequest request) {
 		check: if (!errors.hasErrors()) {
 			try {
-				user.setRoles(Role.findAllRoles());
+				user.setRoles(Role.findRolesByCode("ROLE_USER").getResultList());
 				user.persist();
 				user.flush();
+				log.info("Grats new user registered!!!");
 			} catch (Exception e) {
 				log.error("", e);
 				break check;

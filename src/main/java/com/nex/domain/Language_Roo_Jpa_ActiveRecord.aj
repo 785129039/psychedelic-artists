@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Language_Roo_Jpa_ActiveRecord {
     
-    @PersistenceContext(unitName = "puTest")
+    @PersistenceContext(unitName = "puPsyartists")
     transient EntityManager Language.entityManager;
     
     public static final EntityManager Language.entityManager() {

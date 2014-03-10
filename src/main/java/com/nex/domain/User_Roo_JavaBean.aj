@@ -42,20 +42,12 @@ privileged aspect User_Roo_JavaBean {
         this.email = email;
     }
     
-    public String User.getPassword() {
-        return this.password;
+    public String User.getName() {
+        return this.name;
     }
     
-    public void User.setPassword(String password) {
-        this.password = password;
-    }
-    
-    public String User.getMatchPassword() {
-        return this.matchPassword;
-    }
-    
-    public void User.setMatchPassword(String matchPassword) {
-        this.matchPassword = matchPassword;
+    public void User.setName(String name) {
+        this.name = name;
     }
     
     public List<Role> User.getRoles() {

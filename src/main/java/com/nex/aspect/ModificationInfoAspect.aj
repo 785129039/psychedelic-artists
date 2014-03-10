@@ -12,7 +12,13 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlTransient;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.nex.annotation.Modifiable;
+import com.nex.domain.User;
 
 
 public aspect ModificationInfoAspect {
@@ -21,10 +27,10 @@ public aspect ModificationInfoAspect {
 	
 	@Transient
 	@XmlTransient
-	private String ModificationInfo.createdBy;
+	private User ModificationInfo.createdBy;
 	@Transient
 	@XmlTransient
-	private String ModificationInfo.modifiedBy;
+	private User ModificationInfo.modifiedBy;
 	@Transient
 	@XmlTransient
 	private Date ModificationInfo.modifiedOn;
@@ -38,7 +44,7 @@ public aspect ModificationInfoAspect {
 	@PrePersist
 	public void ModificationInfo.modifyWhenCreating() {
 		this.setCreatedOn(new Date());
-		String cl = this.getCurrentUser();
+		User cl = this.getCurrentUser();
 		this.setCreatedBy(cl);
 		this.setModifiedOn(new Date());
 		this.setModifiedBy(cl);
@@ -50,14 +56,16 @@ public aspect ModificationInfoAspect {
 		this.setModifiedBy(this.getCurrentUser());
 	}
 	
-	public String ModificationInfo.getCurrentUser() {
-		return "ehm";
+	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	public User ModificationInfo.getCurrentUser() {
+		Authentication user = SecurityContextHolder.getContext().getAuthentication();
+		return User.findUsersByEmail(user.getName()).getSingleResult();
 	}
 	
 	@ManyToOne()
 	@JoinColumn(name = "CREATED_BY", insertable = true, updatable = true)
 	@Access(AccessType.PROPERTY)
-	public String ModificationInfo.getCreatedBy() {
+	public User ModificationInfo.getCreatedBy() {
 		return createdBy;
 	}
 	
@@ -75,11 +83,11 @@ public aspect ModificationInfoAspect {
 	@ManyToOne()
 	@JoinColumn(name = "MODIFIED_BY", insertable = true, updatable = true)
 	@Access(AccessType.PROPERTY)
-	public String ModificationInfo.getModifiedBy() {
+	public User ModificationInfo.getModifiedBy() {
 		return this.modifiedBy;
 	}
 	
-	public void ModificationInfo.setCreatedBy(String createdBy) {
+	public void ModificationInfo.setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
 	
@@ -91,17 +99,7 @@ public aspect ModificationInfoAspect {
 		this.createdOn = createdOn;
 	}
 	
-	public void ModificationInfo.setModifiedBy(String modifiedBy) {
+	public void ModificationInfo.setModifiedBy(User modifiedBy) {
 		this.modifiedBy = modifiedBy;
-	}
-	
-	public String ModificationInfo.getCreatedByFullName() {
-		String l = getCreatedBy();
-		return l != null ? l:"";
-	}
-
-	public String ModificationInfo.getModifiedByFullName() {
-		String l = getModifiedBy();
-		return l != null ? l:"";
 	}
 }

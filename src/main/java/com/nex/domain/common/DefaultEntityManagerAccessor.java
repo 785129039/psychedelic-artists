@@ -10,7 +10,7 @@ import cz.tsystems.common.data.entitymanager.EntityManagerAccessor;
 @Configurable
 public class DefaultEntityManagerAccessor implements EntityManagerAccessor { 
 	
-	@PersistenceContext(unitName = "puTest")
+	@PersistenceContext(unitName = "puPsyartists")
 	private EntityManager entityManager;
 
 

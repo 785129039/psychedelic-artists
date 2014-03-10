@@ -5,31 +5,9 @@
       <pattern>%d{dd.MM.yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
     </encoder>
   </appender>
-   <appender name="FILE"
-	class="ch.qos.logback.core.rolling.RollingFileAppender">
-	<file>${LOGBACK_FILE_PATH}/culfinder.log</file>
-	<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-	   <Pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
-	</encoder>
- 
-	<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-		<FileNamePattern>${LOGBACK_FILE_PATH}/culfinder.%i.log.zip</FileNamePattern>
-		<MinIndex>1</MinIndex>
-		<MaxIndex>10</MaxIndex>
-	</rollingPolicy>
- 
-	<triggeringPolicy
-		class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-		<MaxFileSize>2MB</MaxFileSize>
-	</triggeringPolicy>
- 
-  </appender>
-
   <logger name="org.hibernate.type" level="ALL" />
   <logger name="org.hibernate.*" level="DEBUG" />
-  
-  
-  <root level="INFO">
-    <appender-ref ref="FILE"/>
+  <root level="DEBUG">
+    <appender-ref ref="stdout"/>
   </root>
 </configuration>

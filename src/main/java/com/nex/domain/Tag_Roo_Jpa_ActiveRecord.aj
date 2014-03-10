@@ -3,73 +3,73 @@
 
 package com.nex.domain;
 
-import com.nex.domain.Role;
+import com.nex.domain.Tag;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.transaction.annotation.Transactional;
 
-privileged aspect Role_Roo_Jpa_ActiveRecord {
+privileged aspect Tag_Roo_Jpa_ActiveRecord {
     
-    @PersistenceContext(unitName = "puTest")
-    transient EntityManager Role.entityManager;
+    @PersistenceContext(unitName = "puPsyartists")
+    transient EntityManager Tag.entityManager;
     
-    public static final EntityManager Role.entityManager() {
-        EntityManager em = new Role().entityManager;
+    public static final EntityManager Tag.entityManager() {
+        EntityManager em = new Tag().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
         return em;
     }
     
-    public static long Role.countRoles() {
-        return entityManager().createQuery("SELECT COUNT(o) FROM Role o", Long.class).getSingleResult();
+    public static long Tag.countTags() {
+        return entityManager().createQuery("SELECT COUNT(o) FROM Tag o", Long.class).getSingleResult();
     }
     
-    public static List<Role> Role.findAllRoles() {
-        return entityManager().createQuery("SELECT o FROM Role o", Role.class).getResultList();
+    public static List<Tag> Tag.findAllTags() {
+        return entityManager().createQuery("SELECT o FROM Tag o", Tag.class).getResultList();
     }
     
-    public static Role Role.findRole(Long id) {
+    public static Tag Tag.findTag(Long id) {
         if (id == null) return null;
-        return entityManager().find(Role.class, id);
+        return entityManager().find(Tag.class, id);
     }
     
-    public static List<Role> Role.findRoleEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("SELECT o FROM Role o", Role.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    public static List<Tag> Tag.findTagEntries(int firstResult, int maxResults) {
+        return entityManager().createQuery("SELECT o FROM Tag o", Tag.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
     @Transactional
-    public void Role.persist() {
+    public void Tag.persist() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.persist(this);
     }
     
     @Transactional
-    public void Role.remove() {
+    public void Tag.remove() {
         if (this.entityManager == null) this.entityManager = entityManager();
         if (this.entityManager.contains(this)) {
             this.entityManager.remove(this);
         } else {
-            Role attached = Role.findRole(this.id);
+            Tag attached = Tag.findTag(this.id);
             this.entityManager.remove(attached);
         }
     }
     
     @Transactional
-    public void Role.flush() {
+    public void Tag.flush() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.flush();
     }
     
     @Transactional
-    public void Role.clear() {
+    public void Tag.clear() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.clear();
     }
     
     @Transactional
-    public Role Role.merge() {
+    public Tag Tag.merge() {
         if (this.entityManager == null) this.entityManager = entityManager();
-        Role merged = this.entityManager.merge(this);
+        Tag merged = this.entityManager.merge(this);
         this.entityManager.flush();
         return merged;
     }

@@ -14,8 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.MessageSource;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.support.RequestContext;
 
@@ -163,6 +161,9 @@ public class FreemarkerTemplateHelper {
 		return StringUtils.test(uri, type, url);
 	}
 	
+	public Object evaluate(String field, Object source) {
+		return ReflectionUtils.reflectValue(source, field);
+	}
 	public void logInfo(Object object) {
 		log.info(String.valueOf(object));
 	}
@@ -173,5 +174,8 @@ public class FreemarkerTemplateHelper {
 
 	public Locale getLocale() {
 		return this.requestContext.getLocale();
+	}
+	public String getUrl(String path, String context) {
+		return requestContext.getContextPath() + context + path;
 	}
 }

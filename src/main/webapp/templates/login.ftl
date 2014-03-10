@@ -20,7 +20,7 @@
 
 		</div>
 	</#if>
-	<form name='f' action="<@util.url "/j_spring_security_check" />"
+	<form name='f' action="<@util.url "/j_spring_security_check" ""/>"
 		method='POST'>
 
 		<table>

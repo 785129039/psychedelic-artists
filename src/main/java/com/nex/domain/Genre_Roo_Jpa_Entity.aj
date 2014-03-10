@@ -3,14 +3,14 @@
 
 package com.nex.domain;
 
-import com.nex.domain.Role;
+import com.nex.domain.Genre;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-privileged aspect Role_Roo_Jpa_Entity {
+privileged aspect Genre_Roo_Jpa_Entity {
     
-    declare @type: Role: @Entity;
+    declare @type: Genre: @Entity;
     
-    declare @type: Role: @Table(name = "roles");
+    declare @type: Genre: @Table(name = "genre");
     
 }

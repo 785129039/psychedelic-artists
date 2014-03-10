@@ -30,8 +30,9 @@ public class ExceptionController {
 	}
 	
 	@ExceptionHandler(Exception.class)
-	public void globalExceptionhandler(HttpServletResponse resp) {
+	public void globalExceptionhandler(HttpServletResponse resp, Exception ex) {
 		try {
+			log.error("", ex);
 			resp.sendError(500);
 		} catch (IOException e) {
 			log.error("", e);

@@ -33,9 +33,7 @@
 				<#if renderSaveButton>
 					<div class="form-footer">
 						<div class="form-footer-inner">
-							<a href="javascript:$('form#${commandName}').submit();" class="btn">
-								<span><@util.message "form.actions.save.button" /></span>															
-							</a>
+							<@submit commandName=commandName title="Form.save.button"/>
 						</div>					
 					</div>
 				</#if>
@@ -246,6 +244,20 @@
 		<#nested _value>
 	</span>
 </p>
+</#macro>
+
+<#macro submit>
+
+</#macro>
+<#macro submit commandName title>
+	<@link href="javascript:$('form#${commandName}').submit();">
+		<@util.message title />
+	</@link>
+</#macro>
+<#macro link href>
+<a class="btn add-comment" href="${href}">
+	<span><#nested></span>
+</a>
 </#macro>
 
 <#function resolveStyleId path id>

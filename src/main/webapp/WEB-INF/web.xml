@@ -23,13 +23,29 @@
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy
 		</filter-class>
 	</filter>
+	  <filter>
+	    <filter-name>hiddenHttpMethodFilter</filter-name>
+	    <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+	  </filter>
+	 <filter>
+	    <filter-name>transactionalFilter</filter-name>
+	    <filter-class>com.nex.web.filter.TransactionalFilter</filter-class>
+	  </filter>
+	  <filter-mapping>
+	    <filter-name>transactionalFilter</filter-name>
+	    <url-pattern>/*</url-pattern>
+	  </filter-mapping>
+	  <filter-mapping>
+	    <filter-name>hiddenHttpMethodFilter</filter-name>
+	    <url-pattern>/*</url-pattern>
+	  </filter-mapping>
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
-		<url-pattern>/web/*</url-pattern>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
 	<filter-mapping>
@@ -50,7 +66,7 @@
 	</context-param>
 
 	<servlet>
-		<servlet-name>springDispatcher</servlet-name>
+		<servlet-name>webSpringDispatcher</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet
 		</servlet-class>
 		<init-param>
@@ -61,8 +77,23 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>springDispatcher</servlet-name>
+		<servlet-name>webSpringDispatcher</servlet-name>
 		<url-pattern>/web/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>adminSpringDispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:META-INF/spring-mvc/spring-servlet-admin.xml
+			</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>adminSpringDispatcher</servlet-name>
+		<url-pattern>/admin/*</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>sitemesh-freemarker</servlet-name>

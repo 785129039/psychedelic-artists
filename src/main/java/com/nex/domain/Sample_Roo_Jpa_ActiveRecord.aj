@@ -3,73 +3,73 @@
 
 package com.nex.domain;
 
-import com.nex.domain.User;
+import com.nex.domain.Sample;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.transaction.annotation.Transactional;
 
-privileged aspect User_Roo_Jpa_ActiveRecord {
+privileged aspect Sample_Roo_Jpa_ActiveRecord {
     
-    @PersistenceContext(unitName = "puTest")
-    transient EntityManager User.entityManager;
+    @PersistenceContext(unitName = "puPsyartists")
+    transient EntityManager Sample.entityManager;
     
-    public static final EntityManager User.entityManager() {
-        EntityManager em = new User().entityManager;
+    public static final EntityManager Sample.entityManager() {
+        EntityManager em = new Sample().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
         return em;
     }
     
-    public static long User.countUsers() {
-        return entityManager().createQuery("SELECT COUNT(o) FROM User o", Long.class).getSingleResult();
+    public static long Sample.countSamples() {
+        return entityManager().createQuery("SELECT COUNT(o) FROM Sample o", Long.class).getSingleResult();
     }
     
-    public static List<User> User.findAllUsers() {
-        return entityManager().createQuery("SELECT o FROM User o", User.class).getResultList();
+    public static List<Sample> Sample.findAllSamples() {
+        return entityManager().createQuery("SELECT o FROM Sample o", Sample.class).getResultList();
     }
     
-    public static User User.findUser(Long id) {
+    public static Sample Sample.findSample(Long id) {
         if (id == null) return null;
-        return entityManager().find(User.class, id);
+        return entityManager().find(Sample.class, id);
     }
     
-    public static List<User> User.findUserEntries(int firstResult, int maxResults) {
-        return entityManager().createQuery("SELECT o FROM User o", User.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    public static List<Sample> Sample.findSampleEntries(int firstResult, int maxResults) {
+        return entityManager().createQuery("SELECT o FROM Sample o", Sample.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
     @Transactional
-    public void User.persist() {
+    public void Sample.persist() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.persist(this);
     }
     
     @Transactional
-    public void User.remove() {
+    public void Sample.remove() {
         if (this.entityManager == null) this.entityManager = entityManager();
         if (this.entityManager.contains(this)) {
             this.entityManager.remove(this);
         } else {
-            User attached = User.findUser(this.id);
+            Sample attached = Sample.findSample(this.id);
             this.entityManager.remove(attached);
         }
     }
     
     @Transactional
-    public void User.flush() {
+    public void Sample.flush() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.flush();
     }
     
     @Transactional
-    public void User.clear() {
+    public void Sample.clear() {
         if (this.entityManager == null) this.entityManager = entityManager();
         this.entityManager.clear();
     }
     
     @Transactional
-    public User User.merge() {
+    public Sample Sample.merge() {
         if (this.entityManager == null) this.entityManager = entityManager();
-        User merged = this.entityManager.merge(this);
+        Sample merged = this.entityManager.merge(this);
         this.entityManager.flush();
         return merged;
     }
