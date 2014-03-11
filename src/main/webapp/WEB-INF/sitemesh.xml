@@ -25,8 +25,8 @@
 <!-- 		</mapper> -->
 
 		<mapper class="com.opensymphony.module.sitemesh.mapper.PrintableDecoratorMapper">
-			<param name="decorator" value="print" />
-			<param name="parameter.name" value="simple" />
+			<param name="decorator" value="simple" />
+			<param name="parameter.name" value="_simple" />
 			<param name="parameter.value" value="true" />
 		</mapper>
 

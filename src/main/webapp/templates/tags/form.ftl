@@ -254,8 +254,8 @@
 		<@util.message title />
 	</@link>
 </#macro>
-<#macro link href>
-<a class="btn add-comment" href="${href}">
+<#macro link href class="">
+<a class="btn add-comment ${class}" href="${href}">
 	<span><#nested></span>
 </a>
 </#macro>

@@ -35,7 +35,7 @@
 		<#nested row>
 	</@list>
 </#macro>
-<#macro list data renderButtons=true idColumn="_NULL_" multipleButtons=[] showNewButton=true showHeader=true> 
+<#macro list data renderButtons=true showDeleteButton=true idColumn="_NULL_" multipleButtons=[] showNewButton=true showHeader=true> 
 	<#assign _listdata = data />
 	<#assign _columnSettingsMapping=[]>
 	<#local renderCheckbox=false>
@@ -49,9 +49,9 @@
 				<h2 class="title"><@util.message "Service.list.title" /></h2>
 				<#if showNewButton>
 					<div class="btns">
-						<a class="btn add-comment" href="new">
-							<span><@util.message "grid.list.button.new" /></span>
-						</a>
+						<@form.link href="new" class="wrap ajax">
+							<@util.message "grid.list.button.new" />
+						</@form.link>
 					</div>
 				</#if>
 			</div>
@@ -117,9 +117,9 @@
 </#macro>
 
 <#-------asbtract column ----->
-<#macro column name sortable=true isId=false defaultCaption="_NULL_" captionArgs=[] isDetail=false localized=false>
+<#macro column name sortable=true isId=false defaultCaption="_NULL_" captionArgs=[] isDetail=false localized=false ajax=true>
 	<#if _rowdata??>
-		<@bodyColumn name=name isId=isId isDetail=isDetail localized=localized; e, f, v, n>
+		<@bodyColumn name=name isId=isId isDetail=isDetail localized=localized ajax=ajax; e, f, v, n>
 			<#nested e, f, v, n>
 		</@bodyColumn>
 	<#else>
@@ -127,7 +127,7 @@
 	</#if>
 </#macro>
 <#-------body column ----->
-<#macro bodyColumn name isId=false isDetail=false localized=false>
+<#macro bodyColumn name isId=false isDetail=false localized=false ajax=true post=false>
 	<#assign _value=_th.evaluate(name, _rowdata)!>
 	<#local _nestedContent><#nested _rowdata, name, _value, false></#local>
 	<@printTableCell>
@@ -138,13 +138,11 @@
 			<#if localized>
 				<#local _convertedValue=util.getMessage(_convertedValue)>
 			</#if>
-			<#if isId>
-				<a href="${_convertedValue}">${_convertedValue}</a>
-			<#elseif isDetail && _detailId??>
-				<a href="${_detailId}">${_convertedValue}</a>
+			<#if isDetail && _detailId??>
+				<a href="${_detailId}" <#if ajax>class="wrap ajax"</#if>>${_convertedValue}</a>
 			<#else>
 				<#if _value?is_boolean>
-					<a href="?_option=${_value?string('false', 'true')}&_multid=${_th.resolveId(_rowdata)}" class="prompt post">
+					<a href="?_option=${_value?string('false', 'true')}&_multid=${_th.resolveId(_rowdata)}" <#if post>class="wrap post"</#if>>
 						<#if _value>
 							<span class="ico ico-public" title="<@util.message "grid.list.published" />"></span>
 						<#else>
@@ -271,13 +269,13 @@
 	<#local _id=_th.resolveId(_rowdata)!"#">
 	<#local _buttons=[]>
 	<#if renderEdit>
-		<#local _buttons=_buttons + [{"url":_id, "title":util.getMessage("grid.list.button.edit"), "text":'<span class="ico ico-edit"></span>'}]>
+		<#local _buttons=_buttons + [{"url":_id, "title":util.getMessage("grid.list.button.edit"), "text":'<span class="ico ico-edit">edit</span>'}]>
 	</#if>
 	<#if renderCancel>
-		<#local _buttons=_buttons + [{"url":_id, "title":util.getMessage("grid.list.button.cancel"), "text":'<span class="ico ico-cancel"></span>'}]>
+		<#local _buttons=_buttons + [{"url":_id, "title":util.getMessage("grid.list.button.cancel"), "text":'<span class="ico ico-cancel">cancel</span>'}]>
 	</#if>
 	<#if renderRemove>
-		<#local _buttons=_buttons + [{"url":_id, "title":util.getMessage("grid.list.button.delete"), "text":'<span class="ico ico-storno"></span>'}]>
+		<#local _buttons=_buttons + [{"class":"wrap delete confirm", "url":_id, "title":util.getMessage("grid.list.button.delete"), "text":'<span class="ico ico-storno">delete</span>'}]>
 	</#if>
 	<#return _buttons>
 </#function>
