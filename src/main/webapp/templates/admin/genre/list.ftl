@@ -12,9 +12,10 @@
 		<@grid.filter>
 			<@form.inputText path="name" />
 		</@grid.filter>
-		<@grid.datalist idColumn="id">
+		<@grid.datalist idColumn="id" renderButtons=false>
 			<@grid.column name="id" isId=true />
 			<@grid.column name="name" isDetail=true />
+			<@grid.renderActionButtons renderEdit=false renderCancel=false />
 		</@grid.datalist>
 	</@grid.grid>
 </body>

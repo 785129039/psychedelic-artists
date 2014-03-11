@@ -4,8 +4,11 @@
 <head>
 <title>${title}</title>
 <meta charset="utf-8">
-<!--link rel="stylesheet" href="<@util.url "/css/reset.css" />" type="text/css" media="screen"-->
-<script src="<@util.url "/js/jquery.2.0.min.js" />" type="text/javascript"></script>
+<link rel="stylesheet" href="<@util.url "/css/ui-lightness/jquery-ui-1.10.4.custom.min.css" />" type="text/css" media="screen">
+<script src="<@util.url "/js/jquery-1.10.2.js" />" type="text/javascript"></script>
+<script src="<@util.url "/js/jquery-ui-1.10.4.custom.min.js" />" type="text/javascript"></script>
+<script src="<@util.url "/js/widget.utils.js" />" type="text/javascript"></script>
+<script src="<@util.url "/js/widget.main.js" />" type="text/javascript"></script>
 ${head!""}
 </head>
 <body>

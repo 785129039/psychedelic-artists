@@ -23,4 +23,5 @@ public class Genre implements Entity {
 	@NotNull
 	@Size(min=1, max=50)
 	private String name;
+	public Boolean published = Boolean.TRUE;
 }

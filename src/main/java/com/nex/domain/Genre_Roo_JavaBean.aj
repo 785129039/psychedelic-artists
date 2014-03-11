@@ -23,4 +23,12 @@ privileged aspect Genre_Roo_JavaBean {
         this.name = name;
     }
     
+    public Boolean Genre.getPublished() {
+        return this.published;
+    }
+    
+    public void Genre.setPublished(Boolean published) {
+        this.published = published;
+    }
+    
 }

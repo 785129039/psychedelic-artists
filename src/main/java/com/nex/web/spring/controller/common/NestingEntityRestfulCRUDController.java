@@ -3,7 +3,6 @@ package com.nex.web.spring.controller.common;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -14,7 +13,6 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +24,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.nex.domain.common.Entity;
@@ -104,7 +101,7 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 			if (redirectSaveToList) {
 				return "redirect:";
 			} else {
-				return controllerRedirectUrl() + entity.getId();
+				return controllerRedirectUrl(request, String.valueOf(entity.getId()));
 			}
 		} catch (Exception e) {
 
@@ -149,7 +146,7 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 			if (redirectSaveToList) {
 				return "redirect:";
 			} else {
-				return controllerRedirectUrl() + entity.getId();
+				return controllerRedirectUrl(request, String.valueOf(entity.getId()));
 			}
 		} catch (Exception e) {
 			log.info("", e);
@@ -240,17 +237,17 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 		onEntityChanged(entity, oldEntity);
 	}
 
-//	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
-//	public String _delete(@ModelAttribute("entity") T entity, Model uiModel) {
-//		try {
-//			entity.remove();
-//			entity.flush();
-//			return controllerRedirectUrl();
-//		} catch (Exception e) {
-//			log.info("", e);
-//			return controllerRedirectUrl() + entity.getId();
-//		}
-//	}
+	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
+	public String _delete(@ModelAttribute("entity") T entity, Model uiModel, HttpServletRequest request) {
+		try {
+			entity.remove();
+			entity.flush();
+			return controllerRedirectUrl(request, "");
+		} catch (Exception e) {
+			log.info("", e);
+			return controllerRedirectUrl(request, String.valueOf(entity.getId())) ;
+		}
+	}
 
 	@RequestMapping(value = "/", method = RequestMethod.DELETE)
 	public String _deleteMultiple(@ModelAttribute("entities") List<T> entities, HttpServletRequest request, HttpServletResponse response, Errors errors, Model uiModel) {
@@ -270,10 +267,10 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 			if (errors.hasErrors()) {
 				return list(request, response, uiModel);
 			}
-			return controllerRedirectUrl();
+			return controllerRedirectUrl(request, "");
 		} catch (Exception e) {
 			log.info("", e);
-			return controllerRedirectUrl();
+			return controllerRedirectUrl(request, "");
 		}
 	}
 
@@ -318,8 +315,10 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 		this.controllerURl = controllerURl;
 	}
 
-	protected String controllerRedirectUrl() {
-		return redirectUrl;
+	protected String controllerRedirectUrl(HttpServletRequest request, String uri) {
+		String simple = request.getParameter("_simple");
+		String params = simple!=null?"?_simple=true":"";
+		return redirectUrl + uri + params;
 	}
 
 	protected String getDetailTemplateName() {
