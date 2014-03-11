@@ -29,6 +29,7 @@ CREATE TABLE genre
 	modified_by BIGINT NOT NULL,
 	created_on DATE NOT NULL,
 	modified_on DATE NOT NULL,
+	published  NOT NULL,
 	PRIMARY KEY (id),
 	KEY (created_by),
 	KEY (modified_by)
