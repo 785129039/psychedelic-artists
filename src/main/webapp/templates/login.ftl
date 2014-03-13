@@ -12,39 +12,44 @@
 }
 </style>
 </head>
-<body onload='document.f.j_username.focus();'>
-	<h3>Login with Username and Password (Authentication with Database)</h3>
+<body>
 	<#if error??>
 		<div class="errorblock">
 			${Session.SPRING_SECURITY_LAST_EXCEPTION}
 
 		</div>
 	</#if>
-	<form name='f' action="<@util.url "/j_spring_security_check" ""/>"
-		method='POST'>
+	
+	<form action="<@util.url "/j_spring_security_check" ""/>" method="POST" name="" class="form">
+		<div class="form-header">
+			<h2 class="title">Přihlášení do systému</h2>
+		</div>
+		<div class="form-content">
+			<div class="form-content-inner">
 
-		<table>
-			<tr>
-				<td>User:</td>
-				<td><input type='text' name='j_username' value=''>
-				</td>
-			</tr>
-			<tr>
-				<td>Password:</td>
-				<td><input type='password' name='j_password' />
-				</td>
-			</tr>
-			<tr>
-				<td colspan='2'><input name="submit" type="submit"
-					value="submit" />
-				</td>
-			</tr>
-			<tr>
-				<td colspan='2'><input name="reset" type="reset" />
-				</td>
-			</tr>
-		</table>
-
+				<div class="message message-error">
+					<p>Vyplňte správně všechny povinné položky</p>
+				</div>				
+			
+				<p>
+					<label for="" class="label error">Uživatelské jméno:</label><br>
+					<span class="inp-fix inp-fix-error">
+						<input type="text" name="j_username" id="" class="inp-text">
+					</span>
+				</p>
+				<p>
+					<label for="" class="label error">Heslo:</label><br>
+					<span class="inp-fix inp-fix-error">
+						<input type="password" name="j_password" id="" class="inp-text">
+					</span>
+				</p>
+				<p class="right">
+					<button class="btn btn-big btn-blue" name="" type="submit">
+						<span>Přihlásit se</span>
+					</button>
+				</p>
+			</div>
+		</div>
 	</form>
 </body>
 </html>

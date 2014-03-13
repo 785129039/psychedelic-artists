@@ -4,6 +4,8 @@
 		<pattern>/js/*</pattern>
 		<pattern>/images/*</pattern>
 		<pattern>/css/*</pattern>
+		<pattern>/img/*</pattern>
+		<pattern>/skins/*</pattern>
 	</excludes>
 	<decorator name="simple" page="simple-decorator.ftl"/>
 	<decorator name="basic-theme" page="main-decorator.ftl">

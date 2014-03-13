@@ -55,7 +55,7 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 	private SortDirection defaultSortDirection = SortDirection.ASC;
 	private int filterType;
 	protected boolean redirectSaveToList = false;
-
+	protected boolean successRemember = true;
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
@@ -75,7 +75,8 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 	 */
 	protected void onEntityCreated(T entity) {
 	}
-
+	protected void preEntityCreated(T entity) {
+	}
 	/**
 	 * Metoda se zavola pri zmene entity pred zavolanim flush.
 	 * 
@@ -88,6 +89,10 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 	@RequestMapping(value = "{id}", method = RequestMethod.POST)
 	public String _create(@ModelAttribute("entity") @Valid T entity,
 			Errors errors, Model uiModel, HttpServletRequest request) {
+		String contentType = request.getContentType();
+        if (contentType != null && contentType.toLowerCase().startsWith("multipart/") && entity.getId() != null) {
+            return _update(entity, errors, uiModel, request);
+        }
 		try {
 			additionalValidate(entity, errors);
 			if (errors.hasErrors()) {
@@ -119,11 +124,13 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 	}
 
 	protected void _saveNewEntity(T entity, Errors errors, Model uiModel) {
+		preEntityCreated(entity);
 		entity.persist();
 		entity.flush();
 		onEntityCreated(entity);
 	}
-
+	
+	
 	protected void additionalValidate(T entity, Errors errors) {
 	}
 
@@ -228,6 +235,7 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 	protected void _updateEntity(T entity, Errors errors, Model uiModel,
 			HttpServletRequest request) {
 		invokeOnChanged(request, entity);
+		entity.merge();
 		entity.flush();
 	}
 
@@ -318,6 +326,13 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 	protected String controllerRedirectUrl(HttpServletRequest request, String uri) {
 		String simple = request.getParameter("_simple");
 		String params = simple!=null?"?_simple=true":"";
+		if(successRemember) {
+			if(simple == null) {
+				params = "?_success=true";
+			} else {
+				params += "&_success=true";
+			}
+		}
 		return redirectUrl + uri + params;
 	}
 
@@ -356,4 +371,9 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 	public void setDefaultSortDirection(SortDirection defaultSortDirection) {
 		this.defaultSortDirection = defaultSortDirection;
 	}
+
+	public void setSuccessRemember(boolean successRemember) {
+		this.successRemember = successRemember;
+	}
+	
 }

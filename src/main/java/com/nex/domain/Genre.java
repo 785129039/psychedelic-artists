@@ -13,7 +13,7 @@ import com.nex.annotation.Modifiable;
 import com.nex.domain.common.Entity;
 
 @RooJavaBean
-@RooJpaActiveRecord(persistenceUnit = "puPsyartists", table = "genre", versionField = "")
+@RooJpaActiveRecord(finders="findGenresByPublished", persistenceUnit = "puPsyartists", table = "genre", versionField = "")
 @Modifiable
 public class Genre implements Entity {
 	
@@ -24,4 +24,8 @@ public class Genre implements Entity {
 	@Size(min=1, max=50)
 	private String name;
 	public Boolean published = Boolean.TRUE;
+	@Override
+	public String toString() {
+		return this.name;
+	}
 }

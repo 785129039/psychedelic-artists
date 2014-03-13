@@ -5,10 +5,7 @@
 	<#t>${getMessage(code, arguments)}
 </#macro>
 <#function isNull text>
-	<#if text=="" || text=="_NULL_">
-	<#return true>
-	</#if>
-	<#return false>
+	<#return _th.isNull(text)>
 </#function>
 <#function getMessage code arguments=[]>
 	<#return _th.getMessage(code, arguments)>

@@ -1,0 +1,31 @@
+<#import "/tags/form.ftl" as form>
+<#import "/tags/util.ftl" as util>
+<#import "/tags/grid.ftl" as grid>
+<html>
+<head>
+<title>
+	<@util.message "Sample.list.title" />
+</title>
+</head>
+<body>
+	<@grid.grid data=entities baseCaption="Sample">
+		<@grid.filter>
+			<@form.inputText path="name" />
+		</@grid.filter>
+		<@grid.datalist renderButtons=false showNewButton=false idColumn="id" renderCheckbox=false>
+			<@grid.column name="name" isDetail=true />
+			<@grid.column name="genres";e, f, v, n>
+				<#list v as _row>
+					${_row.name}<#if _row_has_next>,</#if>
+				</#list>
+			</@grid.column>
+			<@grid.column name="tags";e, f, v, n>
+				<#list v as _row>
+					${_row.name}<#if _row_has_next>,</#if>
+				</#list>
+			</@grid.column>
+			<@grid.column name="user.name" />
+		</@grid.datalist>
+	</@grid.grid>
+</body>
+</html>

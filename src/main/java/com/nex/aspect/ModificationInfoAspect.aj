@@ -10,15 +10,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
-import javax.xml.bind.annotation.XmlTransient;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nex.annotation.Modifiable;
 import com.nex.domain.User;
+import com.nex.utils.Requestutils;
 
 
 public aspect ModificationInfoAspect {
@@ -26,16 +24,12 @@ public aspect ModificationInfoAspect {
 	public interface ModificationInfo{}
 	
 	@Transient
-	@XmlTransient
 	private User ModificationInfo.createdBy;
 	@Transient
-	@XmlTransient
 	private User ModificationInfo.modifiedBy;
 	@Transient
-	@XmlTransient
 	private Date ModificationInfo.modifiedOn;
 	@Transient
-	@XmlTransient
 	private Date ModificationInfo.createdOn;
 	
 	declare parents: @Modifiable * implements ModificationInfo;
@@ -48,18 +42,19 @@ public aspect ModificationInfoAspect {
 		this.setCreatedBy(cl);
 		this.setModifiedOn(new Date());
 		this.setModifiedBy(cl);
+		this.preSave();
 	}
 
 	@PreUpdate
 	public void ModificationInfo.modifyWhenUpdating() {
 		this.setModifiedOn(new Date());
 		this.setModifiedBy(this.getCurrentUser());
+		this.preUpdate();
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public User ModificationInfo.getCurrentUser() {
-		Authentication user = SecurityContextHolder.getContext().getAuthentication();
-		return User.findUsersByEmail(user.getName()).getSingleResult();
+		return Requestutils.getLoggedUser();
 	}
 	
 	@ManyToOne()
@@ -90,6 +85,9 @@ public aspect ModificationInfoAspect {
 	public void ModificationInfo.setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
+	
+	public void ModificationInfo.preSave(){}
+	public void ModificationInfo.preUpdate(){}
 	
 	public void ModificationInfo.setModifiedOn(Date modifiedOn) {
 		this.modifiedOn = modifiedOn;

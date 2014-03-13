@@ -2,7 +2,17 @@ package com.nex.utils;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import com.nex.domain.User;
+
 public class Requestutils {
+	
+	public static User getLoggedUser() {
+		Authentication user = SecurityContextHolder.getContext().getAuthentication();
+		return User.findUsersByEmail(user.getName()).getSingleResult();
+	}
 	
 	public static String createContextRedirect(String url, boolean exposedAttributes) {
 		return "redirect:/web" + url;

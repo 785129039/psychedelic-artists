@@ -2,6 +2,7 @@ package com.nex.web.freemarker;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -41,11 +42,10 @@ public class FreemarkerTemplateHelper {
 		ReflectionUtils.makeAccessible(_getRequestMethod);
 	}
 
-	public static String test() {
-		return "test";
-	}
-
 	public String convertToString(Object value) {
+		if(value != null && value instanceof List) {
+			return value.toString();
+		}
 		if (conversionService != null && value != null) {
 			if (conversionService.canConvert(value.getClass(), String.class)) {
 				return conversionService.convert(value, String.class);
@@ -90,8 +90,7 @@ public class FreemarkerTemplateHelper {
 	}
 
 	public String getRestMethod(Object commandObject) {
-		HttpServletRequest request = getRequest();
-		String _method = request.getMethod();
+		String _method = getFormMethod();
 		Map<String, String> pathVariables = NestingRestfulCRUDController
 				.getPathVariables();
 		String idPart = pathVariables.get("id");
@@ -104,7 +103,13 @@ public class FreemarkerTemplateHelper {
 			return RequestMethod.PUT.name();
 		}
 	}
-
+	
+	public String getFormMethod() {
+		HttpServletRequest request = getRequest();
+		String _method = request.getMethod();
+		return _method;
+	}
+	
 	public Object resolveId(Object o) {
 		if (o == null)
 			return null;
@@ -164,6 +169,10 @@ public class FreemarkerTemplateHelper {
 	public Object evaluate(String field, Object source) {
 		return ReflectionUtils.reflectValue(source, field);
 	}
+	public String evaluateAsString(String field, Object source) {
+		Object result = ReflectionUtils.reflectValue(source, field);
+		return convertToString(result);
+	}
 	public void logInfo(Object object) {
 		log.info(String.valueOf(object));
 	}
@@ -177,5 +186,32 @@ public class FreemarkerTemplateHelper {
 	}
 	public String getUrl(String path, String context) {
 		return requestContext.getContextPath() + context + path;
+	}
+	public Boolean isNull(Object item) {
+		if(item == null || item.toString().trim().equals("") || item.toString().trim().equals("_NULL_")) {
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
+	
+	public Boolean isOptionSelected(String value, Object source) {
+		try {
+			if(source instanceof List) {
+				@SuppressWarnings("unchecked")
+				List<Object> list = (List<Object>)source;
+				for(Object o: list) {
+					Object id = ReflectionUtils.reflectValue(o, "id");
+					if(value.equals(String.valueOf(id))) {
+						return Boolean.TRUE;
+					}
+				}
+			}
+			Object id = ReflectionUtils.reflectValue(source, "id");
+			value.equals(id!=null?String.valueOf(id):null);
+		} catch (Exception e) {
+			log.error("", e);
+		}
+		
+		return Boolean.FALSE;
 	}
 }

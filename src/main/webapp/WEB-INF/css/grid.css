@@ -1,0 +1,37 @@
+/************************************************************************************
+   GRID
+*************************************************************************************/
+.row { position:relative; zoom:1; margin:0; padding:0; }
+.row:after, .row-main:after { visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0; }
+.row-main { min-width:920px; max-width:1150px; margin-left:auto; margin-right:auto; text-align:left; padding:0 10px; }
+
+.col{display:inline; float:left; left:100%; position:relative; padding:0; }
+
+.col-content { margin-left:-80%; width:80%; }
+.col-side { margin-left:-100%; width:18%; }
+
+.col-h-1 { margin:0 0 0 -100%; }
+.col-h-2 { margin:0 0 0 -48.5%; }
+
+.col-t-1 { margin:0 0 0 -100%; }
+.col-t-2 { margin:0 0 0 -65.666%; }
+.col-t-3 { margin:0 0 0 -31.333%; }
+
+.col-q-1 { margin:0 0 0 -100%; }
+.col-q-2 { margin:0 0 0 -74.25%; }
+.col-q-3 { margin:0 0 0 -48.5%; }
+.col-q-4 { margin:0 0 0 -22.75%; }
+
+.col-f-1 { margin:0 0 0 -100%; }
+.col-f-2 { margin:0 0 0 -79.7%; }
+.col-f-3 { margin:0 0 0 -59.4%; }
+.col-f-4 { margin:0 0 0 -39.1%; }
+.col-f-5 { margin:0 0 0 -18.8%; }
+
+.grid-h { width:48.5%; }
+.grid-q { width:22.75%; }
+.grid-f { width:18.8%; }
+.grid-2f { width:37.6%; }
+.grid-3q { width:74.25%; }
+.grid-t { width:31.333%; }
+.grid-2t { width:65.666%; }

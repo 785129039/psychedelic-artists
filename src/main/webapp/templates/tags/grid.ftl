@@ -23,34 +23,46 @@
 				<h2 class="title"><@util.message (_implClass!"Grid")+".filter.title" /></h2>
 			</div>
 		</#if>
-		<#nested>
-		<@form.link href="?clearfilter">
-			<@util.message (_implClass!"Grid")+".filter.button" />
-		</@form.link>
-		<@form.submit commandName=_commandName title=(_implClass!"Grid")+".filter.button"/>
+		
+		<div class="form-content">
+				<div class="form-content-inner">
+					<div class="row">
+						<#nested>
+						<div class="col col-f-5 grid-f right">						
+							<@form.link href="?clearfilter">
+								<@util.message (_implClass!"Grid")+".filter.button.clear" />
+							</@form.link>
+							<@form.submit commandName=_commandName title=(_implClass!"Grid")+".filter.button.search"/>
+						</div>
+					</div>
+ 				</div>
+			</div>
 	</@form.form>
 </#macro>
-<#macro datalist showNewButton=true renderButtons=true idColumn="_NULL_" multipleButtons=[] showHeader=true>
-	<@list data=_filteredList.data renderButtons=renderButtons idColumn=idColumn multipleButtons=multipleButtons showHeader=showHeader showNewButton=showNewButton; row>
+<#macro datalist showNewButton=true renderButtons=true idColumn="_NULL_" multipleButtons=[] showHeader=true isAjax=false renderCheckbox=true>
+	<@list data=_filteredList.data renderButtons=renderButtons idColumn=idColumn multipleButtons=multipleButtons showHeader=showHeader showNewButton=showNewButton isAjax=isAjax renderCheckbox=renderCheckbox; row>
 		<#nested row>
 	</@list>
 </#macro>
-<#macro list data renderButtons=true showDeleteButton=true idColumn="_NULL_" multipleButtons=[] showNewButton=true showHeader=true> 
+<#macro list data renderButtons=true showDeleteButton=true idColumn="_NULL_" multipleButtons=[] showNewButton=true showHeader=true isAjax=false renderCheckbox=true> 
 	<#assign _listdata = data />
 	<#assign _columnSettingsMapping=[]>
-	<#local renderCheckbox=false>
-	<#if !util.isNull(idColumn)>
-		<#local renderCheckbox=true>
+	<#local _renderCheckbox=false>
+	<#if !util.isNull(idColumn) && renderCheckbox=true>
+		<#local _renderCheckbox=true>
 	</#if>
 	<#assign _columnscount=1>
 	<div class="datagrid">
 		<#if showHeader>
 			<div class="datagrid-header">
-				<h2 class="title"><@util.message "Service.list.title" /></h2>
 				<#if showNewButton>
 					<div class="btns">
-						<@form.link href="new" class="wrap ajax">
-							<@util.message "grid.list.button.new" />
+						<#assign _cls="">
+						<#if isAjax>
+							<#assign _cls="wrap ajax">
+						</#if>
+						<@form.link href="new" class=_cls>
+							<@util.message "Grid.list.button.new" />
 						</@form.link>
 					</div>
 				</#if>
@@ -59,7 +71,7 @@
 		<table>
 			<thead>
 				<tr>
-					<#if renderCheckbox>
+					<#if _renderCheckbox>
 						<th><input type="checkbox" name="_check_all" /><input type="hidden" name="__multid" value="on"/></th>
 					</#if>
 					<#nested>
@@ -73,8 +85,10 @@
 				<#list data as row>
 					<#assign _rowdata = row />
 					<tr <#if !row_has_next>class="last"</#if>>
-						<#if renderCheckbox>
-							<#assign _detailId=_th.evaluate(idColumn, _rowdata)>
+						<#if !util.isNull(idColumn)>
+						<#assign _detailId=_th.evaluate(idColumn, _rowdata)>
+						</#if>
+						<#if _renderCheckbox>
 							<td>
 								<input type="checkbox" name="_multid" value="${_detailId}"/>
 							</td>
@@ -103,7 +117,7 @@
 					</#list>
 				</div>
 			</#if>
-			<@pagination />
+			<@pagination _filteredList=_filteredList/>
 		</div>
 	</div>
 </#macro>
@@ -117,9 +131,9 @@
 </#macro>
 
 <#-------asbtract column ----->
-<#macro column name sortable=true isId=false defaultCaption="_NULL_" captionArgs=[] isDetail=false localized=false ajax=true>
+<#macro column name sortable=true defaultCaption="_NULL_" captionArgs=[] isDetail=false localized=false ajax=false>
 	<#if _rowdata??>
-		<@bodyColumn name=name isId=isId isDetail=isDetail localized=localized ajax=ajax; e, f, v, n>
+		<@bodyColumn name=name isDetail=isDetail localized=localized ajax=ajax; e, f, v, n>
 			<#nested e, f, v, n>
 		</@bodyColumn>
 	<#else>
@@ -127,7 +141,7 @@
 	</#if>
 </#macro>
 <#-------body column ----->
-<#macro bodyColumn name isId=false isDetail=false localized=false ajax=true post=false>
+<#macro bodyColumn name isDetail=false localized=false ajax=false post=false>
 	<#assign _value=_th.evaluate(name, _rowdata)!>
 	<#local _nestedContent><#nested _rowdata, name, _value, false></#local>
 	<@printTableCell>
@@ -196,7 +210,7 @@
 
 <#--- pagination ----->
 
-<#macro pagination nonjs=false>
+<#macro pagination _filteredList nonjs=false >
 	<#local _currentPage=_filteredList.filter.page.currentPageNumber/>
 	<#local _recPerPage=_filteredList.filter.page.objectsPerPage/>
 	<#local _fullSize=_filteredList.fullDataSize/>

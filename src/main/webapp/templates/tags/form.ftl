@@ -1,7 +1,7 @@
 <#import "util.ftl" as util />
 <#assign springform=JspTaglibs["http://www.springframework.org/tags/form"]>
 
-<#macro form commandName baseCaption="_NULL_" action="" isFilter=false method="auto" renderTitle=false renderSaveButton=true class="" customForm=false id="_NULL_" additionalErrors=[] showRequired=true>
+<#macro form commandName baseCaption="_NULL_" action="" enctype="" isFilter=false method="auto" renderTitle=false renderSaveButton=true class="" customForm=false id="_NULL_" additionalErrors=[] reload=false showRequired=true>
 	<#assign _formBaseCaption=baseCaption>
 	<#assign _showRequireIndex=showRequired>
 	<#global _formModel=_th.createFormModel(commandName)>
@@ -14,17 +14,16 @@
 		<#local _id=commandName>
 	</#if>
 	<#if !customForm>
-		<@springform.form action=action commandName=commandName method=_method cssClass=class id=_id>
+		<@springform.form action=action commandName=commandName method=_method cssClass=class id=_id enctype=enctype>
 			<#if renderTitle>
 			<div class="form-header">
 				<h2 class="title"><@util.message _formBaseCaption + ".title"/></h2>
 			</div>
 			</#if>
 			
-			<#if !isFilter>
-				<div class="form-content">
+			<#if !isFilter>				<div class="form-content">
 					<div class="form-content-inner">
-						<@renderErrors additionalErrors=additionalErrors />
+						<@renderResultMessages additionalErrors=additionalErrors reload=reload/>
 						<div class="row">
 						<#nested>
 						</div>
@@ -38,7 +37,7 @@
 					</div>
 				</#if>
 			<#else>
-				<#nested>
+					<#nested>
 			</#if>
 		</@springform.form>
 	<#else>
@@ -46,8 +45,8 @@
 	</#if>
 </#macro>
 
-<#macro inputText path renderLabel=true defaultCaption="_NULL_" id="_NULL_" labelArguments=[] displayFieldError=true>
-	<@input path=path renderLabel=renderLabel type="text" defaultCaption=defaultCaption id=id  labelArguments=labelArguments  displayFieldError=displayFieldError/>
+<#macro inputText path renderLabel=true defaultCaption="_NULL_" id="_NULL_" labelArguments=[] displayFieldError=true isTag=false>
+	<@input path=path renderLabel=renderLabel type="text" defaultCaption=defaultCaption id=id  labelArguments=labelArguments  displayFieldError=displayFieldError isTag=isTag/>
 </#macro>
 <#macro inputPassword path renderLabel=true defaultCaption="_NULL_" id="_NULL_" labelArguments=[] displayFieldError=true>
 	<@input path=path renderLabel=renderLabel type="password" defaultCaption=defaultCaption id=id  labelArguments=labelArguments  displayFieldError=displayFieldError/>
@@ -60,7 +59,7 @@
 	<@input path=path type="text" class="inp-number" defaultCaption=defaultCaption id=id  labelArguments=labelArguments displayFieldError=displayFieldError/>
 </#macro>
 
-<#macro input type path renderLabel=true value="_NULL_" defaultCaption="_NULL_" id="_NULL_" class="" spanClass="" labelArguments=[] displayFieldError=true>
+<#macro input type path renderLabel=true value="_NULL_" defaultCaption="_NULL_" id="_NULL_" class="" spanClass="" labelArguments=[] displayFieldError=true isTag=false>
 	<#assign _fieldModel=_formModel.getFieldModel(path)>
 	<#assign _fieldError=_fieldModel.hasError()>
 	<#local _id=resolveStyleId(path, id)>
@@ -72,9 +71,13 @@
 		<#if util.isNull(_value)>
 			<#local _value=_formModel.readFormatedValue(path)>
 		</#if>
-		<span class="inp-fix <#if _fieldError>inp-error</#if> ${spanClass}">
-			<input type="${type}" id="${_id}" name="${path}" class="inp-text ${class}" value="${_value}"/>
-		</span>
+		<#if isTag>
+			<input type="${type}" id="${_id}" name="${path}" class="inp-text <#if _fieldError>inp-error</#if> ${class} <#if isTag>tag</#if>" value="${_value}"/>
+		<#else>
+			<span class="inp-fix ${spanClass}">
+				<input type="${type}" id="${_id}" name="${path}" class="inp-text <#if _fieldError>inp-error</#if> ${class} <#if isTag>tag</#if>" value="${_value}"/>
+			</span>
+		</#if>
 		<#if displayFieldError>
 			<@renderFieldError fieldModel=_fieldModel />
 		</#if>
@@ -107,8 +110,8 @@
 	</#list>
 </#macro>
 
-<#macro select path items="_NULL_" valueKey="_NULL_" labelKey="_NULL_" defaultCaption="_NULL_" id="_NULL_" localizedLabel=false >
-	<#local _value=_formModel.readFormatedValue(path)>
+<#macro select path items="_NULL_" valueKey="_NULL_" labelKey="_NULL_" defaultCaption="_NULL_" id="_NULL_" localizedLabel=false multiple=false class="">
+	<#local _value=_formModel.readValue(path)>
 	<#--TODO throw exception (when items is set then valueKey and labelKey cannot be null)
 		
 		<#if items!="_NULL_" && (valueKey=="_NULL_" || labelKey=="_NULL_")>
@@ -119,23 +122,22 @@
 	<#assign _fieldError=_fieldModel.hasError()>
 	<#local _id=resolveStyleId(path, id)>
 	<p>
-	<@printLabel defaultCaption=defaultCaption path=path id=_id/>
-	<span class="select-fix">
-	<select name="${path}" class=" <#if _fieldError>error-inp</#if>" id="${_id}" style="width:100%">
-		<#nested>
-		<#if !util.isNull(items)>
-			<#list items as i>
-				<#local _itemValue=util.evaluateAsString(valueKey, i)>
-				<#local _itemLabel=util.evaluateAsString(labelKey, i)>
-				<#if localizedLabel>
-					<#local _itemLabel=util.getMessage(_itemLabel)>
-				</#if>
-				<option value="${_itemValue}" <#if _itemValue==_value>selected="selected"</#if>>${_itemLabel}</option>
-			</#list>
-		</#if>
-	</select>
-	</span>
-	<@renderFieldError fieldModel=_fieldModel />
+		<@printLabel defaultCaption=defaultCaption path=path id=_id/>
+		
+		<select name="${path}" class="${class} <#if _fieldError>inp-error</#if>" id="${_id}" style="width:100%" <#if multiple>multiple="multiple"</#if>>
+			<#nested>
+			<#if !util.isNull(items)>
+				<#list items as i>
+					<#local _itemValue=_th.evaluateAsString(valueKey, i)>
+					<#local _itemLabel=_th.evaluateAsString(labelKey, i)>
+					<#if localizedLabel>
+						<#local _itemLabel=util.getMessage(_itemLabel)>
+					</#if>
+					<option value="${_itemValue}" <#if _th.isOptionSelected(_itemValue, _value)>selected="selected"</#if>>${_itemLabel}</option>
+				</#list>
+			</#if>
+		</select>
+		<@renderFieldError fieldModel=_fieldModel />
 	</p>
 </#macro>
 
@@ -178,7 +180,7 @@
 	</#if>
 </#macro>
 
-<#macro renderErrors additionalErrors=[]>
+<#macro renderResultMessages additionalErrors=[] reload=false>
 	<#local _errors=_formModel.formErrorsAsString>
 	<#if (_errors?size>0)>
 		<div class="message message-error">
@@ -191,6 +193,12 @@
 				<p>${err}</p>
 			</#list>
 		</#if>
+		</div>
+	<#elseif RequestParameters._success?? && reload>
+		<div class="reload"></div>
+	<#elseif RequestParameters._success??>
+		<div>
+			<@util.message "Form.save.success" />
 		</div>
 	</#if>		
 </#macro>
@@ -245,7 +253,9 @@
 	</span>
 </p>
 </#macro>
-
+<#macro file path>
+<input type="file" name="${path}" />
+</#macro>
 <#macro submit>
 
 </#macro>
@@ -255,7 +265,7 @@
 	</@link>
 </#macro>
 <#macro link href class="">
-<a class="btn add-comment ${class}" href="${href}">
+<a class="btn ${class}" href="${href}">
 	<span><#nested></span>
 </a>
 </#macro>

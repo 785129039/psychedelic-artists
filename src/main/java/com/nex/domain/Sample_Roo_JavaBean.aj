@@ -5,50 +5,18 @@ package com.nex.domain;
 
 import com.nex.domain.Genre;
 import com.nex.domain.Sample;
+import com.nex.domain.SampleComment;
 import com.nex.domain.Tag;
-import com.nex.domain.User;
 import java.util.List;
 
 privileged aspect Sample_Roo_JavaBean {
     
-    public Long Sample.getId() {
-        return this.id;
+    public String Sample.getServerPath() {
+        return this.serverPath;
     }
     
-    public void Sample.setId(Long id) {
-        this.id = id;
-    }
-    
-    public User Sample.getUser() {
-        return this.user;
-    }
-    
-    public void Sample.setUser(User user) {
-        this.user = user;
-    }
-    
-    public String Sample.getName() {
-        return this.name;
-    }
-    
-    public void Sample.setName(String name) {
-        this.name = name;
-    }
-    
-    public String Sample.getDescription() {
-        return this.description;
-    }
-    
-    public void Sample.setDescription(String description) {
-        this.description = description;
-    }
-    
-    public String Sample.getPath() {
-        return this.path;
-    }
-    
-    public void Sample.setPath(String path) {
-        this.path = path;
+    public void Sample.setServerPath(String serverPath) {
+        this.serverPath = serverPath;
     }
     
     public List<Tag> Sample.getTags() {
@@ -65,6 +33,30 @@ privileged aspect Sample_Roo_JavaBean {
     
     public void Sample.setGenres(List<Genre> genres) {
         this.genres = genres;
+    }
+    
+    public List<SampleComment> Sample.getComments() {
+        return this.comments;
+    }
+    
+    public void Sample.setComments(List<SampleComment> comments) {
+        this.comments = comments;
+    }
+    
+    public String Sample.getName() {
+        return this.name;
+    }
+    
+    public void Sample.setName(String name) {
+        this.name = name;
+    }
+    
+    public String Sample.getDescription() {
+        return this.description;
+    }
+    
+    public void Sample.setDescription(String description) {
+        this.description = description;
     }
     
 }

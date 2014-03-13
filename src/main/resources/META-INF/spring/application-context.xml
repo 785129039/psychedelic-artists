@@ -55,5 +55,5 @@
 		
     	<bean id="mailMail" class="com.nex.mail.MailService">
 			<property name="mailSender" ref="mailSender" />
-		</bean>
+		</bean>		
 </beans>

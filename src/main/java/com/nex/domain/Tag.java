@@ -12,7 +12,7 @@ import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import com.nex.annotation.Modifiable;
 
 @RooJavaBean
-@RooJpaActiveRecord(persistenceUnit = "puPsyartists", table = "tag", versionField = "")
+@RooJpaActiveRecord(finders={"findTagsByName"}, persistenceUnit = "puPsyartists", table = "tag", versionField = "")
 @Modifiable
 public class Tag {
 	@Id
@@ -22,4 +22,8 @@ public class Tag {
 	@NotNull
 	@Size(min=1, max=50)
 	private String name;
+	@Override
+	public String toString() {
+		return this.name;
+	}
 }

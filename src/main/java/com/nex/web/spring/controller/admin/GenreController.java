@@ -21,7 +21,7 @@ public class GenreController extends NestingEntityRestfulCRUDController<Genre> {
 		setDefaultSortDirection(SortDirection.ASC);
 		setDefaultSortProperty("id");
 		setControllerURl("admin/genre/");
-		setRedirectSaveToList(true);
+		setRedirectSaveToList(false);
 	}
 
 	@Override

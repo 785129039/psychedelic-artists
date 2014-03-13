@@ -12,6 +12,8 @@
 		<class>com.nex.domain.Role</class>
 		<class>com.nex.domain.Sample</class>
 		<class>com.nex.domain.SampleComment</class>
+		<class>com.nex.domain.Preset</class>
+		<class>com.nex.domain.PresetComment</class>
 		<class>com.nex.domain.Genre</class>
 		<class>com.nex.domain.Tag</class>
 				
