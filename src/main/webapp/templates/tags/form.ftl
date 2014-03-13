@@ -45,10 +45,10 @@
 	</#if>
 </#macro>
 
-<#macro inputText path renderLabel=true defaultCaption="_NULL_" id="_NULL_" labelArguments=[] displayFieldError=true isTag=false>
+<#macro inputText path renderLabel=true defaultCaption="_NULL_" id="_NULL_" labelArguments=[] displayFieldError=false isTag=false>
 	<@input path=path renderLabel=renderLabel type="text" defaultCaption=defaultCaption id=id  labelArguments=labelArguments  displayFieldError=displayFieldError isTag=isTag/>
 </#macro>
-<#macro inputPassword path renderLabel=true defaultCaption="_NULL_" id="_NULL_" labelArguments=[] displayFieldError=true>
+<#macro inputPassword path renderLabel=true defaultCaption="_NULL_" id="_NULL_" labelArguments=[] displayFieldError=false>
 	<@input path=path renderLabel=renderLabel type="password" defaultCaption=defaultCaption id=id  labelArguments=labelArguments  displayFieldError=displayFieldError/>
 </#macro>
 <#macro inputDate path defaultCaption="_NULL_" id="_NULL_" labelArguments=[] displayFieldError=true>
@@ -72,10 +72,10 @@
 			<#local _value=_formModel.readFormatedValue(path)>
 		</#if>
 		<#if isTag>
-			<input type="${type}" id="${_id}" name="${path}" class="inp-text <#if _fieldError>inp-error</#if> ${class} <#if isTag>tag</#if>" value="${_value}"/>
+			<input type="${type}" id="${_id}" name="${path}" class="inp-text <#if _fieldError>inp-fix-error</#if> ${class} <#if isTag>tag</#if>" value="${_value}"/>
 		<#else>
-			<span class="inp-fix ${spanClass}">
-				<input type="${type}" id="${_id}" name="${path}" class="inp-text <#if _fieldError>inp-error</#if> ${class} <#if isTag>tag</#if>" value="${_value}"/>
+			<span class="inp-fix ${spanClass}<#if _fieldError> inp-fix-error</#if>">
+				<input type="${type}" id="${_id}" name="${path}" class="inp-text ${class} <#if isTag>tag</#if>" value="${_value}"/>
 			</span>
 		</#if>
 		<#if displayFieldError>
@@ -84,7 +84,7 @@
 	</p>
 </#macro>
 
-<#macro textarea path renderLabel=true value="_NULL_" defaultCaption="_NULL_" id="_NULL_" class="" labelArguments=[]>
+<#macro textarea path renderLabel=true value="_NULL_" defaultCaption="_NULL_" id="_NULL_" class="" labelArguments=[] displayFieldError=false>
 	<#assign _fieldModel=_formModel.getFieldModel(path)>
 	<#assign _fieldError=_fieldModel.hasError()>
 	<#local _id=resolveStyleId(path, id)>
@@ -92,10 +92,12 @@
 		<#if renderLabel>
 			<@printLabel defaultCaption=defaultCaption path=path id=_id labelArguments=labelArguments/>
 		</#if>
-		<span class="inp-fix <#if _fieldError>inp-error</#if>">
+		<span class="inp-fix <#if _fieldError>inp-fix-error</#if>">
 		<textarea rows="5" class="inp-text" name="${path}">${_formModel.readFormatedValue(path)}</textarea>
 		</span>
+		<#if displayFieldError>
 		<@renderFieldError fieldModel=_fieldModel />
+		</#if>
 	</p>
 </#macro>
 
@@ -110,7 +112,7 @@
 	</#list>
 </#macro>
 
-<#macro select path items="_NULL_" valueKey="_NULL_" labelKey="_NULL_" defaultCaption="_NULL_" id="_NULL_" localizedLabel=false multiple=false class="">
+<#macro select path items="_NULL_" valueKey="_NULL_" labelKey="_NULL_" defaultCaption="_NULL_" id="_NULL_" localizedLabel=false multiple=false class="" displayFieldError=false>
 	<#local _value=_formModel.readValue(path)>
 	<#--TODO throw exception (when items is set then valueKey and labelKey cannot be null)
 		
@@ -124,7 +126,7 @@
 	<p>
 		<@printLabel defaultCaption=defaultCaption path=path id=_id/>
 		
-		<select name="${path}" class="${class} <#if _fieldError>inp-error</#if>" id="${_id}" style="width:100%" <#if multiple>multiple="multiple"</#if>>
+		<select name="${path}" class="${class} <#if _fieldError>inp-fix-error</#if>" id="${_id}" style="width:100%" <#if multiple>multiple="multiple"</#if>>
 			<#nested>
 			<#if !util.isNull(items)>
 				<#list items as i>
@@ -137,7 +139,9 @@
 				</#list>
 			</#if>
 		</select>
+		<#if displayFieldError>
 		<@renderFieldError fieldModel=_fieldModel />
+		</#if>
 	</p>
 </#macro>
 
@@ -197,8 +201,8 @@
 	<#elseif RequestParameters._success?? && reload>
 		<div class="reload"></div>
 	<#elseif RequestParameters._success??>
-		<div>
-			<@util.message "Form.save.success" />
+		<div class="message message-ok">
+			<p><@util.message "Form.save.success" /></p>
 		</div>
 	</#if>		
 </#macro>
@@ -253,7 +257,7 @@
 	</span>
 </p>
 </#macro>
-<#macro file path>
+<#macro file path defaultCaption="">
 <input type="file" name="${path}" />
 </#macro>
 <#macro submit>

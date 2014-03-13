@@ -8,7 +8,7 @@
 </title>
 </head>
 <body>
-	<@grid.grid data=entities baseCaption="Sample">
+	<@grid.grid data=entities baseCaption="Label">
 		<@grid.filter class="form filter">
 		<div class="col col-f-1 grid-2f">
 			<@form.inputText path="name" />

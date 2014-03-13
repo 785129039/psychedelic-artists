@@ -18,6 +18,7 @@
 	p:checkers-ref="checkers" p:checkPermissions="true"/>
 	<util:map id="checkers">
 		<entry key="defaultChecker" value="com.nex.security.permissions.checker.DefaultPermissionChecker" />
+		<entry key="userChecker" value="com.nex.security.permissions.checker.UserPermissionChecher" />
 	</util:map>
 	<!--
 	<util:map id="permissionsGroupConfiguration">

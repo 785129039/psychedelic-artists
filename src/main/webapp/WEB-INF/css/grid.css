@@ -1,7 +1,8 @@
 /************************************************************************************
    GRID
 *************************************************************************************/
-.row { position:relative; zoom:1; margin:0; padding:0; }
+.row { position:relative; zoom:1; margin:0;}
+.detail-row {padding:10px; background: #DFD7FF; border-radius: 10px;}
 .row:after, .row-main:after { visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0; }
 .row-main { min-width:920px; max-width:1150px; margin-left:auto; margin-right:auto; text-align:left; padding:0 10px; }
 

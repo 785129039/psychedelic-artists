@@ -19,12 +19,13 @@ import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import com.nex.annotation.Logger;
 import com.nex.annotation.Modifiable;
 import com.nex.domain.common.FileEntity;
+import com.nex.domain.common.FilterableEntity;
 
 @RooJavaBean
 @RooJpaActiveRecord(persistenceUnit = "puPsyartists", table = "preset", versionField = "")
 @Modifiable
 @Logger
-public class Preset implements FileEntity {
+public class Preset implements FileEntity, FilterableEntity {
 	
 	@Transient
 	@Value("${presets.path}")

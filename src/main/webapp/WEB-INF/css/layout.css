@@ -6,7 +6,7 @@
 #nav-skip a:focus, #nav-skip a:active{position: absolute; left: 2000px; width: 250px; background: #fff; padding: 2px 0 5px; z-index: 99; text-align: center;}
 
 /* HEADER */
-#header { width: 1006px;margin: 0 auto; background:#090B3B; background-image: url('../img/logo.png'); height: 200px}
+#header { width: 1006px;margin: 0 auto; background:#090B3B; background-image: url('../img/psy_logo.png'); height: 200px}
 #header .header-inner { padding:15px 200px 13px 198px; }
 #header .header-inner-inner { padding-left:30px; border-left:1px solid #fff; }
 
@@ -16,7 +16,7 @@
 #logo .claim { display:block; margin:0 0 7px 0; color:#fff; font-size:25px; font-family:'neo_sans_promedium', arial, helvetica, sans-serif; }
 
 #user-menu, #user-menu a, #main-menu li a { color:#fff; }
-#user-menu { position:absolute; top:17px; right:10px; }
+#user-menu { position:absolute; top:168px; right:10px; }
 #user-menu .ico { margin-right:5px; margin-top:-5px; }
 #user-menu a { margin-left:10px; }
 
@@ -43,9 +43,6 @@ background-color: #090B3B;
   background-image: linear-gradient(to bottom, #00000, #090B3B);
 }
 .row-btn { }
-
-.form { }
-
 /* BORDER 4px */
 .message, .btn span, .inp-fix, .select-fix, .pager a, .pager strong { -webkit-border-radius:4px; -moz-border-radius:4px; border-radius:4px; }
 /* BORDER 4px - top left&right  */
@@ -57,7 +54,7 @@ background-color: #090B3B;
 /* BORDER 6px - top left&right  */
 .tabs-header li a { -webkit-border-top-left-radius:6px; -webkit-border-top-right-radius:6px; -moz-border-radius-topleft:6px; -moz-border-radius-topright:6px; border-top-left-radius:6px; border-top-right-radius:6px; }
 /* GRADIENT BTNs */
-.thumbnails .nav, .box-detail .comment .item-header, #side-menu li .selected, .datagrid thead th, .btn span, .pager a { background-color:#fff; background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#fff),color-stop(100%,#e7e7e7));background:-webkit-linear-gradient(top,#fff 0%,#e7e7e7 100%);background:-moz-linear-gradient(top,#fff 0%,#e7e7e7 100%);background:-ms-linear-gradient(top,#fff 0%,#e7e7e7 100%);background:-o-linear-gradient(top,#fff 0%,#e7e7e7 100%);background:linear-gradient(top,#fff 0%,#e7e7e7 100%); }
+.thumbnails .nav, .box-detail .comment .item-header, #side-menu li .selected, .datagrid thead th, .btn span, .pager a { background: url(../img/btn-header.png) repeat-x }
 /* GRADIENT REVERT BTNs*/
 /*
 .thumbnails .nav.disable { background-color:#e7e7e7; background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#e7e7e7),color-stop(100%,#fff));background:-webkit-linear-gradient(top,#e7e7e7 0%,#fff 100%);background:-moz-linear-gradient(top,#e7e7e7 0%,#fff 100%);background:-ms-linear-gradient(top,#e7e7e7 0%,#fff 100%);background:-o-linear-gradient(top,#e7e7e7 0%,#fff 100%);background:linear-gradient(top,#e7e7e7 0%,#fff 100%); }
@@ -70,10 +67,10 @@ background-color: #090B3B;
 
 /* BTNs */
 .btn{ display:inline-block; vertical-align:middle; margin:0; padding:0; border:none; background:none; text-decoration:none; cursor:pointer; }
-.btn span{ position:relative; display:block; border:1px solid #C4C4C4; height:28px; padding:0 10px; font-size:15px; line-height:28px; color:#444; text-decoration:none;text-align:center;
+.btn span{ position:relative; display:block; border:1px solid #432A6B; height:28px; padding:0 10px; font-size:15px; line-height:28px; color:#DFD7FF; text-decoration:none;text-align:center;
 	/*-webkit-box-shadow:0 3px 2px -2px #e6e5e4,0 -2px 1px -1px #f1f1f1;-moz-box-shadow:0 3px 2px -2px #e6e5e4,0 -2px 1px -1px #f1f1f1;box-shadow:0 3px 2px -2px #e6e5e4,0 -2px 1px -1px #f1f1f1;*/}
 .btn:hover{text-decoration:none;}
-.btn:hover span {color:#fff; border:1px solid #AF0028; background:#df0031; }
+.btn:hover span {color:#432A6B; border:1px solid #432A6B; background:#DFD7FF; }
 
 .btn-big span { height:44px; line-height:44px; padding:0 20px; font-size:17px; font-weight:normal; }
 .btn-blue span { color:#fff; border-color:#002C3F; } 
@@ -93,17 +90,18 @@ background-color: #090B3B;
 
 /* DATABGRID */
 .datagrid table { margin:0; }
-.datagrid thead th { border-bottom-width:3px; border-top:1px solid #DFDFDF; }
+.datagrid thead th { border-bottom-width:3px; border-top:1px solid #601E1B; }
 .datagrid thead th a { text-decoration:none; }
 .datagrid thead th a.sorted { text-decoration:underline;}
 /*
 .datagrid tbody tr:hover td, .datagrid tbody tr.last:hover td.cellState, .datagrid .cellState.cellState-border  { border-bottom-color:#9F9F9F; }
 .datagrid tbody tr:hover td.cellState { border-bottom-color:#fff; }
 */
+.datagrid tbody tr td {background-color: #DFD7FF}
 .datagrid tfoot td {}
 .datagrid th, .datagrid td { /*white-space:nowrap;*/ }
-.datagrid th, .datagrid th a { color:#004A6D; font-family:'neo_sans_proregular', arial, helvetica, sans-serif; }
-.datagrid tbody th, .datagrid tbody td { border-left:1px solid #fff; border-right:1px solid #fff; }
+.datagrid th, .datagrid th a { color:#DFD7FF; font-family:'neo_sans_proregular', arial, helvetica, sans-serif; }
+/*.datagrid tbody th, .datagrid tbody td { border-left:1px solid #fff; border-right:1px solid #fff; }*/
 .datagrid tbody .last th, .datagrid tbody .last td { border-bottom-color:#c4c4c4; }
 .datagrid-btns { padding-left:40px; background:url('../img/icon/arrow-upper.png') 18px 0 no-repeat;}
 .datagrid-btns .btn { margin-left:4px; }
@@ -113,7 +111,7 @@ background-color: #090B3B;
 .datagrid-header .title { float:left; display:inline; margin:0; }
 .datagrid-header .btns { float:right; display:inline; height:26px; line-height:26px; padding-top:8px; }
 .datagrid-header .btns .btn { margin-top:-11px; }
-.datagrid-footer { padding:15px 0 0; overflow:hidden; border-top:2px solid #c4c4c4; }
+.datagrid-footer { padding:15px 0 0; overflow:hidden; border-top:2px solid #601E1B	; }
 
 .datagrid .cellState { border-bottom-color:#fff; text-align:center; white-space:nowrap; }
 .datagrid .cellState a { display:block; margin:-6px -14px; padding:6px 0; }
@@ -188,14 +186,15 @@ text-indent:-5000px; background:url('../img/icon/crash-point-red.png') 50% 50% n
 .box-detail .customer { margin-top:28px; }
 .box-detail .customer h2 { margin-top:0; }
 
-.box-detail .comment .list { margin-bottom:15px; }
-.box-detail .comment .item { border:solid #c4c4c4; border-width:1px 0 0px; }
+.box-detail .comment .item { border:solid #601E1B; border-width:1px 0 0px; }
 .box-detail .comment .item.last { border-width:1px 0 3px; }
-.box-detail .comment .item p { margin:0 0 10px; }
+.box-detail .comment .item p { margin:0 0 5px; }
 .box-detail .comment .item-header, .box-detail .comment .item-content { padding:0 15px 0; }
-.box-detail .comment .item-header { padding-top:10px; padding-bottom:10px; border-bottom:1px solid #c4c4c4}
-.box-detail .comment .item-header strong { color:#004A6D; }
-.box-detail .comment .item-content { padding-top:15px; padding-bottom:15px; }
+.box-detail .comment .item-header { padding-top:10px; padding-bottom:10px; border-bottom:1px solid #601E1B}
+.box-detail .comment .item-header strong { color:#AA361F; }
+.box-detail .comment .item-content { padding-top:15px; padding-bottom:15px;}
+.item-inner {background-color: #DFD7FF;border-radius: 5px;}
+.item-content {color: #000000;}
 .box-detail .comment-header { position:relative; overflow:hidden; }
 .box-detail .comment-header .title { margin:0 0 10px; float:left; }
 .box-detail .comment-header .btn { float:right; }
@@ -217,11 +216,11 @@ text-indent:-5000px; background:url('../img/icon/crash-point-red.png') 50% 50% n
 .box-confirmation-title .service { display:inline-block; margin-left:5px; padding-left:35px; background:url('../img/icon/arrow-next-red-big.png') 0 50% no-repeat; font-style:normal; }
 
 /* PAGING */
-.pager { text-align:right; }
+.pager { text-align:right; padding-top: 5px;}
 .pager .paging { display:inline-block; margin:0 10px; font-size:14px; }
-.pager a, .pager strong { display:inline-block; margin:0 2px; padding:6px 10px 6px; border:1px solid #C4C4C4; }
-.pager a { color:#444; text-decoration:none; }
-.pager a:hover { color:#fff; border:1px solid #AF0028; background:#df0031;  }
+.pager a, .pager strong { display:inline-block; margin:0 2px; padding:6px 10px 6px; border:1px solid #432A6B; }
+.pager a { color:#DFD7FF; text-decoration:none; }
+.pager a:hover { color:#432A6B; border:1px solid #432A6B; background:#DFD7FF;  }
 .pager strong { background:#fff; }
 .pager .prev .ico { position:relative; left:-4px; }
 .pager .prev:hover .ico { background-image:url('../img/icon/white/arrow-prev.png'); }
@@ -234,7 +233,7 @@ text-indent:-5000px; background:url('../img/icon/crash-point-red.png') 50% 50% n
 .form-header .title { float:left; display:inline; margin:0; }
 .form-header .btns { float:right; display:inline; height:26px; line-height:26px; padding-top:8px; }
 .form-header .btns .btn { margin-top:-11px; }
-.form-content { background:#9EBC20; border-radius:5px; border-bottom:10px solid #9EBC20; }
+.form-content { background:#DFD7FF; border-radius:5px; padding-bottom: 3px; }
 .form-content-inner { padding:15px 15px 0; }
 .form-content .title { margin:0 0 15px 0; font-size:20px; }
 .form-footer { text-align:right; }
@@ -259,6 +258,7 @@ text-indent:-5000px; background:url('../img/icon/crash-point-red.png') 50% 50% n
 .message-error { background:#cc0000 url('../img/icon/message/error.png') 14px 50% no-repeat; }
 .message p { margin:0; }
 .message p+p { margin:margin-top:10px; }
-
+.page-login {margin-top: 20px;}
 .page-login #logo .claim { height:48px; line-height:48px; margin-bottom:0; }
-.page-login #main .row-main { width:420px; min-width:0; }
+.page-login #main .row-main { padding-top: 20px; width:420px; min-width:0; }
+.detail-content {padding: 5px;}

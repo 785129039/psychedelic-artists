@@ -160,7 +160,7 @@ public class FreemarkerTemplateHelper {
 		if (queryParamIndex > 0) {
 			uri = uri.substring(0, queryParamIndex);
 		}
-		if ("".equals(request.getContextPath())) {
+		if ("".equals(uri)) {
 			return StringUtils.test(uri, CompareType.ENDSWITH, url);
 		}
 		return StringUtils.test(uri, type, url);
@@ -213,5 +213,14 @@ public class FreemarkerTemplateHelper {
 		}
 		
 		return Boolean.FALSE;
+	}
+
+	public String formatContentText(String raw) {
+		String[] rows = raw.split("\\n");
+		StringBuilder sb = new StringBuilder();
+		for(String row: rows) {
+			sb.append("<p>").append(row).append("</p>");
+		}
+		return sb.toString();
 	}
 }

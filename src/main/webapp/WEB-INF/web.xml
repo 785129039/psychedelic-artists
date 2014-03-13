@@ -35,6 +35,10 @@
 	    <filter-name>transactionalFilter</filter-name>
 	    <filter-class>com.nex.web.filter.TransactionalFilter</filter-class>
 	  </filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 	  <filter-mapping>
 	    <filter-name>transactionalFilter</filter-name>
 	    <url-pattern>/*</url-pattern>
@@ -47,10 +51,7 @@
 	    <filter-name>hiddenHttpMethodFilter</filter-name>
 	    <url-pattern>/*</url-pattern>
 	  </filter-mapping>
-	<filter-mapping>
-		<filter-name>encodingFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>

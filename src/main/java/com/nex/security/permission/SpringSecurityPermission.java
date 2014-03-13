@@ -1,7 +1,9 @@
 package com.nex.security.permission;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -15,7 +17,11 @@ public class SpringSecurityPermission extends ConfigurablePermissionsHandler<Gra
 		return new RoleProvider<GrantedAuthority>() {
 			@Override
 			public Collection<? extends GrantedAuthority> getAuthorities() {
-				return SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+				Authentication a = SecurityContextHolder.getContext().getAuthentication();
+				if(a != null)
+					return a.getAuthorities();
+				else 
+					return new ArrayList<GrantedAuthority>();
 			}
 
 			@Override

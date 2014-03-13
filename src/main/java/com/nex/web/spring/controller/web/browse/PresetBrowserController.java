@@ -5,16 +5,16 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.nex.domain.Sample;
-import com.nex.domain.SampleComment;
+import com.nex.domain.Preset;
+import com.nex.domain.PresetComment;
 import com.nex.web.spring.controller.common.BrowseController;
 
 import cz.tsystems.common.data.filter.Filter;
 import cz.tsystems.common.data.filter.SortDirection;
 
 @Controller
-@RequestMapping("/browse/sample/")
-public class SampleBrowserController extends BrowseController<Sample, SampleComment> {
+@RequestMapping("/browse/preset/")
+public class PresetBrowserController extends BrowseController<Preset, PresetComment> {
 
 	
 	@Override
@@ -28,8 +28,8 @@ public class SampleBrowserController extends BrowseController<Sample, SampleComm
 	}
 
 	@Override
-	protected Class<Sample> getEntityClass() {
-		return Sample.class;
+	protected Class<Preset> getEntityClass() {
+		return Preset.class;
 	}
 
 	@Override
@@ -43,12 +43,13 @@ public class SampleBrowserController extends BrowseController<Sample, SampleComm
 	}
 
 	@Override
-	protected Class<SampleComment> getCommentClass() {
-		return SampleComment.class;
+	protected Class<PresetComment> getCommentClass() {
+		return PresetComment.class;
 	}
 
 	@Override
 	protected String targetField() {
-		return "sample";
-	}	
+		return "preset";
+	}
+	
 }

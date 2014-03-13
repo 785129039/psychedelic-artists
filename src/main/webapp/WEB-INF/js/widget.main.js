@@ -13,4 +13,5 @@ $(document).ready(function() {
 	        }
 	    }
 	});
+	$('.form-expand').widget_FormExpand();
 });

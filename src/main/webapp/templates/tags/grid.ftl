@@ -195,7 +195,7 @@
 			</#if>
 		</#local>
 		<#if sortable>
-			<#local _filterString=createFilterUrl(["sortBy", "sortOrder"])>
+			<#local _filterString=createFilterUrl(_filteredList.filter.conditions, ["sortBy", "sortOrder"])>
 			<#local pagingClass="">
 			<#local _pageParameter="?"+_filterString+"page=">
 			<#local _currentOrder=_sortOrder>
@@ -216,7 +216,7 @@
 	<#local _fullSize=_filteredList.fullDataSize/>
 	<#local _lastPage=(_fullSize/_recPerPage)?ceiling/>
 	<#if (_fullSize >_filteredList.filter.page.objectsPerPage)>
-		<#local _filterString=createFilterUrl(["page"])>
+		<#local _filterString=createFilterUrl(_filteredList.filter.conditions, ["page"])>
 		<#local pagingClass="">
 		<#local sortingString= "sortBy=" + _filteredList.filter.sortBy.column + "&sortOrder=" + _filteredList.filter.sortBy.sortDirection + "&">
 		<#local _pageParameter= "?" + _filterString + sortingString + "page=">
@@ -224,7 +224,7 @@
 		<div class="r pager">
 	
 			<#if _currentPage!=1>
-				<a href="${_pageParameter}${_currentPage-1}" class="prev ${pagingClass}"><span class="ico ico-prev"></span><@util.message code="grid.filter.paging.previous" /></a>
+				<a href="${_pageParameter}${_currentPage-1}" class="prev ${pagingClass}"><span class="ico ico-prev"></span><@util.message code="Grid.filter.paging.previous" /></a>
 			</#if>
 			<span class="class="paging">
 			<#list 1.._lastPage as i>
@@ -238,7 +238,7 @@
 			</#list>
 			</span>
 			<#if (_currentPage<_lastPage)>
-				<a href="${_pageParameter}${_currentPage+1}" class="next ${pagingClass}"><@util.message code="grid.filter.paging.next" /><span class="ico ico-next"></span></a>
+				<a href="${_pageParameter}${_currentPage+1}" class="next ${pagingClass}"><@util.message code="Grid.filter.paging.next" /><span class="ico ico-next"></span></a>
 			</#if>			
 		</ul>
 		</div>
@@ -294,11 +294,11 @@
 	<#return _buttons>
 </#function>
 
-<#function createFilterUrl ignoreKeys=[]>
+<#function createFilterUrl conditions ignoreKeys=[]>
 	<#local d=""/>
-	<#list _filteredList.filter.conditions?keys as con>
+	<#list conditions?keys as con>
 		<#if !isKeyIgnored(con, ignoreKeys)>
-			<#local d=d+con+"="+_filteredList.filter.conditions[con]/>
+			<#local d=d+con+"="+conditions[con]/>
 			<#local d=d + "&"/>
 		</#if>
 	</#list>
@@ -315,31 +315,9 @@
 </#function>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<#macro genreLink id>
+<a href="#"><#nested></a>
+</#macro>
+<#macro tagLink id>
+<a href="#"><#nested></a>
+</#macro>

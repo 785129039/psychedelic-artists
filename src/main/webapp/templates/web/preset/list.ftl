@@ -8,7 +8,7 @@
 </title>
 </head>
 <body>
-	<@grid.grid data=entities baseCaption="Preset">
+	<@grid.grid data=entities baseCaption="Label">
 		<@grid.filter>
 			<@form.inputText path="name" />
 		</@grid.filter>

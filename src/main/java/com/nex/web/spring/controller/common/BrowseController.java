@@ -44,7 +44,6 @@ public abstract class BrowseController<T extends FilterableEntity, C extends Com
 	protected abstract String targetField();
 	protected abstract String defaultSortColumn();
 	protected abstract SortDirection defaultSortDirection();
-	
 	@ModelAttribute("comment")
 	protected C createNewComment(HttpServletRequest request) {
 		try {
@@ -95,6 +94,7 @@ public abstract class BrowseController<T extends FilterableEntity, C extends Com
 			HttpServletResponse response, Model uiModel) {
 		uiModel.addAttribute("entity", findEntityById(pid));
 		processFilter(request, response, uiModel, (Class<FilterableEntity>) getCommentClass(), pid);
+		uiModel.addAttribute("_class", getEntityClass().getSimpleName());
 		return controllerUrl() + "detail";
 	}
 	
@@ -102,6 +102,7 @@ public abstract class BrowseController<T extends FilterableEntity, C extends Com
 	public String list(HttpServletRequest request,
 			HttpServletResponse response, Model uiModel) {
 		processFilter(request, response, uiModel, (Class<FilterableEntity>) getEntityClass(), null);
+		uiModel.addAttribute("_class", getEntityClass().getSimpleName());
 		return controllerUrl() + "list";
 	}
 	
@@ -158,5 +159,6 @@ public abstract class BrowseController<T extends FilterableEntity, C extends Com
 					+ " not found.");
 		}
 		return entity;
-	}
+	}	
+	
 }

@@ -1,52 +1,41 @@
 <#import "/tags/util.ftl" as util>
+<#import "/tags/form.ftl" as form>
 <html>
 <head>
 <title>Login Page</title>
-<style>
-.errorblock {
-	color: #ff0000;
-	background-color: #ffEEEE;
-	border: 3px solid #ff0000;
-	padding: 8px;
-	margin: 16px;
-}
-</style>
 </head>
-<body>
-	<#if error??>
-		<div class="errorblock">
-			${Session.SPRING_SECURITY_LAST_EXCEPTION}
-
-		</div>
-	</#if>
-	
-	<form action="<@util.url "/j_spring_security_check" ""/>" method="POST" name="" class="form">
-		<div class="form-header">
-			<h2 class="title">Přihlášení do systému</h2>
-		</div>
+<body>	
+	<div class="form-header">
+		<h2 class="title"><@util.message "Label.login.title" /></h2>
+	</div>
+	<form action="<@util.url "/j_spring_security_check" ""/>" method="POST" name="" id="login-form" class="form">
 		<div class="form-content">
 			<div class="form-content-inner">
-
-				<div class="message message-error">
-					<p>Vyplňte správně všechny povinné položky</p>
-				</div>				
-			
+				<#if error??>
+					<div class="message message-error">
+						<p><@util.message "Login.failed" /></p>
+					</div>				
+				</#if>
 				<p>
-					<label for="" class="label error">Uživatelské jméno:</label><br>
-					<span class="inp-fix inp-fix-error">
+					<label for="" class="label <#if error??>error</#if>"><@util.message "Registration.email" />:</label><br>
+					<span class="inp-fix  <#if error??>inp-fix-error</#if>">
 						<input type="text" name="j_username" id="" class="inp-text">
 					</span>
 				</p>
 				<p>
-					<label for="" class="label error">Heslo:</label><br>
-					<span class="inp-fix inp-fix-error">
+					<label for="" class="label <#if error??>error</#if>"<@util.message "Registration.password" />:</label><br>
+					<span class="inp-fix <#if error??>inp-fix-error</#if>">
 						<input type="password" name="j_password" id="" class="inp-text">
 					</span>
 				</p>
 				<p class="right">
-					<button class="btn btn-big btn-blue" name="" type="submit">
-						<span>Přihlásit se</span>
-					</button>
+					<@form.link href=_th.getUrl("/register/", "/web")>
+						<@util.message "Label.register" />
+					</@form.link>
+					<@form.link href="javascript:$('#login-form').submit()">
+						<@util.message "Label.login" />
+					</@form.link>
+					
 				</p>
 			</div>
 		</div>

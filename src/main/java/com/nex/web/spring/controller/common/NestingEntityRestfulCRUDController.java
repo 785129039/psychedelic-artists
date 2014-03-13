@@ -89,6 +89,7 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 	@RequestMapping(value = "{id}", method = RequestMethod.POST)
 	public String _create(@ModelAttribute("entity") @Valid T entity,
 			Errors errors, Model uiModel, HttpServletRequest request) {
+		checkPermission(entity);
 		String contentType = request.getContentType();
         if (contentType != null && contentType.toLowerCase().startsWith("multipart/") && entity.getId() != null) {
             return _update(entity, errors, uiModel, request);
@@ -119,8 +120,7 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 		}
 	}
 
-	protected boolean checkPermission(T entity) {
-		return true;
+	protected void checkPermission(T entity) {
 	}
 
 	protected void _saveNewEntity(T entity, Errors errors, Model uiModel) {
@@ -139,6 +139,7 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
 	public String _update(@ModelAttribute("entity") @Valid T entity,
 			Errors errors, Model uiModel, HttpServletRequest request) {
+		checkPermission(entity);
 		try {
 			additionalValidate(entity, errors);
 			if (errors.hasErrors()) {
@@ -247,6 +248,7 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 
 	@RequestMapping(value = "{id}", method = RequestMethod.DELETE)
 	public String _delete(@ModelAttribute("entity") T entity, Model uiModel, HttpServletRequest request) {
+		checkPermission(entity);
 		try {
 			entity.remove();
 			entity.flush();
@@ -262,6 +264,7 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 		try {
 			if (entities != null && !entities.isEmpty())
 				for (T entity : entities) {
+					checkPermission(entity);
 					try {
 						entity.remove();
 						entity.flush();
@@ -286,11 +289,7 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 	public String _show(@ModelAttribute("entity") T entity, Model uiModel,
 			HttpServletRequest request) {
 		configureEditDialog(uiModel, request, entity);
-		boolean accessAllowed = checkPermission(entity);
-		if (!accessAllowed) {
-			return Requestutils.createRedirect(
-					"/error/" + HttpStatus.FORBIDDEN, false);
-		}
+		checkPermission(entity);
 		return resolveEditViewName(entity);
 	}
 
