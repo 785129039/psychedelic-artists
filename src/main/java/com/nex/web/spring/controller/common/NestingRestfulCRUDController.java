@@ -17,6 +17,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.HandlerMapping;
 
+import com.nex.exceptions.PageNotFoundException;
 import com.nex.utils.ReflectionUtils;
 
 public abstract class NestingRestfulCRUDController<T> extends RejectErrorController {
@@ -54,7 +55,7 @@ public abstract class NestingRestfulCRUDController<T> extends RejectErrorControl
 							return entity;
 						}
 					} catch (Exception e) {
-						throw new RuntimeException("", e);
+						throw new PageNotFoundException(e);
 					}
 
 				} else {
@@ -63,7 +64,7 @@ public abstract class NestingRestfulCRUDController<T> extends RejectErrorControl
 			}
 			return null;
 		} catch (Exception e) {
-			throw new RuntimeException("", e);
+			throw new PageNotFoundException(e);
 		}
 	}
 	

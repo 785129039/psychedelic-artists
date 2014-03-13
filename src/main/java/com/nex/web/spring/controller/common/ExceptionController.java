@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nex.annotation.Logger;
+import com.nex.domain.User;
+import com.nex.exceptions.PageNotFoundException;
 import com.nex.security.permissions.NoAccessSecurityException;
+import com.nex.utils.Requestutils;
 
 @Controller
 @RequestMapping("/error/")
@@ -22,6 +25,7 @@ public class ExceptionController {
 
 	@RequestMapping("{errorcode}")
 	public String doError(@PathVariable(value="errorcode") int errorcode, Model model) {
+		User user = Requestutils.getLoggedUser();
 		model.addAttribute("code", errorcode);
 		model.addAttribute("_contextTemplates", "");
 		model.addAttribute("_errorpage", "/exceptions/error.ftl");
@@ -32,13 +36,23 @@ public class ExceptionController {
 	@ExceptionHandler(Exception.class)
 	public void globalExceptionhandler(HttpServletResponse resp, Exception ex) {
 		try {
+			User user = Requestutils.getLoggedUser();
 			log.error("", ex);
 			resp.sendError(500);
 		} catch (IOException e) {
 			log.error("", e);
 		}
 	}
-	
+	@ExceptionHandler(PageNotFoundException.class)
+	public void notFoundExceptionhandler(HttpServletResponse resp, Exception ex) {
+		try {
+			User user = Requestutils.getLoggedUser();
+			log.error("", ex);
+			resp.sendError(404);
+		} catch (IOException e) {
+			log.error("", e);
+		}
+	}
 	@ExceptionHandler(NoAccessSecurityException.class)
 	public void noAccessHandler(HttpServletResponse resp) {
 		try {
@@ -47,5 +61,7 @@ public class ExceptionController {
 			log.error("", e);
 		}
 	}
+	
+	
 	
 }
