@@ -29,7 +29,11 @@
 			<param name="parameter.name" value="_simple" />
 			<param name="parameter.value" value="true" />
 		</mapper>
-
+		<mapper class="com.opensymphony.module.sitemesh.mapper.PrintableDecoratorMapper">
+			<param name="decorator" value="simple" />
+			<param name="parameter.name" value="ajax" />
+			<param name="parameter.value" value="1" />
+		</mapper>
 <!-- 		<mapper class="com.opensymphony.module.sitemesh.mapper.RobotDecoratorMapper"> -->
 <!-- 			<param name="decorator" value="robot" /> -->
 <!-- 		</mapper> -->

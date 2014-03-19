@@ -7,7 +7,7 @@
 </title>
 </head>
 <body>
-	<@form.form commandName="entity" baseCaption="Genre" class="wrap ajax" reload=true>
+	<@form.form commandName="entity" baseCaption="Genre" reload=true isAjax=true>
 		<@form.inputText path="name"/>
 	</@form.form>
 </body>

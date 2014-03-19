@@ -59,7 +59,7 @@
 					<div class="btns">
 						<#assign _cls="">
 						<#if isAjax>
-							<#assign _cls="wrap ajax">
+							<#assign _cls="tmBox">
 						</#if>
 						<@form.link href="new" class=_cls>
 							<@util.message "Grid.list.button.new" />
@@ -153,7 +153,7 @@
 				<#local _convertedValue=util.getMessage(_convertedValue)>
 			</#if>
 			<#if isDetail && _detailId??>
-				<a href="${_detailId}" <#if ajax>class="wrap ajax"</#if>>${_convertedValue}</a>
+				<a href="${_detailId}" <#if ajax>class="tmBox"</#if>>${_convertedValue}</a>
 			<#else>
 				<#if _value?is_boolean>
 					<a href="?_option=${_value?string('false', 'true')}&_multid=${_th.resolveId(_rowdata)}" <#if post>class="wrap post"</#if>>

@@ -13,7 +13,6 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -27,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.nex.domain.common.Entity;
-import com.nex.utils.Requestutils;
 
 import cz.tsystems.common.data.filter.Filter;
 import cz.tsystems.common.data.filter.FilterUtil;
@@ -323,8 +321,8 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 	}
 
 	protected String controllerRedirectUrl(HttpServletRequest request, String uri) {
-		String simple = request.getParameter("_simple");
-		String params = simple!=null?"?_simple=true":"";
+		String simple = request.getParameter("ajax");
+		String params = simple!=null?"?ajax=1":"";
 		if(successRemember) {
 			if(simple == null) {
 				params = "?_success=true";

@@ -11,14 +11,16 @@
 <link rel="stylesheet" href="<@util.url "/css/layout.css" />" type="text/css" media="projection,screen,print">
 <link rel="stylesheet" href="<@util.url "/css/grid.css" />" type="text/css" media="projection,screen,print">
 <link rel="stylesheet" href="<@util.url "/css/menu.css" />" type="text/css" media="projection,screen,print">
-	
+<link rel="stylesheet" href="<@util.url "/css/fancybox/jquery.fancybox.css" />" type="text/css" media="projection,screen,print">
+
 <script src="<@util.url "/js/jquery-1.10.2.js" />" type="text/javascript"></script>
 <script src="<@util.url "/js/jquery-ui-1.10.4.custom.min.js" />" type="text/javascript"></script>
 <script src="<@util.url "/js/selectize.js" />" type="text/javascript"></script>
 <script src="<@util.url "/js/widget.wrapper.js" />" type="text/javascript"></script>
 <script src="<@util.url "/js/widget.FormExpand.js" />" type="text/javascript"></script>
 <script src="<@util.url "/js/widget.main.js" />" type="text/javascript"></script>
-<script src="<@util.url "/js/menu_jquery.js" />" type="text/javascript"></script>
+<script src="<@util.url "/js/menu.js" />" type="text/javascript"></script>
+<script src="<@util.url "/js/jquery.fancybox.pack.js" />" type="text/javascript"></script>
 ${head!""}
 </head>
 <body <#if _th.isUrlPart(["login", "logout", "loginfailed", "register/"])>class="page-login"</#if>>

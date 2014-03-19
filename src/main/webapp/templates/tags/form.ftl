@@ -1,7 +1,7 @@
 <#import "util.ftl" as util />
 <#assign springform=JspTaglibs["http://www.springframework.org/tags/form"]>
 
-<#macro form commandName baseCaption="_NULL_" action="" enctype="" isFilter=false method="auto" renderTitle=false renderSaveButton=true class="" customForm=false id="_NULL_" additionalErrors=[] reload=false showRequired=true>
+<#macro form commandName baseCaption="_NULL_" action="" enctype="" isFilter=false method="auto" renderTitle=false renderSaveButton=true class="" customForm=false id="_NULL_" additionalErrors=[] reload=false showRequired=true isAjax=false>
 	<#assign _formBaseCaption=baseCaption>
 	<#assign _showRequireIndex=showRequired>
 	<#global _formModel=_th.createFormModel(commandName)>
@@ -21,7 +21,8 @@
 			</div>
 			</#if>
 			
-			<#if !isFilter>				<div class="form-content">
+			<#if !isFilter>				
+				<div class="form-content">
 					<div class="form-content-inner">
 						<@renderResultMessages additionalErrors=additionalErrors reload=reload/>
 						<div class="row">
@@ -32,7 +33,12 @@
 				<#if renderSaveButton>
 					<div class="form-footer">
 						<div class="form-footer-inner">
-							<@submit commandName=commandName title="Form.save.button"/>
+							<#local _cls="">
+							<#if isAjax>
+							<#local _cls="tmAjaxBox">
+							</#if>
+							
+							<@submit commandName=commandName title="Form.save.button" class=_cls/>
 						</div>					
 					</div>
 				</#if>
@@ -263,8 +269,8 @@
 <#macro submit>
 
 </#macro>
-<#macro submit commandName title>
-	<@link href="javascript:$('form#${commandName}').submit();">
+<#macro submit commandName title class="">
+	<@link href="javascript:$('form#${commandName}').submit();" class=class>
 		<@util.message title />
 	</@link>
 </#macro>

@@ -25,7 +25,6 @@ public class ExceptionController {
 
 	@RequestMapping("{errorcode}")
 	public String doError(@PathVariable(value="errorcode") int errorcode, Model model) {
-		User user = Requestutils.getLoggedUser();
 		model.addAttribute("code", errorcode);
 		model.addAttribute("_contextTemplates", "");
 		model.addAttribute("_errorpage", "/exceptions/error.ftl");
@@ -36,7 +35,6 @@ public class ExceptionController {
 	@ExceptionHandler(Exception.class)
 	public void globalExceptionhandler(HttpServletResponse resp, Exception ex) {
 		try {
-			User user = Requestutils.getLoggedUser();
 			log.error("", ex);
 			resp.sendError(500);
 		} catch (IOException e) {
@@ -46,7 +44,6 @@ public class ExceptionController {
 	@ExceptionHandler(PageNotFoundException.class)
 	public void notFoundExceptionhandler(HttpServletResponse resp, Exception ex) {
 		try {
-			User user = Requestutils.getLoggedUser();
 			log.error("", ex);
 			resp.sendError(404);
 		} catch (IOException e) {
