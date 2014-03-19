@@ -7,9 +7,8 @@
 </title>
 </head>
 <body>
-	<@form.form commandName="entity" baseCaption="Sample.add" enctype="multipart/form-data" renderTitle=true>
+	<@form.form commandName="entity" baseCaption="Sample.add" renderTitle=true>
 		<@form.inputText path="name" defaultCaption="Label.name" />
-		<@form.file path="file" defaultCaption="Label.file"/>
 		<@form.textarea path="description" defaultCaption="Label.description" />
 		<@form.inputText path="tagNames" isTag=true defaultCaption="Label.tagNames"/>
 		<@form.select path="genres" items=genres valueKey="id" labelKey="name" multiple=true class="box" defaultCaption="Label.genres"/>

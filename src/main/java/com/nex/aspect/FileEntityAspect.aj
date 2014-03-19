@@ -48,14 +48,10 @@ public aspect FileEntityAspect {
 	private String FileEntity.prevPath;
 	
 	public void FileEntity.prepareForSave() {
-		if(!this.file.isEmpty()){
-			path = file.getOriginalFilename();
-		}
 		for(String s: this.tagNames) {
 			this.getTags().add(Tag.findTagsByName(s.trim()).getSingleResult());
 		}
 	}
-	
 	private void FileEntity.storeTags() {
 		for(String tagname: this.tagNames) {
 			Tag t = null;
@@ -76,6 +72,7 @@ public aspect FileEntityAspect {
 	public void FileEntity.storeFile() {
 		if(!this.file.isEmpty()) {
 			try {
+				path = file.getOriginalFilename();
 				new FileFactory(getFullPath(), this.prevPath).deleteFile();
 				new FileFactory(getFullPath(), this.path).saveFile(file.getBytes());
 			} catch (IOException e) {

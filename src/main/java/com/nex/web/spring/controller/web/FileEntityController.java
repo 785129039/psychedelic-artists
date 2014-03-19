@@ -3,8 +3,13 @@ package com.nex.web.spring.controller.web;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.nex.domain.Genre;
 import com.nex.domain.common.FileEntity;
@@ -24,13 +29,29 @@ public abstract class FileEntityController<T extends FileEntity> extends Nesting
 	
 	@Override
 	protected void onEntityCreated(T entity) {
-		entity.storeFile();
 	}
 	
 	@Override
 	protected void onEntityChanged(T newEntity, T oldEntity) {
 		newEntity.prepareForSave();
-		newEntity.storeFile();
+	}
+	@Override
+	public String _create(@ModelAttribute("entity") @Valid T entity, Errors errors, Model uiModel,
+			HttpServletRequest request) {
+		String _res = super._create(entity, errors, uiModel, request);
+		if(errors.hasErrors()) {
+			return _res;
+		}
+		return "redirect:/web/upload/"+getEntityClass().getSimpleName() + "/"+entity.getId();
+	}
+	@Override
+	public String _update(@ModelAttribute("entity") @Valid T entity, Errors errors, Model uiModel,
+			HttpServletRequest request) {
+		String _res = super._update(entity, errors, uiModel, request);
+		if(errors.hasErrors()) {
+			return _res;
+		}
+		return "redirect:/web/upload/"+getEntityClass().getSimpleName().toLowerCase() + "/"+entity.getId();
 	}
 	@Override
 	protected T createNewEntity(HttpServletRequest request) {
