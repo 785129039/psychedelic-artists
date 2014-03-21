@@ -16,7 +16,7 @@ public class SampleUploadController extends FileUploadController<Sample> {
 
 	@Override
 	public String uploadTemplate() {
-		return "web/sample/upload";
+		return "web/record/upload";
 	}
 
 }

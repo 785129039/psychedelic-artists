@@ -84,7 +84,7 @@ public class FreemarkerTemplateHelper {
 		return result;
 	}
 
-	protected HttpServletRequest getRequest() {
+	public HttpServletRequest getRequest() {
 		return (HttpServletRequest) ReflectionUtils.invokeMethod(
 				this._getRequestMethod, this.requestContext);
 	}

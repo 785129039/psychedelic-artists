@@ -6,16 +6,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nex.domain.Sample;
-import com.nex.domain.User;
-import com.nex.security.permissions.aspect.Authorize;
-import com.nex.security.permissions.checker.UserPermissionChecher;
 import com.nex.utils.Requestutils;
 
 import cz.tsystems.common.data.filter.Filter;
 import cz.tsystems.common.data.filter.SortDirection;
 
 @Controller
-@RequestMapping("/sample/")
+@RequestMapping("/my/sample/")
 public class SampleController extends FileEntityController<Sample> {
 
 	@Override
@@ -23,20 +20,12 @@ public class SampleController extends FileEntityController<Sample> {
 		setEntityClass(Sample.class);
 		setDefaultSortDirection(SortDirection.ASC);
 		setDefaultSortProperty("id");
-		setControllerURl("web/sample/");
+		setControllerURl("web/record/");
 		setRedirectSaveToList(false);
 	}
 	@Override
 	public void configureFilter(Filter filter, HttpServletRequest request) {
 		filter.addConditionReplacement("name", "name|LRLike(String)");
 		filter.addDefaultCondition("user.id|Equal(Long)", Requestutils.getLoggedUser().getId().toString());
-	}
-	@Override
-	protected void checkPermission(Sample entity) {
-		this.check(entity.getUser());
-	}
-	@Authorize(value={"ROLE_USER:loggedUser", "ROLE_ADMIN:loggedUser"}, checker = UserPermissionChecher.class)
-	private void check(User user) {}
-	
-	
+	}	
 }

@@ -20,7 +20,7 @@ public class PresetController extends FileEntityController<Preset> {
 		setEntityClass(Preset.class);
 		setDefaultSortDirection(SortDirection.ASC);
 		setDefaultSortProperty("id");
-		setControllerURl("web/preset/");
+		setControllerURl("web/record/");
 		setRedirectSaveToList(false);
 	}
 	@Override

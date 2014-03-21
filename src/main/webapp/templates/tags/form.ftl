@@ -15,15 +15,14 @@
 	</#if>
 	<#if !customForm>
 		<@springform.form action=action commandName=commandName method=_method cssClass=class id=_id enctype=enctype>
-			<#if renderTitle>
-			<div class="form-header">
-				<h2 class="title"><@util.message _formBaseCaption + ".title"/></h2>
-			</div>
-			</#if>
-			
 			<#if !isFilter>				
 				<div class="form-content">
 					<div class="form-content-inner">
+						<#if renderTitle>
+						<div class="message message-title">
+							<p class="header-title"><@util.message _formBaseCaption + ".title"/></p>
+						</div>
+						</#if>
 						<@renderResultMessages additionalErrors=additionalErrors reload=reload/>
 						<div class="row">
 						<#nested>
@@ -131,7 +130,7 @@
 	<#local _id=resolveStyleId(path, id)>
 	<p>
 		<@printLabel defaultCaption=defaultCaption path=path id=_id/>
-		
+		<input type="hidden" name="_${path}" value="on" />
 		<select name="${path}" class="${class} <#if _fieldError>inp-fix-error</#if>" id="${_id}" style="width:100%" <#if multiple>multiple="multiple"</#if>>
 			<#nested>
 			<#if !util.isNull(items)>
@@ -183,7 +182,7 @@
 				<#local _path=path + "["+d_index+"]">
 				<#local _val=_formModel.readFormatedValue(_path + ".id")>
 				
-				<@checkbox labelFirst=false path=_path foreignValue=d.id value= _val breakLabel=false defaultLabel=util.evaluate(labelKey, d)/>
+				<@checkbox labelFirst=false path=_path foreignValue=d.id value= _val breakLabel=false defaultLabel=_th.evaluate(labelKey, d)/>
 			</p>
 		</#list>
 	

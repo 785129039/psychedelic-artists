@@ -1,8 +1,16 @@
 package com.nex.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -24,8 +32,11 @@ public class Genre implements Entity {
 	@Size(min=1, max=50)
 	private String name;
 	public Boolean published = Boolean.TRUE;
-	@Override
-	public String toString() {
-		return this.name;
-	}
+	
+//	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//	@JoinTable(name = "sample_genre", joinColumns = { 
+//			@JoinColumn(name = "genre_id", nullable = false, updatable = false) }, 
+//			inverseJoinColumns = { @JoinColumn(name = "sample_id", 
+//					nullable = false, updatable = false) })
+//	private List<Sample> samples = new ArrayList<Sample>();
 }

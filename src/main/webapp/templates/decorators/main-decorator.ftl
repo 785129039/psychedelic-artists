@@ -47,7 +47,7 @@ ${head!""}
 	      <ul>
 	        <li><a href="<@util.url "/browse/sample/" "/web" />"><span><@util.message "Menu.browse" /></span></a> </li>
 	        <@security.authorize ["ROLE_ADMIN", "ROLE_USER"]>
-	        <li><a href="<@util.url "/sample/" "/web" />"><span><@util.message "Menu.add" /></span></a></li>
+	        <li><a href="<@util.url "/my/sample/" "/web" />"><span><@util.message "Menu.add" /></span></a></li>
 	        </@security.authorize>
 	      </ul>
 	    </li>
@@ -55,7 +55,7 @@ ${head!""}
 	      <ul>
 	        <li><a href="<@util.url "/browse/preset/" "/web" />"><span><@util.message "Menu.browse" /></span></a> </li>
 	        <@security.authorize ["ROLE_ADMIN", "ROLE_USER"]>
-	        <li><a href="<@util.url "/preset/" "/web" />"><span><@util.message "Menu.add" /></span></a></li>
+	        <li><a href="<@util.url "/my/preset/" "/web" />"><span><@util.message "Menu.add" /></span></a></li>
 	        </@security.authorize>
 	      </ul>
 	    </li>
@@ -67,12 +67,7 @@ ${head!""}
 </div>
 	<div id="main">
 		<div class="row-main">
-			<#if _errorpage??>
-				<#include _errorpage>
-			<#else>
-				${body}
-			</#if>
-		
+			${body}
 		</div>
 	</div>
 

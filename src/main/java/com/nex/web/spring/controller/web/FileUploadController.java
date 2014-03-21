@@ -26,7 +26,10 @@ public abstract class FileUploadController<T extends FileEntity> extends RejectE
 	public T loadEntity(@PathVariable("id") String id) {
 		return findEntityById(id);
 	}
-	
+	@ModelAttribute("_implclass")
+	public String loadImplClass() {
+		return getEntityClass().getSimpleName();
+	}
 	@RequestMapping("{id}")
 	public String show() {
 		return uploadTemplate();

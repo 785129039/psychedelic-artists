@@ -52,4 +52,6 @@
       <property name="requestContextAttribute" value="request" />
     </bean>
     <mvc:annotation-driven conversion-service="conversionService" validator="validatorFactory"/>
+	<bean id="webBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer"
+		p:validator-ref="validatorFactory" p:conversionService-ref="conversionService" />
 </beans>

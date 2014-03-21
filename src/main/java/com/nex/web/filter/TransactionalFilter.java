@@ -10,37 +10,38 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 public class TransactionalFilter implements Filter {
+	public void doFilter(ServletRequest request, ServletResponse response,
+			FilterChain chain) throws IOException, ServletException {
+		String method = ((HttpServletRequest) request).getMethod();
+		if ("GET".equals(method)) {
+			chainReadonly(request, response, chain);
+		} else if ("POST".equals(method) || "PUT".equals(method)
+				|| "DELETE".equals(method)) {
+			chainWrite(request, response, chain);
+		} else {
+			chain.doFilter(request, response);
+		}
+	}
 
-	
-	@Transactional
-	public void doPost(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException{
+	@Transactional(readOnly = true, propagation=Propagation.SUPPORTS)
+	public void chainReadonly(ServletRequest request, ServletResponse response,
+			FilterChain chain) throws IOException, ServletException {
 		chain.doFilter(request, response);
 	}
-	@Transactional(readOnly=true)
-	public void doGet(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException{
+
+	@Transactional()
+	public void chainWrite(ServletRequest request, ServletResponse response,
+			FilterChain chain) throws IOException, ServletException {
 		chain.doFilter(request, response);
 	}
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException {
-		String _method = ((HttpServletRequest)request).getMethod();
-		if("POST".equals(_method)) {
-			doPost(request, response, chain);
-		} else {
-			doGet(request, response, chain);
-		}
 		
 	}
 

@@ -3,11 +3,12 @@
 <html>
 <head>
 <title>
-	<@util.message "Sample.form.title" />
+	<@util.message _implclass + ".form.title" />
 </title>
 </head>
 <body>
-	<@form.form commandName="entity" baseCaption="Sample.add" renderTitle=true>
+	<#include "tab.ftl">
+	<@form.form commandName="entity" baseCaption=_implclass + ".detail" renderTitle=true>
 		<@form.inputText path="name" defaultCaption="Label.name" />
 		<@form.textarea path="description" defaultCaption="Label.description" />
 		<@form.inputText path="tagNames" isTag=true defaultCaption="Label.tagNames"/>

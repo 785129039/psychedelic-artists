@@ -82,13 +82,13 @@ background-color: #090B3B;
 
 
 /* TABs */
-.tabs-header { margin-bottom:15px; border-bottom:3px solid #004A6D; overflow:hidden; } 
+.tabs-header { margin-bottom:15px; border-bottom:3px solid #DFD7FF; overflow:hidden; } 
 .tabs-header li { float:left; display:inline; margin:0 1px 0 0; padding-left:0; background:none; }
-.tabs-header li a { display:block; padding:12px 40px 10px 40px; background:#004A6D; color:#fff; text-decoration:none; cursor:pointer; font-size:15px; font-family:'neo_sans_proregular', arial, helvetica, sans-serif; }
-.tabs-header li a:hover { background:#1D779F; }
-.tabs-header li a.selected { background:#df0031; }
+.tabs-header li a { display:block; padding:12px 40px 10px 40px; background:#97B243; color:#501A21; text-decoration:none; cursor:pointer; font-size:15px; font-family:'neo_sans_proregular', arial, helvetica, sans-serif; }
+.tabs-header li a:hover { background:#DFD7FF; color:#501A21}
+.tabs-header li a.selected { background:#DFD7FF; color:#501A21}
 
-/* DATABGRID */
+/* DATAGRID */
 .datagrid table { margin:0; }
 .datagrid thead th { border-bottom-width:3px; border-top:1px solid #601E1B; }
 .datagrid thead th a { text-decoration:none; }
@@ -256,6 +256,10 @@ text-indent:-5000px; background:url('../img/icon/crash-point-red.png') 50% 50% n
 .message { margin-bottom:1.5em; padding:8px 15px 9px 40px; color:#fff; }
 .message-ok { background:#8abd0f url('../img/icon/message/ok.png') 14px 50% no-repeat; }
 .message-error { background:#cc0000 url('../img/icon/message/error.png') 14px 50% no-repeat; }
+.message-announce {background: #1F1F1F; color: #DFD7FF}
+.message-title {background: #97B243; text-align: center}
+.message-title p.header-title {color: #501A21; line-height:1.2; font-weight:normal; font-size: 30px;}
+
 .message p { margin:0; }
 .message p+p { margin:margin-top:10px; }
 .page-login {margin-top: 20px;}

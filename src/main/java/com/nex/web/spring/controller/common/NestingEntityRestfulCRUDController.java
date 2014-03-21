@@ -88,10 +88,6 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 	public String _create(@ModelAttribute("entity") @Valid T entity,
 			Errors errors, Model uiModel, HttpServletRequest request) {
 		checkPermission(entity);
-		String contentType = request.getContentType();
-        if (contentType != null && contentType.toLowerCase().startsWith("multipart/") && entity.getId() != null) {
-            return _update(entity, errors, uiModel, request);
-        }
 		try {
 			additionalValidate(entity, errors);
 			if (errors.hasErrors()) {

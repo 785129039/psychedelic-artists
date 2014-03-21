@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -28,6 +29,11 @@ import com.nex.domain.common.FilterableEntity;
 @Logger
 public class Sample implements FileEntity, FilterableEntity {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Transient
 	@Value("${samples.path}")
 	private String serverPath;
@@ -39,7 +45,7 @@ public class Sample implements FileEntity, FilterableEntity {
 	@ManyToMany
 	@JoinTable(name = "sample_genre", joinColumns = { @JoinColumn(name = "sample_id") }, inverseJoinColumns = { @JoinColumn(name = "genre_id") })
 	@NotEmpty
-	private List<Genre> genres;
+	private List<Genre> genres = new ArrayList<Genre>();
 	
 	@OneToMany(mappedBy="sample", cascade=CascadeType.REMOVE)
 	private List<SampleComment> comments = new ArrayList<SampleComment>();

@@ -12,12 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PreRemove;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.nex.domain.Genre;
 import com.nex.domain.Tag;
 import com.nex.domain.User;
 import com.nex.domain.common.FileEntity;
@@ -42,6 +41,9 @@ public aspect FileEntityAspect {
 	@Transient
 	private Set<String> FileEntity.tagNames = new HashSet<String>();
 
+	@Transient
+	private Set<Long> FileEntity.genreIds = new HashSet<Long>();
+	
 	private String FileEntity.path;
 	
 	@Transient
@@ -51,6 +53,9 @@ public aspect FileEntityAspect {
 		for(String s: this.tagNames) {
 			this.getTags().add(Tag.findTagsByName(s.trim()).getSingleResult());
 		}
+//		for(Long id: this.genreIds) {
+//			this.getGenres().add(Genre.findGenre(id));
+//		}
 	}
 	private void FileEntity.storeTags() {
 		for(String tagname: this.tagNames) {
@@ -92,6 +97,20 @@ public aspect FileEntityAspect {
 		this.getTags().clear();
 		storeTags();
 	}
+	
+//	public Set<Long> FileEntity.getGenreIds() {
+//		List<Genre> genres = this.getGenres();
+//		for(Genre g: genres) {
+//			this.genreIds.add(g.getId());
+//		}
+//		return this.genreIds;
+//	}
+	
+//	public void FileEntity.setGenreIds(Set<Long> genreIds) {
+//		 this.genreIds = genreIds;
+//		 this.getGenres().clear();
+//	}
+	
 	public void FileEntity.setFile(MultipartFile file) {
 		this.file = file;
 		if(!this.file.isEmpty()) {

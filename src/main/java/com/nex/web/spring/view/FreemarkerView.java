@@ -5,9 +5,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.servlet.support.RequestContext;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerView;
 
@@ -15,7 +14,7 @@ import com.nex.security.permissions.ConfigurablePermissionsHandler;
 import com.nex.web.freemarker.FreemarkerTemplateHelper;
 
 public class FreemarkerView extends FreeMarkerView {
-
+	public static final String IS_ERORR = "_isError";
 	@Override
 	protected void doRender(Map<String, Object> model,
 			HttpServletRequest request, HttpServletResponse response)
@@ -28,9 +27,12 @@ public class FreemarkerView extends FreeMarkerView {
 		request.setAttribute("_sc", request.getServletPath());
 		request.setAttribute("_permissionHandler", ConfigurablePermissionsHandler.getHandler());
 		request.setAttribute("_contextTemplates", "/templates");
-		Authentication user = SecurityContextHolder.getContext().getAuthentication();
-		if(user != null && !user.getPrincipal().equals("anonymousUser")) {
-			request.setAttribute("_user", ((User) user.getPrincipal()).getUsername());
+		if(request.getAttribute(IS_ERORR) != null) {
+			model.put("_contextTemplates", "");
+		}
+		SecurityContext ctx = (SecurityContext) request.getSession().getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
+		if(!model.containsKey("user") && ctx!=null) {
+			model.put("_user", ctx.getAuthentication().getName());
 		}
 		super.doRender(model, request, response);
 	}

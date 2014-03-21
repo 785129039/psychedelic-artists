@@ -4,15 +4,20 @@
 <html>
 <head>
 <title>
-	<@util.message "Preset.list.title" />
+	<@util.message _implclass + ".list.title" />
 </title>
 </head>
 <body>
 	<@grid.grid data=entities baseCaption="Label">
-		<@grid.filter>
+		<@grid.filter class="form filter">
+		<div class="col col-f-1 grid-2f">
 			<@form.inputText path="name" />
+		</div>
+			<div class="col col-f-3 grid-2f">
+				
+			</div>
 		</@grid.filter>
-		<@grid.datalist idColumn="id" renderButtons=false>
+		<@grid.datalist idColumn="id" renderButtons=false renderCheckbox=false>
 			<@grid.column name="name" isDetail=true />
 			<@grid.column name="genres";e, f, v, n>
 				<#list v as _row>
