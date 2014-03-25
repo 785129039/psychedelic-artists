@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.nex.domain.common.FileEntity;
@@ -28,17 +29,20 @@ public abstract class FileUploadController<T extends FileEntity> extends RejectE
 	}
 	@ModelAttribute("_implclass")
 	public String loadImplClass() {
-		return getEntityClass().getSimpleName();
+		return prefix();
 	}
+	
+	public abstract String prefix();
+	
 	@RequestMapping("{id}")
 	public String show() {
 		return uploadTemplate();
 	}
 	@RequestMapping(value = "{id}", method=RequestMethod.POST)
 	public String save(@ModelAttribute("entity") @Valid T entity,
-			Errors errors, Model uiModel, HttpServletRequest request) {
+			Errors errors, Model uiModel, MultipartHttpServletRequest request) {
 		if(!errors.hasErrors()){
-			entity.storeFile();
+			entity.storeFile(request);
 			entity.flush();
 			request.setAttribute("success", true);
 		} else {
@@ -58,6 +62,8 @@ public abstract class FileUploadController<T extends FileEntity> extends RejectE
 					+ entityClass.getSimpleName() + " with id=" + id
 					+ " not found.");
 		}
+		//initialize ids
+		entity.getGenreIds();
 		return entity;
 	}
 	

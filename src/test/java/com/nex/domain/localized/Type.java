@@ -17,7 +17,7 @@ import com.nex.domain.localizedfield.LocalizedEntity;
 import com.nex.domain.localizedfield.LocalizedField;
 
 @RooJavaBean
-@RooJpaActiveRecord(persistenceUnit = "puTest", table = "type", versionField="")
+@RooJpaActiveRecord(persistenceUnit = "puTest", table = "record_type", versionField="")
 public class Type implements LocalizedEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

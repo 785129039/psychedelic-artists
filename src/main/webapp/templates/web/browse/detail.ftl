@@ -10,18 +10,25 @@
 <body>
 	<div class="box-detail row">
 		<div class="content col col-t-1">
-			<div class="form-header">
-				<h2 class="title"><@util.message _class+".detail.title" /></h2>
-			</div>
+			
 			<div class="row detail-row">
+				<div class="message message-title">
+					<p class="header-title"><@util.message _class+".detail.title" /></p>
+				</div>
 				<div class="content col col-t-1 detail-content">
 					<dl>
 						<dt><@util.message "Label.name" /></dt>
 						<dd>${entity.name}</dd>
 						<dt><@util.message "Label.user.upload" /></dt>
 						<dd>${entity.user.name}</dd>
-						<dt><@util.message "Label.description" /></dt>
-						<dd>${_th.formatContentText(entity.description)}</dd>
+						<dt <#if (entity.description?? && entity.description?length>0)>class="popup"</#if>><@util.message "Label.description" />
+						<div class="popup-content" style="display:none">${_th.formatContentText(entity.description)}</div>
+						</dt>
+						<dd>
+							<#if entity.description??>
+								${_th.formatContentText(entity.description, 40)}
+							</#if>
+						</dd>
 						<dt><@util.message "Label.genres" /></dt>
 						<dd>
 							<#list entity.genres as g>
@@ -37,6 +44,7 @@
 							</dd>
 						</#if>
 					</dl>
+					
 				</div>
 			</div>
 		</div>
@@ -45,19 +53,26 @@
 				<div class="comment">
 					<@form.form commandName="comment" baseCaption="Comment" enctype="multipart/form-data" method="POST" customForm=true>
 						<form action="" method="post" name="" id="add-comment" class="form form-expand <#if (_formModel.formErrorsAsString?size>0)>form-expand-openx</#if>" data-options="{&quot;toogleBtn&quot;:&quot;.add-comment&quot;}">
-							<div class="form-header">
-								<h2 class="title"><@util.message "Comment.title" /></h2>
-								<div class="btns">
-									<a href="" class="btn add-comment"><span><@util.message "Comment.insertNew" /></span></a>
+							<div class="row detail-row">
+								<div class="message message-title">
+									<p class="header-title"><@util.message "Comment.title" /></p>
+								</div>
+								<div class="expand-header">
+									<div class="btns ">
+										<a href="" class="btn add-comment"><span><@util.message "Comment.insertNew" /></span></a>
+									</div>
 								</div>
 							</div>
-							<div class="form-content form-expand-content" style="display: none;">
+							
+								
+							
+							<div class="form-content form-expand-content form-append" style="display: none;">
 								<div class="form-content-inner">
 									<@form.renderResultMessages additionalErrors=[] reload=false/>
 									<@form.inputText path="username" />
 									<@form.textarea path="comment" />
 									<p class="right">
-										<button class="btn" name="" type="submit">
+										<button class="btn btn-big" name="" type="submit">
 											<span><@util.message "Comment.add" /></span>
 										</button>
 									</p>

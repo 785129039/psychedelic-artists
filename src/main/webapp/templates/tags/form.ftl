@@ -28,19 +28,20 @@
 						<#nested>
 						</div>
 					</div>
-				</div>
+				
 				<#if renderSaveButton>
 					<div class="form-footer">
 						<div class="form-footer-inner">
-							<#local _cls="">
+							<#local _cls="btn-big">
 							<#if isAjax>
-							<#local _cls="tmAjaxBox">
+							<#local _cls="btn-big tmAjaxBox">
 							</#if>
 							
 							<@submit commandName=commandName title="Form.save.button" class=_cls/>
 						</div>					
 					</div>
 				</#if>
+				</div>
 			<#else>
 					<#nested>
 			</#if>
@@ -117,7 +118,7 @@
 	</#list>
 </#macro>
 
-<#macro select path items="_NULL_" valueKey="_NULL_" labelKey="_NULL_" defaultCaption="_NULL_" id="_NULL_" localizedLabel=false multiple=false class="" displayFieldError=false>
+<#macro select path selectized=true items="_NULL_" valueKey="_NULL_" labelKey="_NULL_" defaultCaption="_NULL_" id="_NULL_" selectedKey="" localizedLabel=false multiple=false class="" displayFieldError=false>
 	<#local _value=_formModel.readValue(path)>
 	<#--TODO throw exception (when items is set then valueKey and labelKey cannot be null)
 		
@@ -131,7 +132,7 @@
 	<p>
 		<@printLabel defaultCaption=defaultCaption path=path id=_id/>
 		<input type="hidden" name="_${path}" value="on" />
-		<select name="${path}" class="${class} <#if _fieldError>inp-fix-error</#if>" id="${_id}" style="width:100%" <#if multiple>multiple="multiple"</#if>>
+		<select name="${path}" class="${class} <#if selectized>box jselect</#if><#if _fieldError>select-fix-error</#if>" id="${_id}" style="width:100%" <#if multiple>multiple="multiple"</#if>>
 			<#nested>
 			<#if !util.isNull(items)>
 				<#list items as i>
@@ -140,7 +141,7 @@
 					<#if localizedLabel>
 						<#local _itemLabel=util.getMessage(_itemLabel)>
 					</#if>
-					<option value="${_itemValue}" <#if _th.isOptionSelected(_itemValue, _value)>selected="selected"</#if>>${_itemLabel}</option>
+					<option value="${_itemValue}" <#if _th.isOptionSelected(_itemValue, _value, selectedKey)>selected="selected"</#if>>${_itemLabel}</option>
 				</#list>
 			</#if>
 		</select>
@@ -263,7 +264,9 @@
 </p>
 </#macro>
 <#macro file path defaultCaption="">
+<p>
 <input type="file" name="${path}" />
+</p>
 </#macro>
 <#macro submit>
 

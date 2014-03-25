@@ -11,6 +11,6 @@ privileged aspect TypeText_Roo_Jpa_Entity {
     
     declare @type: TypeText: @Entity;
     
-    declare @type: TypeText: @Table(name = "type_text");
+    declare @type: TypeText: @Table(name = "record_type_text");
     
 }

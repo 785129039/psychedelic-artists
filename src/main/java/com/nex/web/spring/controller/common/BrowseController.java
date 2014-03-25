@@ -3,6 +3,7 @@ package com.nex.web.spring.controller.common;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -20,9 +21,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.nex.annotation.Logger;
+import com.nex.domain.Genre;
+import com.nex.domain.Tag;
 import com.nex.domain.common.CommentEntity;
 import com.nex.domain.common.FilterableEntity;
 import com.nex.utils.ReflectionUtils;
+import com.nex.utils.StringUtils;
 
 import cz.tsystems.common.data.filter.Filter;
 import cz.tsystems.common.data.filter.FilterUtil;
@@ -35,15 +39,23 @@ import cz.tsystems.common.data.filter.SortDirection;
 @Logger
 public abstract class BrowseController<T extends FilterableEntity, C extends CommentEntity<T>> extends RejectErrorController {
 	
+	@ModelAttribute("genres")
+	private List<Genre> loadGenres() {
+		return Genre.findAllGenres();
+	}
+	
 	@Resource(name = "jpqlfilter")
 	private FilterUtil jpqlFilter;
 	private Boolean successRemember = Boolean.TRUE;
-	protected abstract String controllerUrl();
+	protected String controllerUrl() {
+		return "web/browse/";
+	}
+	
 	protected abstract Class<T> getEntityClass();
 	protected abstract Class<C> getCommentClass();
-	protected abstract String targetField();
-	protected abstract String defaultSortColumn();
-	protected abstract SortDirection defaultSortDirection();
+	protected String targetField() {
+		return "record";
+	}
 	@ModelAttribute("comment")
 	protected C createNewComment(HttpServletRequest request) {
 		try {
@@ -103,7 +115,11 @@ public abstract class BrowseController<T extends FilterableEntity, C extends Com
 			HttpServletResponse response, Model uiModel) {
 		processFilter(request, response, uiModel, (Class<FilterableEntity>) getEntityClass(), null);
 		uiModel.addAttribute("_class", getEntityClass().getSimpleName());
-		return controllerUrl() + "list";
+		return controllerUrl() + getListTemplate();
+	}
+	
+	public String getListTemplate() {
+		return "list";
 	}
 	
 	public void processFilter(HttpServletRequest request,
@@ -115,6 +131,8 @@ public abstract class BrowseController<T extends FilterableEntity, C extends Com
 		if(id != null) {
 			filter.getConditions().clear();
 			filter.addDefaultCondition(targetField() + ".id|Equal(Long)", id);
+		} else {
+			configureFilter(filter, request);
 		}
 		FilteredList<FilterableEntity> list = getListFilter(this.jpqlFilter, filter, cls);
 		uiModel.addAttribute("entities", list);
@@ -125,7 +143,7 @@ public abstract class BrowseController<T extends FilterableEntity, C extends Com
 	protected RequestBasedFilter createFilter(HttpServletRequest request) {
 		request.setAttribute("filterId", "_null_");
 		Map<String, String> defaultConditions = new HashMap<String, String>();
-		Sort sort = new Sort(defaultSortColumn(), defaultSortDirection());
+		Sort sort = new Sort("modifiedOn", SortDirection.DESC);
 		RequestBasedFilter filter = new RequestBasedFilter(defaultConditions,
 				sort, new PageSetting(10, true));
 		return filter;
@@ -141,9 +159,21 @@ public abstract class BrowseController<T extends FilterableEntity, C extends Com
 		return new FilteredList<FilterableEntity>(filter, new ArrayList<FilterableEntity>(), 0);
 	}
 	
-	public void configureFilter(cz.tsystems.common.data.filter.Filter filter,
-			HttpServletRequest request) {
-
+	public void configureFilter(Filter filter, HttpServletRequest request) {
+		filter.addConditionReplacement("name", "name|LRLike(String)");
+		filter.addAssociation("tags");
+		filter.addConditionReplacement("tag", "tags.id|In(Long[])");
+		filter.addAssociation("genres");
+		filter.addConditionReplacement("genre", "genres.id|In(Long[])");
+		filter.setAddDistinctToQuery(true);
+		String tags = filter.getConditions().get("tag");
+		if(tags == null || StringUtils.isEmpty(tags)) return;
+		String[] tagIds = StringUtils.getArrayFromString(tags.replaceAll("\\[|\\]", ""), ",");
+		List<Tag> t = new ArrayList<Tag>();
+		for(String id: tagIds) {
+			t.add(Tag.findTag(Long.valueOf(id)));
+		}
+		request.setAttribute("tags", t);
 	}
 	public T findEntityById(String id) {
 		Class<T> entityClass = getEntityClass();

@@ -1,7 +1,11 @@
 package com.nex.web.freemarker;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -194,33 +198,71 @@ public class FreemarkerTemplateHelper {
 		return Boolean.FALSE;
 	}
 	
-	public Boolean isOptionSelected(String value, Object source) {
+	public Boolean isOptionSelected(String value, Object source, String selectedKey) {
 		try {
-			if(source instanceof List) {
-				@SuppressWarnings("unchecked")
-				List<Object> list = (List<Object>)source;
+			List<Object> list = getListFromSource(source);
+			if(list != null) {
 				for(Object o: list) {
-					Object id = ReflectionUtils.reflectValue(o, "id");
+					if("".equals(selectedKey)) {
+						if(String.valueOf(o).equals(value)) {
+							return Boolean.TRUE;	
+						} else {
+							continue;	
+						}
+					}
+					Object id = ReflectionUtils.reflectValue(o, selectedKey);
 					if(value.equals(String.valueOf(id))) {
 						return Boolean.TRUE;
 					}
 				}
+				return Boolean.FALSE;
 			}
-			Object id = ReflectionUtils.reflectValue(source, "id");
-			value.equals(id!=null?String.valueOf(id):null);
+			if("".equals(selectedKey)) {
+				return value.equals(String.valueOf(source));
+			} else {
+				Object id = ReflectionUtils.reflectValue(source, selectedKey);
+				value.equals(id!=null?String.valueOf(id):null);
+			}
 		} catch (Exception e) {
 			log.error("", e);
 		}
 		
 		return Boolean.FALSE;
 	}
-
+	
+	private List<Object> getListFromSource(Object source) {
+		Object[] array = convertToStringArray(String.valueOf(source));
+		if(array!=null) {
+			return Arrays.asList(array);
+		} else if(source instanceof List) {
+			return (List<Object>) source;
+		}
+		return null;
+	}
+	
 	public String formatContentText(String raw) {
+		return this.formatContentText(raw, 0);
+	}
+		
+	public String formatContentText(String raw, Integer substr) {
 		String[] rows = raw.split("\\n");
 		StringBuilder sb = new StringBuilder();
 		for(String row: rows) {
-			sb.append("<p>").append(row).append("</p>");
+			String _r = row;
+			if(substr>0 && _r.length() > substr) {
+				_r = _r.substring(0, substr) + "...";
+			}
+			sb.append("<p>").append(_r).append("</p>");
 		}
 		return sb.toString();
 	}
+	protected String[] convertToStringArray(String strings) {
+	    if ( strings.indexOf("[")==0 && (strings.indexOf("]")== (strings.length()-1)) ) {
+	      strings = strings.substring(1, strings.length()-1);
+	      String[] result = strings.split("[,]");
+	      return result;
+	    } else {
+	      return new String[]{strings};
+	    }
+	  }
 }

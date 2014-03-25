@@ -12,7 +12,7 @@ import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import com.nex.domain.localizedfield.LocalizedFieldNormal;
 
 @RooJavaBean
-@RooJpaActiveRecord(persistenceUnit = "puTest", table = "type_text", versionField="")
+@RooJpaActiveRecord(persistenceUnit = "puTest", table = "record_type_text", versionField="")
 public class TypeText implements LocalizedFieldNormal {
 	
 	@Id

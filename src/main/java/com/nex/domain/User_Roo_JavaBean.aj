@@ -10,16 +10,8 @@ import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 
 privileged aspect User_Roo_JavaBean {
     
-    public ShaPasswordEncoder User.getEncoder() {
-        return this.encoder;
-    }
-    
     public void User.setEncoder(ShaPasswordEncoder encoder) {
         this.encoder = encoder;
-    }
-    
-    public String User.getSalt() {
-        return this.salt;
     }
     
     public void User.setSalt(String salt) {
@@ -34,10 +26,6 @@ privileged aspect User_Roo_JavaBean {
         this.id = id;
     }
     
-    public String User.getEmail() {
-        return this.email;
-    }
-    
     public void User.setEmail(String email) {
         this.email = email;
     }
@@ -48,10 +36,6 @@ privileged aspect User_Roo_JavaBean {
     
     public void User.setName(String name) {
         this.name = name;
-    }
-    
-    public List<Role> User.getRoles() {
-        return this.roles;
     }
     
     public void User.setRoles(List<Role> roles) {

@@ -11,6 +11,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,6 +54,7 @@ public aspect ModificationInfoAspect {
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
+	@JsonIgnore
 	public User ModificationInfo.getCurrentUser() {
 		return Requestutils.getLoggedUser();
 	}

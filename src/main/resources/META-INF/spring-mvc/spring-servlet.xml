@@ -37,6 +37,9 @@
 	    <property name="defaultLocale" value="en"/>
 	</bean>
 	<bean id="multipartResolver"  class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
+<!-- <bean id="multipartResolver" -->
+<!--           class="is.hax.spring.web.multipart.StreamingMultipartResolver" p:maxUploadSize="999999999999999"> -->
+<!--     </bean> -->
     <!-- 
       View resolvers can also be configured with ResourceBundles or XML files. If you need
       different view resolving based on Locale, you have to use the resource bundle resolver.

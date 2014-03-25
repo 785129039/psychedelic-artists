@@ -11,6 +11,6 @@ privileged aspect Type_Roo_Jpa_Entity {
     
     declare @type: Type: @Entity;
     
-    declare @type: Type: @Table(name = "type");
+    declare @type: Type: @Table(name = "record_type");
     
 }

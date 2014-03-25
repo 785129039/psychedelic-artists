@@ -68,10 +68,12 @@
 				</#if>
 			</div>
 		</#if>
+		<#assign _columns = 0>
 		<table>
 			<thead>
 				<tr>
 					<#if _renderCheckbox>
+						<#assign _columns = _columns + 1>
 						<th><input type="checkbox" name="_check_all" /><input type="hidden" name="__multid" value="on"/></th>
 					</#if>
 					<#nested>
@@ -101,7 +103,7 @@
 				</#list>
 			<#else>
 				<tr>
-					<td colspan="${_columnscount}" class="center">
+					<td colspan="${_columns}" class="center">
 						<@util.message "grid.list.noresult.found" />
 					</td>
 				</tr>
@@ -175,6 +177,7 @@
 
 <#-------header column----->
 <#macro headColumn name="_NULL_" title="_NULL_" defaultCaption="_NULL_" captionArgs=[] sortable=true>
+	<#assign _columns = _columns + 1>
 	<#local _key="${form.buildMessageString(_baseCaptionGrid, name)}" />
 	<#if !util.isNull(defaultCaption)>
 		<#local _key=defaultCaption>
@@ -316,8 +319,8 @@
 
 
 <#macro genreLink id>
-<a href="#"><#nested></a>
+<a href="<@util.url "/web/browse/overview/?genre="+id ""/>"><#nested></a>
 </#macro>
 <#macro tagLink id>
-<a href="#"><#nested></a>
+<a href="<@util.url "/web/browse/overview/?tag="+id ""/>"><#nested></a>
 </#macro>

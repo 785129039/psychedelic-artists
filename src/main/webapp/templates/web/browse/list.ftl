@@ -6,11 +6,23 @@
 <title>
 	<@util.message _class+".list.title" />
 </title>
+<script src="<@util.url "/js/selectize.ajax.js" ""/>" type="text/javascript"></script>
+<script>
+$(document).ready(function() {
+$._selectize.create('select.tags').initialize({url:'<@util.url "/ajax/load/tags/" ""/>', value:'id', text:'name'});
+});
+</script>
 </head>
 <body>
 	<@grid.grid data=entities baseCaption="Label">
 		<@grid.filter>
-			<@form.inputText path="name" />
+			<div class="col col-f-1 grid-2f">
+				<@form.inputText path="name" />
+			</div>
+			<div class="col col-f-3 grid-2f">
+				<@form.select path="genre" items=genres valueKey="id" labelKey="name"  multiple=true class="box" defaultCaption="Label.genres"/>
+				<@form.select path="tag" items=tags valueKey="id" labelKey="name"  multiple=true class="tags box" selectized=false defaultCaption="Label.tags"/>
+			</div>
 		</@grid.filter>
 		<@grid.datalist renderButtons=false showNewButton=false idColumn="id" renderCheckbox=false>
 			<@grid.column name="name" isDetail=true />

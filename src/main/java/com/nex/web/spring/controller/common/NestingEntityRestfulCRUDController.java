@@ -130,8 +130,13 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 
 	public void entityUpdateRejected(T entity) {
 	}
+	
 	@RequestMapping(value = "{id}", method = RequestMethod.PUT)
 	public String _update(@ModelAttribute("entity") @Valid T entity,
+			Errors errors, Model uiModel, HttpServletRequest request) {
+		return __update(entity, errors, uiModel, request);
+	}
+	private String __update(T entity,
 			Errors errors, Model uiModel, HttpServletRequest request) {
 		checkPermission(entity);
 		try {
@@ -159,7 +164,7 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 			return resolveEditViewName(entity);
 		}
 	}
-
+	
 	/**
 	 * Metoda slouží pro konfiguraci seznamu. V případě, že nestačí seznam všech
 	 * entit, přepíše se tato methoda. Pozn.: Filtr v tomto případě není zcela
