@@ -1,10 +1,12 @@
 package com.nex.web.spring.controller.web.record;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nex.domain.Record;
-import com.nex.web.spring.controller.web.FileUploadController;
 
 @Controller
 @RequestMapping("/my/upload/preset/")
@@ -22,5 +24,12 @@ public class PresetUploadController extends FileUploadController<Record> {
 	@Override
 	public String prefix() {
 		return "Preset";
+	}
+
+	@Override
+	public void additionalValidation(Errors errors, Record entity,
+			HttpServletRequest request) {
+		
+		
 	}
 }

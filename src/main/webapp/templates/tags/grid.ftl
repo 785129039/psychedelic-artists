@@ -257,6 +257,7 @@
 	<#list _deff as def>
 		<#if !_rowdata??>
 			<#assign _columnscount=_columnscount+1>
+			<#assign _columns = _columns + 1>
 			<th></th>
 		<#else>
 			<#assign lck= def.locked?? && def.locked>

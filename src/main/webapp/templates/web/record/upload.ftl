@@ -7,12 +7,17 @@
 </title>
 <link rel="stylesheet" href="<@util.url "/css/upload.css" ""/>" type="text/css" media="projection,screen,print">
 
+<script src="<@util.url "/js/jquery.form-plugin.js" ""/>" type="text/javascript"></script>
 <script src="<@util.url "/js/jquery.fileupload.js" ""/>" type="text/javascript"></script>
+
 <script>
-$(document).ready(function()
-{
+$(document).ready(function() {
+	createFileUpload();
+});
+
+function createFileUpload() {
 	$("#fileuploader").uploadFile({
-		url:"<@util.url "/my/upload/"+_implclass?lower_case+"/"+entity.id />",
+		url:"<@util.url "/my/upload/"+_implclass?lower_case+"/"+entity.id+"?_simple=true" />",
 		dragDropStr: "<span><b><@util.message "Fileupload.dragDropStr" /></b></span>",
 		abortStr:"<@util.message "Fileupload.abortStr" />",
 		cancelStr:"<@util.message "Fileupload.cancelStr" />",
@@ -20,27 +25,27 @@ $(document).ready(function()
 		multiDragErrorStr: "<@util.message "Fileupload.multiDragErrorStr" />",
 		extErrorStr:"<@util.message "Fileupload.extErrorStr" />",
 		sizeErrorStr:"<@util.message "Fileupload.sizeErrorStr" />",
-		uploadErrorStr:"<@util.message "Fileupload.uploadErrorStr" />"
+		uploadErrorStr:"<@util.message "Fileupload.uploadErrorStr" />",
+		onSuccess: function (e, data) {
+			$('#form-anchor').html(data);
+			createFileUpload();
+        }
 	});
-});
+}
+
 </script>
 </head>
 <body>
+<div id="form-anchor">
 	<#include "tab.ftl">
-	
-	<div class="form-content">
-		<div class="form-content-inner">
-			<div class="message message-title">
-				<p class="header-title"><@util.message _implclass + ".upload.title" /></p>
-			</div>
-			<div class="row">
+	<@form.form commandName="entity" renderTitle=true baseCaption=_implclass + ".upload" renderSaveButton=false additionalErrors=["file"]>
+		<div class="row">
 				<div class="message message-announce">
 					<p><@util.message "Record.upload.announce" /></p>
 				</div>
 				<div id="fileuploader"><@util.message "Fileupload.upload.button" /></div>	
 			</div>
-		</div>
-
-	</div>
+	</@form.form>
+</div>
 </body>
 </html>

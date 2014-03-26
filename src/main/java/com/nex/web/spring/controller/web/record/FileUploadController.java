@@ -1,4 +1,4 @@
-package com.nex.web.spring.controller.web;
+package com.nex.web.spring.controller.web.record;
 
 import java.lang.reflect.Method;
 
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
@@ -41,15 +42,23 @@ public abstract class FileUploadController<T extends FileEntity> extends RejectE
 	@RequestMapping(value = "{id}", method=RequestMethod.POST)
 	public String save(@ModelAttribute("entity") @Valid T entity,
 			Errors errors, Model uiModel, MultipartHttpServletRequest request) {
+		entity.prepareFileForStore(request);
+		additionalValidation(errors, entity, request);
 		if(!errors.hasErrors()){
-			entity.storeFile(request);
-			entity.flush();
-			request.setAttribute("success", true);
+			try {
+				entity.storeFile();
+				entity.flush();
+				request.setAttribute("_success", true);
+			} catch (Exception e) {
+				rejectAndTranslateError(RequestContextUtils.getLocale(request), errors, "form.actions.save.error.message.persist", new String[] {e.getMessage()});
+			}
 		} else {
 			rejectFormErrors(RequestContextUtils.getLocale(request), errors);
 		}
 		return uploadTemplate();
 	}
+	public abstract void additionalValidation(Errors errors, T entity, HttpServletRequest request);
+	
 	public T findEntityById(String id) {
 		Class<T> entityClass = getEntityClass();
 		String findByIdMethodName = "find" + entityClass.getSimpleName();
@@ -65,6 +74,17 @@ public abstract class FileUploadController<T extends FileEntity> extends RejectE
 		//initialize ids
 		entity.getGenreIds();
 		return entity;
+	}
+	
+	public class FileUploadForm {
+		private Boolean success = Boolean.TRUE;
+		private Errors errors;
+		public Errors getErrors() {
+			return errors;
+		}
+		public Boolean getSuccess() {
+			return success;
+		}
 	}
 	
 }

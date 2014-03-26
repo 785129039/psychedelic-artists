@@ -132,7 +132,7 @@
 	<p>
 		<@printLabel defaultCaption=defaultCaption path=path id=_id/>
 		<input type="hidden" name="_${path}" value="on" />
-		<select name="${path}" class="${class} <#if selectized>box jselect</#if><#if _fieldError>select-fix-error</#if>" id="${_id}" style="width:100%" <#if multiple>multiple="multiple"</#if>>
+		<select name="${path}" class="${class} <#if selectized>box jselect</#if><#if _fieldError> select-fix-error</#if>" id="${_id}" style="width:100%" <#if multiple>multiple="multiple"</#if>>
 			<#nested>
 			<#if !util.isNull(items)>
 				<#list items as i>
@@ -204,9 +204,9 @@
 			</#list>
 		</#if>
 		</div>
-	<#elseif RequestParameters._success?? && reload>
+	<#elseif (RequestParameters._success?? || _success??) && reload>
 		<div class="reload"></div>
-	<#elseif RequestParameters._success??>
+	<#elseif RequestParameters._success?? || _success??>
 		<div class="message message-ok">
 			<p><@util.message "Form.save.success" /></p>
 		</div>

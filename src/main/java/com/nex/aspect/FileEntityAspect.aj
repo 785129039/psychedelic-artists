@@ -59,7 +59,7 @@ public aspect FileEntityAspect {
 	private String FileEntity.path;
 	
 	@Transient
-	private String FileEntity.prevPath;
+	private MultipartFile FileEntity.file; 
 	
 	public void FileEntity.prepareForSave() {
 		for(String s: this.tagNames) {
@@ -91,17 +91,20 @@ public aspect FileEntityAspect {
 
 	}
 	
-	public void FileEntity.storeFile(MultipartHttpServletRequest request) {
-//		if(!this.file.isEmpty()) {
+	public void FileEntity.prepareFileForStore(MultipartHttpServletRequest request) {
+		Map<String, MultipartFile> files = request.getFileMap();
+		for(Map.Entry<String, MultipartFile> file: files.entrySet()) {
+			this.file = file.getValue();
+			break;
+		}
+	}
+	
+	public void FileEntity.storeFile() throws Exception {
 		String oldpath = this.path;	
 			try {
-				Map<String, MultipartFile> files = request.getFileMap();
-				for(Map.Entry<String, MultipartFile> file: files.entrySet()) {
-					MultipartFile mf = file.getValue();
-					this.path = mf.getOriginalFilename();
-					FileFactory factory = new FileFactory(getFullPath(), this.path);
-					factory.saveFileAsStream(mf.getInputStream());
-				}
+				this.path = this.file.getOriginalFilename();
+				FileFactory factory = new FileFactory(getFullPath(), this.path);
+				factory.saveFileAsStream(this.file.getInputStream());
 				if(oldpath!=null && !oldpath.equals(this.path))
 				//delete odl file when new file is succesfuly saved
 				new FileFactory(getFullPath(), oldpath).deleteFile();
@@ -110,8 +113,8 @@ public aspect FileEntityAspect {
 				new FileFactory(getFullPath(), this.path).deleteFile();
 				this.path = oldpath;
 				LoggerFactory.getLogger(getClass()).error("", e);
+				throw new Exception(e);
 			}
-//		}
 	}
 	public Set<String> FileEntity.getTagNames() {
 		List<Tag> tags = getTags();
@@ -161,5 +164,8 @@ public aspect FileEntityAspect {
 	
 	public void FileEntity.setType(Type type) {
 		this.type = type;
+	}
+	public MultipartFile FileEntity.getFile() {
+		return this.file;
 	}
 }

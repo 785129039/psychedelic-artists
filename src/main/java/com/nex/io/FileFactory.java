@@ -20,8 +20,8 @@ public class FileFactory {
 		
 	}
 	public void saveFileAsStream(InputStream stream) throws IOException {
-		FileOutputStream fos = new FileOutputStream(new File(getFullName()));
 		createFolderIfNotExists();
+		FileOutputStream fos = new FileOutputStream(new File(getFullName()));
 		//when buffer is higher then available size, then change buffersize to filesize
 		int available = stream.available();
 		if(buffersize > available) {

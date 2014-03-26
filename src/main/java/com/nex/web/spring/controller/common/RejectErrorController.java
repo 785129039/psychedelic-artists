@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 
 public class RejectErrorController {
 	@Resource(name = "validationResourceMessageBundle")
@@ -19,6 +20,19 @@ public class RejectErrorController {
 		rejectAndTranslateError(locale, errors, code, null);
 	}
 
+	protected void addFieldError(Locale locale, Errors errors, String code, String fieldName) {
+		this.addFieldError(locale, errors, code, fieldName, null);
+	}
+	
+	protected void addFieldError(Locale locale, Errors errors, String code, String fieldName, String[] args) {
+		String defaultMessage = code;
+		if (this.validationMessageResourceBundle != null) {
+			defaultMessage = this.validationMessageResourceBundle.getMessage(
+					code, args,locale);
+		}
+		errors.rejectValue(fieldName, code, args, defaultMessage);
+	}
+	
 	protected void rejectAndTranslateError(Locale locale, Errors errors, String code,
 			Object[] args) {
 		String defaultMessage = code;
