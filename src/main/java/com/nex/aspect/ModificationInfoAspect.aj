@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nex.annotation.Modifiable;
 import com.nex.domain.User;
-import com.nex.utils.Requestutils;
+import com.nex.utils.RequestUtils;
 
 
 public aspect ModificationInfoAspect {
@@ -56,7 +56,7 @@ public aspect ModificationInfoAspect {
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	@JsonIgnore
 	public User ModificationInfo.getCurrentUser() {
-		return Requestutils.getLoggedUser();
+		return RequestUtils.getLoggedUser();
 	}
 	
 	@ManyToOne()

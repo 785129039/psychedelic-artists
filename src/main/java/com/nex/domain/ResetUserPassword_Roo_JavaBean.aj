@@ -8,6 +8,14 @@ import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 
 privileged aspect ResetUserPassword_Roo_JavaBean {
     
+    public boolean ResetUserPassword.isTokenReset() {
+        return this.tokenReset;
+    }
+    
+    public void ResetUserPassword.setTokenReset(boolean tokenReset) {
+        this.tokenReset = tokenReset;
+    }
+    
     public ShaPasswordEncoder ResetUserPassword.getEncoder() {
         return this.encoder;
     }

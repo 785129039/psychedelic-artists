@@ -301,14 +301,6 @@ public abstract class NestingEntityRestfulCRUDController<T extends Entity>
 		entity.flush();
 	}
 
-	protected EntityManager getEntityManager(T entity) {
-		Method method = ReflectionUtils.findMethod(entity.getClass(),
-				"entityManager");
-		EntityManager em = (EntityManager) ReflectionUtils.invokeMethod(method,
-				null);
-		return em;
-	}
-
 	protected String resolveEditViewName(T entity) {
 		return controllerUrl() + getDetailTemplateName();
 	}

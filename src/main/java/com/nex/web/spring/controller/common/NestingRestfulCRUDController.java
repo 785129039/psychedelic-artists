@@ -13,9 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.servlet.HandlerMapping;
 
 import com.nex.exceptions.PageNotFoundException;
 import com.nex.utils.ReflectionUtils;
@@ -95,16 +92,6 @@ public abstract class NestingRestfulCRUDController<T> extends RejectErrorControl
 					+ " not found.");
 		}
 		return entity;
-	}
-	
-	public static Map<String, String> getPathVariables() {
-		RequestAttributes requestAttributes = RequestContextHolder
-				.getRequestAttributes();
-		@SuppressWarnings("unchecked")
-		Map<String, String> uriTemplateVariables = (Map<String, String>) requestAttributes
-				.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE,
-						RequestAttributes.SCOPE_REQUEST);
-		return uriTemplateVariables;
 	}
 	
 	

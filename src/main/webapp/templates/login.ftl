@@ -16,6 +16,11 @@
 						<p><@util.message "Login.failed" /></p>
 					</div>				
 				</#if>
+				<#if RequestParameters._reset??>
+					<div class="message message-ok">
+						<p><@util.message "PasswordReset.send.reseted" /></p>
+					</div>
+				</#if>
 				<p>
 					<label for="" class="label <#if error??>error</#if>"><@util.message "Registration.email" />:</label><br>
 					<span class="inp-fix  <#if error??>inp-fix-error</#if>">
@@ -23,7 +28,7 @@
 					</span>
 				</p>
 				<p>
-					<label for="" class="label <#if error??>error</#if>"<@util.message "Registration.password" />:</label><br>
+					<label for="" class="label <#if error??>error</#if>"><@util.message "Registration.password" />:</label><br>
 					<span class="inp-fix <#if error??>inp-fix-error</#if>">
 						<input type="password" name="j_password" id="" class="inp-text">
 					</span>

@@ -18,7 +18,7 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 import com.nex.annotation.Logger;
 import com.nex.domain.ResetUserPassword;
 import com.nex.domain.User;
-import com.nex.utils.Requestutils;
+import com.nex.utils.RequestUtils;
 import com.nex.web.spring.controller.common.RejectErrorController;
 
 @Controller
@@ -28,13 +28,13 @@ public class UserChangePasswordController extends RejectErrorController {
 
 	@ModelAttribute("user")
 	public ResetUserPassword loadUser() {
-		User loggedUser = Requestutils.getLoggedUser();
+		User loggedUser = RequestUtils.getLoggedUser();
 		return ResetUserPassword.findResetUserPassword(loggedUser.getId());
 	}
 	
 	@RequestMapping
 	public String showForm() {
-		return "web/profile/edit";
+		return "web/profile/reset/edit";
 	}
 	@RequestMapping(method=RequestMethod.POST)
 	public String saveForm(@ModelAttribute("user") @Valid ResetUserPassword entity,

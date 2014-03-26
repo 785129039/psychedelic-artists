@@ -15,7 +15,7 @@ import com.nex.domain.User;
 import com.nex.domain.common.FileEntity;
 import com.nex.security.permissions.aspect.Authorize;
 import com.nex.security.permissions.checker.UserPermissionChecher;
-import com.nex.utils.Requestutils;
+import com.nex.utils.RequestUtils;
 import com.nex.web.spring.controller.common.NestingEntityRestfulCRUDController;
 
 import cz.tsystems.common.data.filter.Filter;
@@ -60,7 +60,7 @@ public abstract class FileEntityController<T extends FileEntity> extends Nesting
 	@Override
 	protected T createNewEntity(HttpServletRequest request) {
 		T s = super.createNewEntity(request);
-		s.setUser(Requestutils.getLoggedUser());
+		s.setUser(RequestUtils.getLoggedUser());
 		s.setType(getType());
 		return s;
 	}
@@ -78,7 +78,7 @@ public abstract class FileEntityController<T extends FileEntity> extends Nesting
 	
 	@Override
 	public void configureFilter(Filter filter, HttpServletRequest request) {
-		filter.addDefaultCondition("user.id|Equal(Long)", Requestutils.getLoggedUser().getId().toString());
+		filter.addDefaultCondition("user.id|Equal(Long)", RequestUtils.getLoggedUser().getId().toString());
 		filter.addConditionReplacement("name", "name|LRLike(String)");
 		filter.addDefaultCondition("type|Equal(Auto)", getType().name());
 	}

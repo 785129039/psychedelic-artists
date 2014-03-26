@@ -23,7 +23,7 @@
 <script src="<@util.url "/js/jquery.fancybox.pack.js" ""/>" type="text/javascript"></script>
 ${head!""}
 </head>
-<body <#if _th.isUrlPart(["login", "logout", "loginfailed", "register/", "changepassword/", "resetpassword/"])>class="page-login"</#if>>
+<body <#if _th.isUrlPart("CONTAINS", ["login", "logout", "loginfailed", "register/", "changepassword/", "resetpassword/"])>class="page-login"</#if>>
 <div class="fixed">
 	<div id="header">
 		<div class="row row-main">

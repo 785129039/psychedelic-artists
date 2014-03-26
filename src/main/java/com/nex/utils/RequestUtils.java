@@ -7,7 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.nex.domain.User;
 
-public class Requestutils {
+public class RequestUtils {
 	
 	public static User getLoggedUser() {
 		Authentication user = SecurityContextHolder.getContext().getAuthentication();

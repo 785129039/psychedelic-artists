@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd ">
+	<!-- Mail sender bean -->
+	<bean id="mailSender" class="com.nex.mail.MailSender">
+   		<property name="host" value="${java.mail.host}"/>
+        <property name="port" value="${java.mail.port}"/>
+        <property name="username" value="${java.mail.username}"/>
+        <property name="password" value="${java.mail.password}"/>
+        <property name="protocol" value="${java.mail.protocol:smtp}"/>
+        <property name="auth" value="${java.mail.auth:true}"/>
+        <property name="ssl" value="${java.mail.ssl:false}"/>
+   	</bean>
+	
+	<!-- Simple mail template -->
+	<bean id="basicEmailMessage" class="org.springframework.mail.SimpleMailMessage" p:from="${java.mail.from}" />
+
+	<!-- Your service with sender and template injected -->
+	<bean id="sendMailService" class="com.nex.mail.MailService" 
+		p:mailSender-ref="mailSender"
+		p:defaultEmailMessage-ref="basicEmailMessage"
+		p:textFormatter-ref="emailTextFormatter" />
+		
+	<bean id="mailMessageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource" p:basename="classpath:i18n/mailtext" p:defaultEncoding="UTF-8" />
+	
+	<bean id="mailTemplateMessageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource"  p:basename="classpath:i18n/mailtemplate" p:defaultEncoding="UTF-8" />
+		
+	<bean id="defaultValueResolver" class="com.nex.mail.value.DefaultValueResolver" p:handlers-ref="emailValueResolvers" />
+	<util:map id="emailValueResolvers">
+	<!-- klic reprezentuje default atribute key v hodnote emailu, neco jako evaluator akorat pro defaultni hodnoty napriklad entity.date:sysdate -->
+		<entry key="sysdate" value-ref="emailSysdateHandler" />
+	</util:map>
+	<bean id="emailSysdateHandler" class="com.nex.mail.value.DateValueHandler" />
+	
+	<bean id="emailTextFormatter" class="com.nex.mail.EmailTextFormatter"
+		p:evaluators-ref="emailEvaluators" 
+		p:springConversionService-ref="conversionService" 
+		p:defaultValueResolver-ref="defaultValueResolver"		
+		p:mailSource-ref="mailMessageSource"
+		p:templates-ref="mailTemplateMessageSource"
+		/>
+	
+	<!-- email evaluators map -->
+	<!-- klic reprezentuje klic pro hodnotu, definovanou v MailText.properties -->
+	<util:map id="emailEvaluators">
+		<entry key="applicationContextUrl" value-ref="applicationContextUrlEvaluator" />
+		<entry key="request" value-ref="requestEvaluator" />
+	</util:map>
+
+	<!-- email evaluators -->
+	<bean id="applicationContextUrlEvaluator" class="com.nex.mail.evaluators.ApplicationContextURLEvaluator" p:defaultValueResolver-ref="defaultValueResolver" />
+	<bean id="requestEvaluator" class="com.nex.mail.evaluators.HttpServletRequestEvaluator" p:defaultValueResolver-ref="defaultValueResolver" />
+<!-- 	<bean id="mailbody" class="com.nex.mail.evaluators.TemplateBodyEvaluator" p:defaultValueResolver-ref="defaultValueResolver" /> -->
+	
+		
+</beans>

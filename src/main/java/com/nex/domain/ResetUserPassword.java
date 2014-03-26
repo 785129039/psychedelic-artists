@@ -2,7 +2,6 @@ package com.nex.domain;
 
 import javax.annotation.Resource;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
 import javax.validation.constraints.AssertTrue;
@@ -20,6 +19,9 @@ import com.nex.utils.StringUtils;
 @RooJpaActiveRecord(finders="findRegistrationUsersByEmail", persistenceUnit = "puPsyartists", table = "user", versionField = "")
 public class ResetUserPassword {
 	
+	@Transient
+	private boolean tokenReset = false;
+	
 	@Resource(name = "passwordEncoder")
 	@Transient
 	private ShaPasswordEncoder encoder;
@@ -34,10 +36,8 @@ public class ResetUserPassword {
 	@NotNull
 	@NotBlank
 	private String password;
-
+	
 	@Transient
-	@NotNull
-	@NotBlank
 	private String oldPassword;
 	
 	@NotNull
@@ -53,7 +53,8 @@ public class ResetUserPassword {
 	
 	@AssertTrue(message = "{validation.password.oldpassword.notsame}")
 	public Boolean isBadOldPassword() {
-		if(StringUtils.isEmpty(this.oldPassword)) return Boolean.TRUE;
+		if(tokenReset) return Boolean.TRUE;
+		if(StringUtils.isEmpty(this.oldPassword)) return Boolean.FALSE;
 		RegistrationUser user = RegistrationUser.findRegistrationUser(id);
 		String hashed = this.encoder.encodePassword(this.oldPassword, this.salt);
 		return hashed.equals(user.getPassword());

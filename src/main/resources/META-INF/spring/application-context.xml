@@ -39,21 +39,12 @@
 		
     	<bean class="com.nex.logback.configuration.LogBackConfigurator" init-method="configure" p:logBackFile="${logback.file}"/>
     	
-    	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-			<property name="host" value="psychedelic-artists.cz" />
-			<property name="port" value="220" />
-			<property name="username" value="webmaster@psychedelic-artists.cz" />
-			<property name="password" value="t4jn3h3sl1ck0" />
-		 
-			<property name="javaMailProperties">
-			   <props>
-		       	      <prop key="mail.smtp.auth">true</prop>
-		       	      <prop key="mail.smtp.starttls.enable">true</prop>
-		       	   </props>
-			</property>
-		</bean>
-		
-    	<bean id="mailMail" class="com.nex.mail.MailService">
-			<property name="mailSender" ref="mailSender" />
-		</bean>		
+    	<bean id="resetPasswordEncryptionFactory" class="com.nex.encryption.EncryptionFactory" p:duration="${encryption.password.reset.duration}"/>
+	     
+	    <!-- You can have some pre-configured messagess also which are ready to send -->
+	    <bean id="preConfiguredMessage" class="org.springframework.mail.SimpleMailMessage">
+	        <property name="to" value="lokeshgupta1981@gmail.com"></property>
+	        <property name="from" value="howtodoinjava@gmail.com"></property>
+	        <property name="subject" value="FATAL - Application crash. Save your job !!"/>
+	    </bean>	
 </beans>

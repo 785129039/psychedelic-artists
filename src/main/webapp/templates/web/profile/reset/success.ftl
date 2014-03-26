@@ -7,8 +7,8 @@
 </title>
 </head>
 <body>
-	<@form.form commandName="form" method="POST" customButtonLabel=true renderTitle=true baseCaption="PasswordReset.send">
-			<@form.inputText path="email" />
+	<@form.form commandName="form" method="POST" renderSaveButton=false renderTitle=true baseCaption="PasswordReset">
+			<p><@util.message "PasswordReset.send.success" /></p>
 	</@form.form>
 </body>
 </html>

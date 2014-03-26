@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nex.annotation.ModifiableAnonymouse;
 import com.nex.domain.User;
-import com.nex.utils.Requestutils;
+import com.nex.utils.RequestUtils;
 
 public aspect ModificationInfoAnonymouseAspect {
 public interface ModificationInfoAnonymouse{String provideUserName();}
@@ -47,7 +47,7 @@ public interface ModificationInfoAnonymouse{String provideUserName();}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public User ModificationInfoAnonymouse.getCurrentUser() {
-		return Requestutils.getLoggedUser();
+		return RequestUtils.getLoggedUser();
 	}
 	
 	@Column(name="CREATED_BY")
