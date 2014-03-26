@@ -1,7 +1,7 @@
 <#import "util.ftl" as util />
 <#assign springform=JspTaglibs["http://www.springframework.org/tags/form"]>
 
-<#macro form commandName baseCaption="_NULL_" action="" enctype="" isFilter=false method="auto" renderTitle=false renderSaveButton=true class="" customForm=false id="_NULL_" additionalErrors=[] reload=false showRequired=true isAjax=false>
+<#macro form commandName baseCaption="_NULL_" action="" enctype="" isFilter=false method="auto" renderTitle=false renderSaveButton=true class="" customForm=false id="_NULL_" additionalErrors=[] reload=false showRequired=true isAjax=false customButtonLabel=false>
 	<#assign _formBaseCaption=baseCaption>
 	<#assign _showRequireIndex=showRequired>
 	<#global _formModel=_th.createFormModel(commandName)>
@@ -36,8 +36,11 @@
 							<#if isAjax>
 							<#local _cls="btn-big tmAjaxBox">
 							</#if>
-							
-							<@submit commandName=commandName title="Form.save.button" class=_cls/>
+							<#local buttonName = "Form.save.button">
+							<#if customButtonLabel>
+								<#local buttonName = _formBaseCaption+".save.button">
+							</#if>
+							<@submit commandName=commandName title=buttonName class=_cls/>
 						</div>					
 					</div>
 				</#if>
@@ -55,7 +58,7 @@
 	<@input path=path renderLabel=renderLabel type="text" defaultCaption=defaultCaption id=id  labelArguments=labelArguments  displayFieldError=displayFieldError isTag=isTag/>
 </#macro>
 <#macro inputPassword path renderLabel=true defaultCaption="_NULL_" id="_NULL_" labelArguments=[] displayFieldError=false>
-	<@input path=path renderLabel=renderLabel type="password" defaultCaption=defaultCaption id=id  labelArguments=labelArguments  displayFieldError=displayFieldError/>
+	<@input path=path renderLabel=renderLabel value="" type="password" defaultCaption=defaultCaption id=id  labelArguments=labelArguments  displayFieldError=displayFieldError/>
 </#macro>
 <#macro inputDate path defaultCaption="_NULL_" id="_NULL_" labelArguments=[] displayFieldError=true>
 	<@input path=path type="text" spanClass="inpDate-fix" defaultCaption=defaultCaption id=id  labelArguments=labelArguments  displayFieldError=displayFieldError/>
@@ -199,10 +202,10 @@
 			</#list>
 			<#local _addErrors=_formModel.readCustomValidationMessages(additionalErrors)>
 			<#if (_addErrors?? && _addErrors?size>0)>
-			<#list _addErrors as err>
-				<p>${err}</p>
-			</#list>
-		</#if>
+				<#list _addErrors as err>
+					<p>${err}</p>
+				</#list>
+			</#if>
 		</div>
 	<#elseif (RequestParameters._success?? || _success??) && reload>
 		<div class="reload"></div>
@@ -237,7 +240,7 @@
 	<#local required=_fieldModel.isRequired(_showRequireIndex)>
 	
 	<#if !util.isNull(_labelText)>
-		<label for="${id}" class="label<#if _fieldError!false> error</#if>">${_labelText}<#t><#if renderColon>:</#if><#if required>&nbsp;<span class="req">*</span></#if></label>
+		<label for="${id}" class="label<#if _fieldError!false> error</#if>"><#if required><strong>${_labelText}</strong><#else>${_labelText}</#if><#t><#if renderColon>:</#if><#if required>&nbsp;<span class="req">*</span></#if></label>
 		<#if breakLabel>
 		<br/>
 		</#if>

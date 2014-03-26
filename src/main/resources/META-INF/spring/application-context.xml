@@ -41,9 +41,9 @@
     	
     	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 			<property name="host" value="psychedelic-artists.cz" />
-			<property name="port" value="28" />
-			<property name="username" value="username" />
-			<property name="password" value="password" />
+			<property name="port" value="220" />
+			<property name="username" value="webmaster@psychedelic-artists.cz" />
+			<property name="password" value="t4jn3h3sl1ck0" />
 		 
 			<property name="javaMailProperties">
 			   <props>

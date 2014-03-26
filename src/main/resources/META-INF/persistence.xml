@@ -14,7 +14,7 @@
 		<class>com.nex.domain.RecordComment</class>
 		<class>com.nex.domain.Genre</class>
 		<class>com.nex.domain.Tag</class>
-		
+		<class>com.nex.domain.ResetUserPassword</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 	</persistence-unit>
 </persistence>

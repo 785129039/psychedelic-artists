@@ -5,22 +5,22 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.nex.domain.Genre;
+import com.nex.domain.Tag;
 import com.nex.web.spring.controller.common.NestingEntityRestfulCRUDController;
 
 import cz.tsystems.common.data.filter.Filter;
 import cz.tsystems.common.data.filter.SortDirection;
 
 @Controller
-@RequestMapping("/dials/genre/")
-public class GenreController extends NestingEntityRestfulCRUDController<Genre> {
+@RequestMapping("/dials/tag/")
+public class TagController extends NestingEntityRestfulCRUDController<Tag> {
 
 	@Override
 	public void init() {
-		setEntityClass(Genre.class);
+		setEntityClass(Tag.class);
 		setDefaultSortDirection(SortDirection.ASC);
 		setDefaultSortProperty("id");
-		setControllerURl("admin/genre/");
+		setControllerURl("admin/tag/");
 		setRedirectSaveToList(false);
 	}
 

@@ -29,9 +29,7 @@
 					</span>
 				</p>
 				<p class="right">
-					<@form.link href=_th.getUrl("/register/", "/web")>
-						<@util.message "Label.register" />
-					</@form.link>
+					<a href="${_th.getUrl("/resetpassword/", "/web")}"><@util.message "Label.forgetPassword" /></a>
 					<@form.link href="javascript:$('#login-form').submit()">
 						<@util.message "Label.login" />
 					</@form.link>

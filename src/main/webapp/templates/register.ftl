@@ -13,7 +13,5 @@
 		<@form.inputPassword path="password" />
 		<@form.inputPassword path="matchPassword" />
 	</@form.form>
-	
-	
 </body>
 </html>

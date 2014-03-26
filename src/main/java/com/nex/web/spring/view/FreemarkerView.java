@@ -31,7 +31,7 @@ public class FreemarkerView extends FreeMarkerView {
 			model.put("_contextTemplates", "");
 		}
 		SecurityContext ctx = (SecurityContext) request.getSession().getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
-		if(!model.containsKey("user") && ctx!=null) {
+		if(!model.containsKey("_user") && ctx!=null) {
 			model.put("_user", ctx.getAuthentication().getName());
 		}
 		super.doRender(model, request, response);

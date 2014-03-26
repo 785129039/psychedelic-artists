@@ -1,5 +1,7 @@
 package com.nex.web.spring.controller.common;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,28 +27,29 @@ public class ExceptionController {
 		request.setAttribute(FreemarkerView.IS_ERORR, true);
 		switch (errorcode) {
 		case 404:
-			return notFound(resp, request);
+			request.setAttribute("title", 404);
+			return "exceptions/error";
 		case 403:
-			return noPermissions(resp, request);
+			request.setAttribute("title", 403);
+			return "exceptions/error";
 		default:
-			return serverError(resp, request);
+			request.setAttribute("title", 500);
+			return "exceptions/error";
 		}
 	}
 		
 	@ExceptionHandler(NoAccessSecurityException.class)
-	public String noPermissions(HttpServletResponse resp, HttpServletRequest request) {
-		request.setAttribute("title", 403);
-		return "exceptions/error";
+	public void noPermissions(HttpServletResponse resp, HttpServletRequest request) throws IOException {
+		resp.sendError(403);
 	}
 	@ExceptionHandler(PageNotFoundException.class)
-	public String notFound(HttpServletResponse resp, HttpServletRequest request) {
-		request.setAttribute("title", 404);
-		return "exceptions/error";
+	public void notFound(HttpServletResponse resp, HttpServletRequest request) throws IOException {
+		resp.sendError(404);
 	}
 	@ExceptionHandler(Exception.class)
-	public String serverError(HttpServletResponse resp, HttpServletRequest request) {
-		request.setAttribute("title", 500);
-		return "exceptions/error";
+	public void serverError(HttpServletResponse resp, HttpServletRequest request, Exception e) throws IOException {
+		resp.sendError(500);
+		log.error("", e);
 	}
 	
 }

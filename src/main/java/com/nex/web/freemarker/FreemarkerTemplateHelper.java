@@ -192,7 +192,7 @@ public class FreemarkerTemplateHelper {
 		return requestContext.getContextPath() + context + path;
 	}
 	public Boolean isNull(Object item) {
-		if(item == null || item.toString().trim().equals("") || item.toString().trim().equals("_NULL_")) {
+		if(item == null || item.toString().trim().equals("_NULL_")) {
 			return Boolean.TRUE;
 		}
 		return Boolean.FALSE;

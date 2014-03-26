@@ -23,7 +23,7 @@
 <script src="<@util.url "/js/jquery.fancybox.pack.js" ""/>" type="text/javascript"></script>
 ${head!""}
 </head>
-<body <#if _th.isUrlPart(["login", "logout", "loginfailed", "register/"])>class="page-login"</#if>>
+<body <#if _th.isUrlPart(["login", "logout", "loginfailed", "register/", "changepassword/", "resetpassword/"])>class="page-login"</#if>>
 <div class="fixed">
 	<div id="header">
 		<div class="row row-main">
@@ -42,26 +42,42 @@ ${head!""}
 			</div>		
 		</div>
 		<div id="menu">
-	  <ul class="menu">
-	  
-	  	<li <#if _th.isUrlPart('CONTAINS', ["browse"])>class="current"</#if>><a href="#" class="parent"><span><@util.message "Menu.browse" /></span></a>
-	      <ul>
-	      	<li><a href="<@util.url "/browse/overview/" "/web" />"><span><@util.message "Menu.overview" /></span></a> </li>
-	        <li><a href="<@util.url "/browse/sample/" "/web" />"><span><@util.message "Menu.samples" /></span></a> </li>
-	        <li><a href="<@util.url "/browse/preset/" "/web" />"><span><@util.message "Menu.presets" /></span></a></li>
-	      </ul>
-	    </li>
-	  	<@security.authorize ["ROLE_ADMIN", "ROLE_USER"]>
-	  	<li <#if _th.isUrlPart('CONTAINS', ["my"])>class="current"</#if>><a href="#" class="parent"><span><@util.message "Menu.my" /></span></a>
-	      <ul>
-	        <li><a href="<@util.url "/my/detail/sample/" "/web" />"><span><@util.message "Menu.samples" /></span></a> </li>
-	        <li><a href="<@util.url "/my/detail/preset/" "/web" />"><span><@util.message "Menu.presets" /></span></a></li>
-	      </ul>
-	    </li>
-	 	</@security.authorize>
-	  </ul>
+		  <ul class="menu">
+		  
+		  	<li <#if _th.isUrlPart('CONTAINS', ["browse"])>class="current"</#if>><a href="#" class="parent"><span><@util.message "Menu.browse" /></span></a>
+		      <ul>
+		      	<li><a href="<@util.url "/browse/overview/" "/web" />"><span><@util.message "Menu.overview" /></span></a> </li>
+		        <li><a href="<@util.url "/browse/sample/" "/web" />"><span><@util.message "Menu.samples" /></span></a> </li>
+		        <li><a href="<@util.url "/browse/preset/" "/web" />"><span><@util.message "Menu.presets" /></span></a></li>
+		      </ul>
+		    </li>
+		  	<@security.authorize ["ROLE_USER"]>
+		  	<li <#if _th.isUrlPart('CONTAINS', ["my"])>class="current"</#if>><a href="#" class="parent"><span><@util.message "Menu.my" /></span></a>
+		      <ul>
+		        <li><a href="<@util.url "/my/detail/sample/" "/web" />"><span><@util.message "Menu.samples" /></span></a> </li>
+		        <li><a href="<@util.url "/my/detail/preset/" "/web" />"><span><@util.message "Menu.presets" /></span></a></li>
+		      </ul>
+		    </li>
+		 	</@security.authorize>
+		 	<@security.authorize ["ROLE_USER"]>
+		 	<li <#if _th.isUrlPart('CONTAINS', ["profile"])>class="current"</#if>><a href="#" class="parent"><span><@util.message "Menu.profile" /></span></a>
+		      <ul>
+		        <li><a href="<@util.url "/my/detail/sample/" "/web" />"><span><@util.message "Menu.profile.edit" /></span></a> </li>
+		        <li><a href="<@util.url "/profile/changepassword/" "/web" />"><span><@util.message "Menu.profile.changePassword" /></span></a></li>
+		      </ul>
+		    </li>
+		 	</@security.authorize>
+		 	<@security.authorize ["ROLE_ADMIN"]>
+		 	<li <#if _th.isUrlPart('CONTAINS', ["dials/"])>class="current"</#if>><a href="#" class="parent"><span><@util.message "Menu.dials" /></span></a>
+		      <ul>
+		        <li><a href="<@util.url "/dials/genre/" "/admin" />"><span><@util.message "Menu.dials.genres" /></span></a> </li>
+		        <li><a href="<@util.url "/dials/tag/" "/admin" />"><span><@util.message "Menu.dials.tags" /></span></a></li>
+		      </ul>
+		    </li>
+		 	</@security.authorize>
+	  		</ul>
 	</div>
-	<a href="http://apycom.com/" style="display:none;"></a>
+		<a href="http://apycom.com/" style="display:none;"></a>
 	</div>
 	
 </div>

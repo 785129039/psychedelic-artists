@@ -16,13 +16,14 @@ import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 
 import com.nex.annotation.Modifiable;
+import com.nex.domain.common.Entity;
 import com.nex.utils.StringUtils;
 
 @RooJavaBean
 @RooJpaActiveRecord(finders={"findTagsByName"}, persistenceUnit = "puPsyartists", table = "tag", versionField = "")
 @Modifiable
 @NamedQueries(value={@NamedQuery(name="likeTagsByName", query="select t from Tag t where lower(name) like lower(:text)")})
-public class Tag {
+public class Tag implements Entity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
