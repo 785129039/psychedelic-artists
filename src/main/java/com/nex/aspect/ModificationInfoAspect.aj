@@ -32,8 +32,6 @@ public aspect ModificationInfoAspect {
 	private Date ModificationInfo.modifiedOn;
 	@Transient
 	private Date ModificationInfo.createdOn;
-	@Transient
-	private Boolean ModificationInfo.changeModification;
 	
 	declare parents: @Modifiable * implements ModificationInfo;
 	
@@ -50,11 +48,9 @@ public aspect ModificationInfoAspect {
 
 	@PreUpdate
 	public void ModificationInfo.modifyWhenUpdating() {
-		if(this.changeModification) {
-			this.setModifiedOn(new Date());
-			this.setModifiedBy(this.getCurrentUser());
-			this.preUpdate();
-		}
+		this.setModifiedOn(new Date());
+		this.setModifiedBy(this.getCurrentUser());
+		this.preUpdate();
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -90,11 +86,6 @@ public aspect ModificationInfoAspect {
 	
 	public void ModificationInfo.setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
-	}
-
-	
-	public void ModificationInfo.setChangeModification(Boolean changeModification) {
-		this.changeModification = changeModification;
 	}
 	
 	public void ModificationInfo.preSave(){}

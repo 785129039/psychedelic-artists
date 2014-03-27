@@ -47,7 +47,9 @@
 							<#include "/rating.ftl" />
 						</dd>
 					</dl>
-					
+					<#if entity.downloadable>
+						<a href="<@util.url "/download/" + entity.id "/ajax"/>">download</a>
+					</#if>
 				</div>
 			</div>
 		</div>
@@ -105,7 +107,7 @@
 										<li class="item odd">
 											<div class="item-inner">
 												<div class="item-header">
-													<strong>30.01.2014</strong> 20:47 | ${c.username}
+													<strong>${c.modifiedOn?string("dd.MM.yyyy")}</strong> ${c.modifiedOn?string("HH:mm")} | ${c.username}
 												</div>
 												<div class="item-content">
 													${_th.formatContentText(c.comment)}

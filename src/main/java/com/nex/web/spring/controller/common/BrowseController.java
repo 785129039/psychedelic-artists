@@ -23,6 +23,7 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.nex.annotation.Logger;
 import com.nex.domain.Genre;
+import com.nex.domain.Record;
 import com.nex.domain.Tag;
 import com.nex.domain.common.CommentEntity;
 import com.nex.domain.common.FilterableEntity;
@@ -38,7 +39,7 @@ import cz.tsystems.common.data.filter.Sort;
 import cz.tsystems.common.data.filter.SortDirection;
 
 @Logger
-public abstract class BrowseController<T extends FilterableEntity, C extends CommentEntity<T>> extends RejectErrorController {
+public abstract class BrowseController<T extends Record, C extends CommentEntity<T>> extends RejectErrorController {
 	
 	@ModelAttribute("genres")
 	private List<Genre> loadGenres() {
@@ -84,7 +85,8 @@ public abstract class BrowseController<T extends FilterableEntity, C extends Com
 	public String rate(@ModelAttribute("entity") @Valid T entity, Errors errors, HttpServletRequest request,
 			HttpServletResponse response, Model uiModel) {
 		try {
-			entity.flush();
+			entity.getStatistic().flush();
+			getEntityManager(entity).detach(entity);
 			storeRatingCookie(response, entity.getId(), request.getParameter("rating"));
 		} catch (Exception e) {
 			log.info("", e);

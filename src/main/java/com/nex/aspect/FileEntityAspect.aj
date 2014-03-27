@@ -1,6 +1,7 @@
 package com.nex.aspect;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -103,14 +104,14 @@ public aspect FileEntityAspect {
 		String oldpath = this.path;	
 			try {
 				this.path = this.file.getOriginalFilename();
-				FileFactory factory = new FileFactory(getFullPath(), this.path);
+				FileFactory factory = this.getFileFactory();
 				factory.saveFileAsStream(this.file.getInputStream());
 				if(oldpath!=null && !oldpath.equals(this.path))
 				//delete odl file when new file is succesfuly saved
 				new FileFactory(getFullPath(), oldpath).deleteFile();
 			} catch (IOException e) {
 				//when new file is not sucecsfuly saved, then delete saved parts and renname path to oldpath
-				new FileFactory(getFullPath(), this.path).deleteFile();
+				this.getFileFactory().deleteFile();
 				this.path = oldpath;
 				LoggerFactory.getLogger(getClass()).error("", e);
 				throw new Exception(e);
@@ -167,5 +168,24 @@ public aspect FileEntityAspect {
 	}
 	public MultipartFile FileEntity.getFile() {
 		return this.file;
+	}
+	
+	public void FileEntity.download(OutputStream os) throws Exception {
+		this.getFileFactory().stream(os);
+	}
+	
+	public Boolean FileEntity.getDownloadable() {
+		return this.getFileFactory().exist();
+	}
+	
+	public String FileEntity.getPath() {
+		return this.path;
+	}
+	private FileFactory FileEntity.getFileFactory() {
+		return new FileFactory(this.getFullPath(), this.path);
+	}
+	
+	public int FileEntity.getLength() throws Exception {
+		return this.getFileFactory().length();
 	}
 }

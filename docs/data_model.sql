@@ -10,6 +10,8 @@ DROP TABLE IF EXISTS record_comment CASCADE
 ;
 DROP TABLE IF EXISTS record_genre CASCADE
 ;
+DROP TABLE IF EXISTS record_statistic CASCADE
+;
 DROP TABLE IF EXISTS record_tag CASCADE
 ;
 DROP TABLE IF EXISTS rights CASCADE
@@ -82,6 +84,19 @@ CREATE TABLE record_genre
 	genre_id BIGINT NOT NULL,
 	KEY (genre_id),
 	KEY (record_id)
+
+) 
+;
+
+
+CREATE TABLE record_statistic
+(
+	rating_count BIGINT NOT NULL DEFAULT 0,
+	rating_sum BIGINT NOT NULL DEFAULT 0,
+	rating_percent BIGINT NOT NULL DEFAULT 0,
+	downloads BIGINT NOT NULL DEFAULT 0,
+	record_id BIGINT NOT NULL,
+	PRIMARY KEY (record_id)
 
 ) 
 ;
@@ -180,6 +195,10 @@ ALTER TABLE record_genre ADD CONSTRAINT FK_preset_genre_genre
 ;
 
 ALTER TABLE record_genre ADD CONSTRAINT FK_preset_genre_preset 
+	FOREIGN KEY (record_id) REFERENCES record (id)
+;
+
+ALTER TABLE record_statistic ADD CONSTRAINT FK_record_statistic_record 
 	FOREIGN KEY (record_id) REFERENCES record (id)
 ;
 

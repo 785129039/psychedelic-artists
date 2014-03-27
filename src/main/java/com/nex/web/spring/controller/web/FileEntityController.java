@@ -10,6 +10,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.nex.domain.Genre;
+import com.nex.domain.Statistic;
 import com.nex.domain.Type;
 import com.nex.domain.User;
 import com.nex.domain.common.FileEntity;

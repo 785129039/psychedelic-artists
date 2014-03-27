@@ -6,6 +6,7 @@ package com.nex.domain;
 import com.nex.domain.Genre;
 import com.nex.domain.Record;
 import com.nex.domain.RecordComment;
+import com.nex.domain.Statistic;
 import com.nex.domain.Tag;
 import java.util.List;
 
@@ -43,6 +44,14 @@ privileged aspect Record_Roo_JavaBean {
         this.comments = comments;
     }
     
+    public Statistic Record.getStatistic() {
+        return this.statistic;
+    }
+    
+    public void Record.setStatistic(Statistic statistic) {
+        this.statistic = statistic;
+    }
+    
     public String Record.getName() {
         return this.name;
     }
@@ -57,30 +66,6 @@ privileged aspect Record_Roo_JavaBean {
     
     public void Record.setDescription(String description) {
         this.description = description;
-    }
-    
-    public Long Record.getRatingCount() {
-        return this.ratingCount;
-    }
-    
-    public void Record.setRatingCount(Long ratingCount) {
-        this.ratingCount = ratingCount;
-    }
-    
-    public Long Record.getRatingSum() {
-        return this.ratingSum;
-    }
-    
-    public void Record.setRatingSum(Long ratingSum) {
-        this.ratingSum = ratingSum;
-    }
-    
-    public Long Record.getRatingPercent() {
-        return this.ratingPercent;
-    }
-    
-    public void Record.setRatingPercent(Long ratingPercent) {
-        this.ratingPercent = ratingPercent;
     }
     
 }

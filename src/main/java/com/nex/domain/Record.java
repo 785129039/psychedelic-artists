@@ -8,6 +8,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PostPersist;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
@@ -28,8 +30,6 @@ import com.nex.domain.common.FilterableEntity;
 public class Record implements FileEntity, FilterableEntity {
 	
 	private static final long serialVersionUID = 1L;
-	public static final Integer MAX_RATING = 5;
-	
 	
 	@Transient
 	@Value("${record.path}")
@@ -46,25 +46,19 @@ public class Record implements FileEntity, FilterableEntity {
 	@OneToMany(mappedBy="record", cascade=CascadeType.REMOVE)
 	private List<RecordComment> comments = new ArrayList<RecordComment>();
 	
+	@OneToOne(mappedBy="record", cascade = CascadeType.ALL)
+	private Statistic statistic;
+	
 	@NotNull
 	@NotBlank
 	private String name;
 	
 	private String description;
 	
-	private Long ratingCount = new Long(0);
-	private Long ratingSum = new Long(0);
-	private Long ratingPercent = new Long(0);
-	
-	public void setRating(Integer grade) {
-		this.ratingCount++;
-		this.ratingSum += grade;
-		this.ratingPercent = (long) (((double)(this.ratingSum / this.ratingCount) / MAX_RATING ) * 100);
+	@PostPersist
+	public void postSave() {
+		this.statistic = new Statistic();
+		this.statistic.setRecord(this);
 	}
-	public Integer getRating() {
-		if(this.ratingCount > 0 && this.ratingSum > 0) {
-			return (int) Math.ceil(this.ratingSum/this.ratingCount);
-		}
-		return 0;
-	}	
+	
 }

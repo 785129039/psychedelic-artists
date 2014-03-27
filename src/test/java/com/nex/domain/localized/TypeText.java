@@ -21,5 +21,5 @@ public class TypeText implements LocalizedFieldNormal {
 
 	@ManyToOne
 	@JoinColumn(name = "type_id", insertable = false, updatable = false)
-	private Type localizable;	
+	private Type localizable;
 }
