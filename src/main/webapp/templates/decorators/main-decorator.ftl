@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="<@util.url "/css/grid.css" ""/>" type="text/css" media="projection,screen,print">
 <link rel="stylesheet" href="<@util.url "/css/menu.css" ""/>" type="text/css" media="projection,screen,print">
 <link rel="stylesheet" href="<@util.url "/css/fancybox/jquery.fancybox.css" ""/>" type="text/css" media="projection,screen,print">
+<link rel="stylesheet" href="<@util.url "/css/rating/jquery.rating.css" ""/>" type="text/css" media="projection,screen,print">
 
 <script src="<@util.url "/js/jquery-1.10.2.js" ""/>" type="text/javascript"></script>
 <script src="<@util.url "/js/jquery-ui-1.10.4.custom.min.js" ""/>" type="text/javascript"></script>
@@ -21,6 +22,8 @@
 <script src="<@util.url "/js/widget.main.js" ""/>" type="text/javascript"></script>
 <script src="<@util.url "/js/menu.js" ""/>" type="text/javascript"></script>
 <script src="<@util.url "/js/jquery.fancybox.pack.js" ""/>" type="text/javascript"></script>
+<script src="<@util.url "/js/rating/jquery.rating.js" ""/>" type="text/javascript"></script>
+<script src="<@util.url "/js/rating/jquery.MetaData.js" ""/>" type="text/javascript"></script>
 ${head!""}
 </head>
 <body <#if _th.isUrlPart("CONTAINS", ["login", "logout", "loginfailed", "register/", "changepassword/", "resetpassword/"])>class="page-login"</#if>>

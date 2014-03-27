@@ -59,4 +59,28 @@ privileged aspect Record_Roo_JavaBean {
         this.description = description;
     }
     
+    public Long Record.getRatingCount() {
+        return this.ratingCount;
+    }
+    
+    public void Record.setRatingCount(Long ratingCount) {
+        this.ratingCount = ratingCount;
+    }
+    
+    public Long Record.getRatingSum() {
+        return this.ratingSum;
+    }
+    
+    public void Record.setRatingSum(Long ratingSum) {
+        this.ratingSum = ratingSum;
+    }
+    
+    public Long Record.getRatingPercent() {
+        return this.ratingPercent;
+    }
+    
+    public void Record.setRatingPercent(Long ratingPercent) {
+        this.ratingPercent = ratingPercent;
+    }
+    
 }

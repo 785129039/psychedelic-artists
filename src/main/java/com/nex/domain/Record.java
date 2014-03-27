@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -30,7 +28,9 @@ import com.nex.domain.common.FilterableEntity;
 public class Record implements FileEntity, FilterableEntity {
 	
 	private static final long serialVersionUID = 1L;
-
+	public static final Integer MAX_RATING = 5;
+	
+	
 	@Transient
 	@Value("${record.path}")
 	private String serverPath;
@@ -52,4 +52,19 @@ public class Record implements FileEntity, FilterableEntity {
 	
 	private String description;
 	
+	private Long ratingCount = new Long(0);
+	private Long ratingSum = new Long(0);
+	private Long ratingPercent = new Long(0);
+	
+	public void setRating(Integer grade) {
+		this.ratingCount++;
+		this.ratingSum += grade;
+		this.ratingPercent = (long) (((double)(this.ratingSum / this.ratingCount) / MAX_RATING ) * 100);
+	}
+	public Integer getRating() {
+		if(this.ratingCount > 0 && this.ratingSum > 0) {
+			return (int) Math.ceil(this.ratingSum/this.ratingCount);
+		}
+		return 0;
+	}	
 }

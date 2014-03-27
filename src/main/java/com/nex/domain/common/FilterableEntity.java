@@ -1,5 +1,5 @@
 package com.nex.domain.common;
 
-public interface FilterableEntity{
+public interface FilterableEntity extends Entity {
 
 }

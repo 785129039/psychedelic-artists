@@ -124,7 +124,7 @@
 	</div>
 </#macro>
 <#-------custom column ----->
-<#macro customColumn title sortable=true defaultCaption="_NULL_" captionArgs=[]>
+<#macro customColumn title sortable=true defaultCaption="_NULL_" name="_NULL_" captionArgs=[]>
 	<#if _rowdata??>
 		<#nested _rowdata>
 	<#else>

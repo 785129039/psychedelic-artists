@@ -10,7 +10,6 @@
 <body>
 	<div class="box-detail row">
 		<div class="content col col-t-1">
-			
 			<div class="row detail-row">
 				<div class="message message-title">
 					<p class="header-title"><@util.message _class+".detail.title" /></p>
@@ -43,6 +42,10 @@
 								</#list>
 							</dd>
 						</#if>
+						<dt><@util.message "Label.rating" /></dt>
+						<dd>
+							<#include "/rating.ftl" />
+						</dd>
 					</dl>
 					
 				</div>
@@ -51,8 +54,8 @@
 		<div class="col-h-r">
 			<div class="content">
 				<div class="comment">
-					<@form.form commandName="comment" baseCaption="Comment" enctype="multipart/form-data" method="POST" customForm=true>
-						<form action="" method="post" name="" id="add-comment" class="form form-expand <#if (_formModel.formErrorsAsString?size>0)>form-expand-openx</#if>" data-options="{&quot;toogleBtn&quot;:&quot;.add-comment&quot;}">
+					<@form.form commandName="comment" baseCaption="Comment" method="POST" customForm=true>
+						<form action="${entity.id}" method="post" name="" id="add-comment" class="form form-expand <#if (_formModel.formErrorsAsString?size>0)>form-expand-openx</#if>" data-options="{&quot;toogleBtn&quot;:&quot;.add-comment&quot;}">
 							<div class="row detail-row">
 								<div class="message message-title">
 									<p class="header-title"><@util.message "Comment.title" /></p>

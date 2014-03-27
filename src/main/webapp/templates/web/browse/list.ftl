@@ -25,7 +25,9 @@ $._selectize.create('select.tags').initialize({url:'<@util.url "/ajax/load/tags/
 			</div>
 		</@grid.filter>
 		<@grid.datalist renderButtons=false showNewButton=false idColumn="id" renderCheckbox=false>
-			<@grid.column name="name" isDetail=true />
+			<@grid.column name="name"; e,f,v,n>
+				<a href="<@util.url "/browse/overview/"+e.id "/web" />">${v}</a>
+			</@grid.column>
 			<@grid.column name="genres" sortable=false; e, f, v, n>
 				<#list v as _row>
 					<@grid.genreLink _row.id>${_row.name}</@grid.genreLink><#if _row_has_next>,</#if>
@@ -36,6 +38,9 @@ $._selectize.create('select.tags').initialize({url:'<@util.url "/ajax/load/tags/
 					<@grid.tagLink _row.id>${_row.name}</@grid.tagLink><#if _row_has_next>,</#if>
 				</#list>
 			</@grid.column>
+			<@grid.customColumn title=util.getMessage("Label.rating") name="ratingPercent"; r>
+				<td>${_th.evaluateAsString("ratingPercent", r)}%</td>
+			</@grid.customColumn>
 			<@grid.column name="user.name" />
 		</@grid.datalist>
 	</@grid.grid>

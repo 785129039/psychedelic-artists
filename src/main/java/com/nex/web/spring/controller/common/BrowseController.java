@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityNotFoundException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -64,6 +65,34 @@ public abstract class BrowseController<T extends FilterableEntity, C extends Com
 			log.error("Create of new entity failed!", e);
 			throw new RuntimeException("Create of new entity failed!", e);
 		}
+	}
+	@ModelAttribute("entity")
+	protected T loadEntity() {
+		String id = getPathVariables().get("pid");
+		if(id == null) return null;
+		return findEntityById(id);
+	}
+	
+	@ModelAttribute("canrate")
+	public Boolean canRate(HttpServletRequest request) {
+		Cookie cookie = findRatingCookie(request, getPathVariables().get("pid"));
+		if(cookie!=null)
+		return Boolean.FALSE;
+		return Boolean.TRUE;
+	}
+	@RequestMapping(value="{pid}", method = RequestMethod.PUT)
+	public String rate(@ModelAttribute("entity") @Valid T entity, Errors errors, HttpServletRequest request,
+			HttpServletResponse response, Model uiModel) {
+		try {
+			entity.flush();
+			storeRatingCookie(response, entity.getId(), request.getParameter("rating"));
+		} catch (Exception e) {
+			log.info("", e);
+			rejectAndTranslateError(RequestContextUtils.getLocale(request), errors,
+					"form.actions.save.error.message.persist",
+					new Object[] { e.getMessage() });
+		}
+		return controllerRedirectUrl(request, String.valueOf(entity.getId()));
 	}
 	
 	@RequestMapping(value="{pid}", method = RequestMethod.POST)
@@ -191,4 +220,17 @@ public abstract class BrowseController<T extends FilterableEntity, C extends Com
 		return entity;
 	}	
 	
+	private void storeRatingCookie(HttpServletResponse response, Object id, String grade) {
+		Cookie cookie = new Cookie("rating-"+id, grade);
+		cookie.setMaxAge(60*60*24*30); //1 month
+		response.addCookie(cookie);
+	}
+	private Cookie findRatingCookie(HttpServletRequest request, String id) {
+		for(Cookie c: request.getCookies()) {
+			if(c.getName().equals("rating-"+id)) {
+				return c;
+			}
+		}
+		return null;
+	}
 }

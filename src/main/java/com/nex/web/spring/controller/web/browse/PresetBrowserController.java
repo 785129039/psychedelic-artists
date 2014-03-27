@@ -32,4 +32,12 @@ public class PresetBrowserController extends BrowseController<Record, RecordComm
 	protected Class<RecordComment> getCommentClass() {
 		return RecordComment.class;
 	}
+	@Override
+	public Record findEntityById(String id) {
+		Record r = super.findEntityById(id);
+		if(r==null) return null;
+		r.getGenreIds();
+		r.setChangeModification(false);
+		return r;
+	}
 }

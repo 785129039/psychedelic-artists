@@ -41,6 +41,9 @@ $._selectize.create('select.tags').initialize({url:'<@util.url "/ajax/load/tags/
 					<@grid.tagLink _row.id>${_row.name}</@grid.tagLink><#if _row_has_next>,</#if>
 				</#list>
 			</@grid.column>
+			<@grid.customColumn title=util.getMessage("Label.rating") name="ratingPercent"; r>
+				<td>${_th.evaluateAsString("ratingPercent", r)}%</td>
+			</@grid.customColumn>
 			<@grid.column name="user.name" />
 		</@grid.datalist>
 	</@grid.grid>
