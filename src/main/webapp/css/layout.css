@@ -9,7 +9,7 @@
 #nav-skip a:focus, #nav-skip a:active{position: absolute; left: 2000px; width: 250px; background: #fff; padding: 2px 0 5px; z-index: 99; text-align: center;}
 
 /* HEADER */
-#header { width: 1006px;margin: 0 auto; background:#090B3B; background-image: url('../img/psy_logo.png'); height: 200px}
+#header { width: 1006px;margin: 0 auto; background:#090B3B; /*background-image: url('../img/psy_logo.png'); height: 200px*/}
 #header .header-inner { padding:15px 200px 13px 198px; }
 #header .header-inner-inner { padding-left:30px; border-left:1px solid #fff; }
 
@@ -19,7 +19,7 @@
 #logo .claim { display:block; margin:0 0 7px 0; color:#fff; font-size:25px; font-family:'neo_sans_promedium', arial, helvetica, sans-serif; }
 
 #user-menu, #user-menu a, #main-menu li a { color:#fff; }
-#user-menu { position:absolute; top:168px; right:10px; }
+#user-menu { position:absolute; top:5px; right:10px; }
 #user-menu .ico { margin-right:5px; margin-top:-5px; }
 #user-menu a { margin-left:10px; }
 
@@ -37,7 +37,7 @@
   background-image: -webkit-linear-gradient(top, #090B3B, #00000);
   background-image: -o-linear-gradient(top, #090B3B, #000000);
   background-image: linear-gradient(to bottom, #090B3B, #000000); text-align: center;}
-#main {width: 1006px;margin: 200px auto 0 auto;
+#main {width: 1006px;margin: 60px auto 0 auto;
 background-color: #090B3B;
   background-image: -moz-linear-gradient(top, #00000, #090B3B);
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#00000), to(#090B3B));

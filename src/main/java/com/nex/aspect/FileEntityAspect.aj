@@ -185,6 +185,16 @@ public aspect FileEntityAspect {
 		return new FileFactory(this.getFullPath(), this.path);
 	}
 	
+	public String FileEntity.getFormattedLength() {
+		try {
+			int length = this.getLength();
+			return this.getFileFactory().formatLength(length);
+		} catch (Exception e) {
+			LoggerFactory.getLogger(getClass()).error(e.getMessage());
+		}
+		return "0 B";
+	}
+	
 	public int FileEntity.getLength() throws Exception {
 		return this.getFileFactory().length();
 	}

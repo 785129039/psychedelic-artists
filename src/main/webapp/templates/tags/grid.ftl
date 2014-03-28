@@ -12,7 +12,7 @@
 	</#if>
 	<#nested>
 </#macro>
-<#macro filter class="" showHeader=true>
+<#macro filter class="" showHeader=false>
 	<@form.form method="get" id=id commandName=_commandName isFilter=true renderSaveButton=false baseCaption=_baseCaptionGrid class=class>
 		<input type="hidden" name="_filterAction" value="filter" />
 		<input type="hidden" name="page" id="page-input" value="${_formModel.readValue("page")}">

@@ -33,12 +33,12 @@ public class Statistic {
 	private Long downloads = new Long(0);
 	private Long ratingCount = new Long(0);
 	private Long ratingSum = new Long(0);
-	private Long ratingPercent = new Long(0);
+	private Double ratingPercent = new Double(0);
 	
 	public void setRating(Integer grade) {
 		this.ratingCount++;
 		this.ratingSum += grade;
-		this.ratingPercent = (long) (((double)(this.ratingSum / this.ratingCount) / MAX_RATING ) * 100);
+		this.ratingPercent = ((((double)this.ratingSum /(double) this.ratingCount) / MAX_RATING ) * 100);
 	}
 	public Integer getRating() {
 		if(this.ratingCount > 0 && this.ratingSum > 0) {
@@ -50,5 +50,4 @@ public class Statistic {
 	public void addDownload() {
 		this.downloads++;
 	}
-	
 }

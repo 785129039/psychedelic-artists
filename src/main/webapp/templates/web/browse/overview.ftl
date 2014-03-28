@@ -28,8 +28,8 @@ $._selectize.create('select.tags').initialize({url:'<@util.url "/ajax/load/tags/
 		</@grid.filter>
 		<@grid.datalist renderButtons=false showNewButton=false idColumn="id" renderCheckbox=false>
 			<@grid.column name="name" isDetail=true />
-			<@grid.column name="type.code"; e, f, v, n>
-				<a href="${_th.getUrl("/browse/"+_th.evaluate("type", e)?lower_case+"/", "/web")}"><@util.message v /></a>
+			<@grid.column name="type"; e, f, v, n>
+				<a href="${_th.getUrl("/browse/"+_th.evaluate("type", e)?lower_case+"/", "/web")}"><@util.message _th.evaluateAsString("type.code", e) /></a>
 			</@grid.column>
 			<@grid.column name="genres" sortable=false; e, f, v, n>
 				<#list v as _row>
@@ -41,8 +41,11 @@ $._selectize.create('select.tags').initialize({url:'<@util.url "/ajax/load/tags/
 					<@grid.tagLink _row.id>${_row.name}</@grid.tagLink><#if _row_has_next>,</#if>
 				</#list>
 			</@grid.column>
-			<@grid.customColumn title=util.getMessage("Label.rating") name="ratingPercent"; r>
+			<@grid.customColumn title=util.getMessage("Label.rating") name="statistic.ratingPercent"; r>
 				<td>${_th.evaluateAsString("statistic.ratingPercent", r)}%</td>
+			</@grid.customColumn>
+			<@grid.customColumn title=util.getMessage("Label.downloads") name="statistic.downloads"; r>
+				<td>${_th.evaluateAsString("statistic.downloads", r)}x</td>
 			</@grid.customColumn>
 			<@grid.column name="user.name" />
 		</@grid.datalist>

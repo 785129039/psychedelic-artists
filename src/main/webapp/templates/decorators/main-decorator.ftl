@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>${title}</title>
+<title>Psychedelic Artists</title>
 <meta charset="utf-8">
 <link rel="stylesheet" href="<@util.url "/css/ui-lightness/jquery-ui-1.10.4.custom.min.css" ""/>" type="text/css" media="projection,screen,print">
 <link rel="stylesheet" href="<@util.url "/css/selectize.css" ""/>" type="text/css" media="projection,screen,print">
@@ -65,7 +65,7 @@ ${head!""}
 		 	<@security.authorize ["ROLE_USER"]>
 		 	<li <#if _th.isUrlPart('CONTAINS', ["profile"])>class="current"</#if>><a href="#" class="parent"><span><@util.message "Menu.profile" /></span></a>
 		      <ul>
-		        <li><a href="<@util.url "/my/detail/sample/" "/web" />"><span><@util.message "Menu.profile.edit" /></span></a> </li>
+		        <#--li><a href="<@util.url "/my/detail/sample/" "/web" />"><span><@util.message "Menu.profile.edit" /></span></a> </li-->
 		        <li><a href="<@util.url "/profile/changepassword/" "/web" />"><span><@util.message "Menu.profile.changePassword" /></span></a></li>
 		      </ul>
 		    </li>

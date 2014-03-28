@@ -22,6 +22,7 @@
         <property name="protocol" value="${java.mail.protocol:smtp}"/>
         <property name="auth" value="${java.mail.auth:true}"/>
         <property name="ssl" value="${java.mail.ssl:false}"/>
+        <property name="localhost" value="${mail.smtp.localhost:}"/>
    	</bean>
 	
 	<!-- Simple mail template -->

@@ -42,13 +42,22 @@
 								</#list>
 							</dd>
 						</#if>
+						<dt><@util.message "Label.downloads" /></dt>
+						<dd><#t>${entity.statistic.downloads}x</dd>
+						<dt><@util.message "Label.rated" /></dt>
+						<dd><#t>${entity.statistic.ratingCount}x</dd>
 						<dt><@util.message "Label.rating" /></dt>
-						<dd>
-							<#include "/rating.ftl" />
-						</dd>
+						<dd><#include "/rating.ftl" /><#if yourrating??></#if></dd>
+						<#assign _downloadable=entity.downloadable>
+						<#if _downloadable>
+							<dt><@util.message "Label.length" /></dt>
+							<dd><#t>${entity.formattedLength}</dd>
+						</#if>
 					</dl>
-					<#if entity.downloadable>
-						<a href="<@util.url "/download/" + entity.id "/ajax"/>">download</a>
+					<#if _downloadable>
+					<@form.link href=_th.getUrl("/download/" + entity.id, "/ajax")>
+						<@util.message "Label.download" />
+					</@form.link>
 					</#if>
 				</div>
 			</div>

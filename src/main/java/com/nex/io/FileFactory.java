@@ -2,11 +2,11 @@ package com.nex.io;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.DecimalFormat;
 
 public class FileFactory {
 	private static final int buffersize = 1048576;//10 MB
@@ -56,6 +56,21 @@ public class FileFactory {
 			return available;
 		}
 		return buffersize;
+	}
+	
+	public String formatLength(int length) {
+		DecimalFormat df = new DecimalFormat("0.00");
+		double KB = 1024;
+		double MB = KB*KB;
+		double GB = MB*KB;
+		double gb = length / GB;
+		double mb = length / MB;
+		double kb = length / KB;
+		int b = length;
+		if((int)gb>0) return df.format(gb) + " GB";
+		if((int)mb>0) return df.format(mb) + " MB";
+		if((int)kb>0) return df.format(kb) + " KB";
+		return b + " B";
 	}
 	
 	public int length() throws IOException {

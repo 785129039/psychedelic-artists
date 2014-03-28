@@ -77,8 +77,10 @@ public abstract class BrowseController<T extends Record, C extends CommentEntity
 	@ModelAttribute("canrate")
 	public Boolean canRate(HttpServletRequest request) {
 		Cookie cookie = findRatingCookie(request, getPathVariables().get("pid"));
-		if(cookie!=null)
-		return Boolean.FALSE;
+		if(cookie!=null) {
+			request.setAttribute("yourrating", cookie.getValue());
+			return Boolean.FALSE;
+		}
 		return Boolean.TRUE;
 	}
 	@RequestMapping(value="{pid}", method = RequestMethod.PUT)
@@ -87,7 +89,7 @@ public abstract class BrowseController<T extends Record, C extends CommentEntity
 		try {
 			entity.getStatistic().flush();
 			getEntityManager(entity).detach(entity);
-			storeRatingCookie(response, entity.getId(), request.getParameter("rating"));
+			storeRatingCookie(response, entity.getId(), request.getParameter("statistic.rating"));
 		} catch (Exception e) {
 			log.info("", e);
 			rejectAndTranslateError(RequestContextUtils.getLocale(request), errors,

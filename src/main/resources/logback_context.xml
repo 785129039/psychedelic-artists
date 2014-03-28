@@ -7,13 +7,13 @@
   </appender>
    <appender name="FILE"
 	class="ch.qos.logback.core.rolling.RollingFileAppender">
-	<file>${LOGBACK_FILE_PATH}/culfinder.log</file>
+	<file>${LOGBACK_FILE_PATH}/psyartists.log</file>
 	<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 	   <Pattern>%d{yyyy-MM-dd_HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
 	</encoder>
  
 	<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-		<FileNamePattern>${LOGBACK_FILE_PATH}/culfinder.%i.log.zip</FileNamePattern>
+		<FileNamePattern>${LOGBACK_FILE_PATH}/psyartists.%i.log.zip</FileNamePattern>
 		<MinIndex>1</MinIndex>
 		<MaxIndex>10</MaxIndex>
 	</rollingPolicy>

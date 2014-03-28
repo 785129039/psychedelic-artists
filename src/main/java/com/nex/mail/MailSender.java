@@ -4,6 +4,8 @@ import java.util.Properties;
 
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import com.nex.utils.StringUtils;
+
 public class MailSender {
 	
 	private String auth;
@@ -13,6 +15,7 @@ public class MailSender {
 	private String password;
 	private String ssl;
 	private String protocol;
+	private String localhost;
 	
 	public  JavaMailSenderImpl getSender() {
 		JavaMailSenderImpl sender = new JavaMailSenderImpl();
@@ -20,8 +23,9 @@ public class MailSender {
 		Properties mailProps = new Properties();
 		mailProps.put("mail.smtps.auth", this.auth);
 		mailProps.put("mail.smtp.starttls.enable", this.ssl);
+		if(StringUtils.isEmpty(this.localhost))
+		mailProps.put("mail.smtp.localhost", localhost);
 		sender.setJavaMailProperties(mailProps);
-
 		sender.setProtocol(this.protocol);
 		sender.setPort(this.port);
 		sender.setHost(this.host);
@@ -59,5 +63,7 @@ public class MailSender {
 		this.protocol = protocol;
 	}
 	
-	
+	public void setLocalhost(String localhost) {
+		this.localhost = localhost;
+	}
 }

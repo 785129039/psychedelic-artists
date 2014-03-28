@@ -93,7 +93,7 @@ CREATE TABLE record_statistic
 (
 	rating_count BIGINT NOT NULL DEFAULT 0,
 	rating_sum BIGINT NOT NULL DEFAULT 0,
-	rating_percent BIGINT NOT NULL DEFAULT 0,
+	rating_percent DECIMAL(10) NOT NULL DEFAULT 0,
 	downloads BIGINT NOT NULL DEFAULT 0,
 	record_id BIGINT NOT NULL,
 	PRIMARY KEY (record_id)

@@ -38,8 +38,11 @@ $._selectize.create('select.tags').initialize({url:'<@util.url "/ajax/load/tags/
 					<@grid.tagLink _row.id>${_row.name}</@grid.tagLink><#if _row_has_next>,</#if>
 				</#list>
 			</@grid.column>
-			<@grid.customColumn title=util.getMessage("Label.rating") name="ratingPercent"; r>
+			<@grid.customColumn title=util.getMessage("Label.rating") name="statistic.ratingPercent"; r>
 				<td>${_th.evaluateAsString("statistic.ratingPercent", r)}%</td>
+			</@grid.customColumn>
+			<@grid.customColumn title=util.getMessage("Label.downloads") name="statistic.downloads"; r>
+				<td>${_th.evaluateAsString("statistic.downloads", r)}x</td>
 			</@grid.customColumn>
 			<@grid.column name="user.name" />
 		</@grid.datalist>

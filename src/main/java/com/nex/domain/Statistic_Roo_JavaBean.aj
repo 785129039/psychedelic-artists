@@ -48,11 +48,11 @@ privileged aspect Statistic_Roo_JavaBean {
         this.ratingSum = ratingSum;
     }
     
-    public Long Statistic.getRatingPercent() {
+    public Double Statistic.getRatingPercent() {
         return this.ratingPercent;
     }
     
-    public void Statistic.setRatingPercent(Long ratingPercent) {
+    public void Statistic.setRatingPercent(Double ratingPercent) {
         this.ratingPercent = ratingPercent;
     }
     

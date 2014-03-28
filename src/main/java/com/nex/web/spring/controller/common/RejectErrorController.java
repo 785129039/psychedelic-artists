@@ -1,6 +1,8 @@
 package com.nex.web.spring.controller.common;
 
 import java.lang.reflect.Method;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Locale;
 import java.util.Map;
 
@@ -18,8 +20,11 @@ public class RejectErrorController {
 	@Resource(name = "validationResourceMessageBundle")
 	private ReloadableResourceBundleMessageSource validationMessageResourceBundle;
 	
+	protected void rejectFormErrors(Locale locale, Errors errors, String code) {
+		rejectAndTranslateError(locale, errors, code);
+	}
 	protected void rejectFormErrors(Locale locale, Errors errors) {
-		rejectAndTranslateError(locale, errors, "form.actions.save.error.message");
+		this.rejectFormErrors(locale, errors, "form.actions.save.error.message");
 	}
 
 	protected void rejectAndTranslateError(Locale locale, Errors errors, String code) {

@@ -142,7 +142,8 @@ public class ForgetPasswordController extends RejectErrorController {
 				this.mailService.send("mail.forgetpassword", RequestContextUtils.getLocale(request), form, new Object[]{request}, form.getEmail());
 				return "redirect:success";
 			} catch (Exception e) {
-				rejectFormErrors(RequestContextUtils.getLocale(request), errors);
+				log.error("", e);
+				rejectFormErrors(RequestContextUtils.getLocale(request), errors, "Global.error");
 			}
 		} else {
 			rejectFormErrors(RequestContextUtils.getLocale(request), errors);

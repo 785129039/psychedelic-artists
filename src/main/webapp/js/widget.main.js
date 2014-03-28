@@ -51,7 +51,7 @@ $(document).ready(function() {
 	$('.popup').each(function() {
 		$(this).append('<img src="'+qualifyURL('/img/icon/popup.png')+'" />');
 	});
-	$('input.record-rating').rating({callback:function() {
+	$('input.record-rating').rating({required:true, callback:function() {
 		$(this).closest('form').get(0).submit();
 	}});
 });
